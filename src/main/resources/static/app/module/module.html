@@ -1,0 +1,63 @@
+<!-- 菜单管理 -->
+<div ng-controller="ModuleCrl" ng-init="init()" style="position:relative;left:16px; margin-top: 8px;">
+    <form class="form-inline">
+	    <div class="form-group" op-ctrl>
+	      		<input type="text" id="sysName" class="form-control" ng-model="queryParams.moduleName"
+	                   placeholder="名称">
+	                   
+	            <select class="form-control" ng-options="Object.value as Object.title for Object in moduleStates" ng-model="queryParams.status">
+	              	<option value="">使用状态</option>
+	        	</select>
+				<br>
+	            <button keycode="queryModule" class="buttonCommon complaintDetail" ng-click="querySystemInfoList()"><div class="glyphicon glyphicon-search"></div>查询</button>
+	            <button keycode="addModule" class="buttonCommon complaintDetail" ng-click="addSystemInfo()"><div class="glyphicon glyphicon-plus"></div>新增</button>
+	    </div>
+    </form>
+  <!-- 数据部分 -->
+	<div class="table_container">
+
+
+	<table class="crmAllTable" style="">
+        <thead style="">
+        	<th>序号</th>
+	        <th>名称</th>
+	        <th>使用状态</th>
+	        <th>URL</th>
+	        <th>排序</th>
+	        <th>父节点</th>
+	        <th>操作</th>
+        </thead>
+        <tbody>
+	        <tr ng-repeat="system in systemInfoList" repeat-finish>
+	          <td>{{queryParams.start + $index+1}}</td>
+	          <td>{{system.moduleName}}</td>
+	          <td>
+	                <span ng-if="system.moduleState == 1">启用</span>
+	                <span ng-if="system.moduleState == 0">停用</span>
+	          </td>
+	          <td>{{system.moduleUrl}}</td>
+	          <td>{{system.moduleSort}}</td>
+	          <td>{{system.parent.moduleName}}</td>
+	          <td>
+							<div class="btn_tr flex">
+	            <span><button title="编辑" keycode="editModule" class="goodButtonCommonEdit flex" ng-click="goEdit($index)">
+								<span class="button_icon edit_icon"></span>
+							</button>
+							</span>
+ 	            <span>
+								<button title="删除" keycode="deleteModule" style="background-color: #f75252" class="goodButtonCommonEdit flex"  ng-click="doDel($index)">
+									<span class="button_icon delete_btn"></span>
+								</button>
+							</span>
+								</div>
+	          </td>
+	        </tr>
+	        <tr ng-if="systemInfoList == null || systemInfoList.length == 0">
+	        	<td colspan="7">没有可以显示的数据</td>
+	        </tr>
+        </tbody>
+      </table>
+	</div>
+  <!-- 分页及汇总 -->
+   <div class="pagination_con flex" ng-include="'app/components/page/page.html'"></div>
+</div>

@@ -1,0 +1,94 @@
+<div class="modalAll" style="height: auto;">
+		<div class="modalTop">
+				<div class="modalTitle">编辑角色</div>
+		</div>
+		<script>
+			$(function() {
+				$('[data-toggle="tooltip"]').tooltip()
+			})
+		</script>
+		<div class="modal_content_container">
+				<div class="flex flex-wrap">
+						<div class="er-temp-goods-input flex">
+								<div class="text flex-1 flex-w">
+										<span class="text-danger">*</span> 名称
+								</div>
+								<input class="input flex-2 flex-w" type="text" ng-model="editParams.name"
+										style="border: 1px solid #DDD; background-color: #F5F5F5; color: #ACA899;"
+										readonly="readonly">
+						</div>
+						<div class="er-temp-goods-input flex">
+								<div class="text flex-1 flex-w">
+										<span class="text-danger">*</span> 级别
+								</div>
+								<role-level table="RoleLevel" value="{{editParams.level}}" model="editParams.level" />
+						</div>
+					
+
+						<!-- 
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+        	<span class="text-danger">*</span>
+          	状态
+        </div>
+      
+        <select class="select flex-2 flex-w" ng-model="editParams.status" ng-options="x.value as x.title for x in moduleStates">
+			<option value="">请选择</option>
+		</select>
+      </div>
+         -->
+						<div class="er-temp-goods-input flex">
+								<div class="text flex-1 flex-w">
+										<span class="text-danger">*</span> 来源系统
+								</div>
+								<select class="select flex-2 flex-w" ng-model="editParams.systemId"
+										ng-options="x.id as x.sysName for x in systemInfoList" 
+										style="border: 1px solid #DDD; background-color: #F5F5F5; color: #ACA899;"
+										disabled="disabled">
+										<option value="">请选择</option>
+								</select>
+						</div>
+							<div ng-show="querySystemType(editParams.systemId) == 'CSS'" class="er-temp-goods-input flex">
+								<div class="text flex-1 flex-w">企业代码</div>
+								<corp-code ng-model="editParams.corpCode"></corp-code>
+								<!-- <static-data table="OrgCorpCode" value="{{editParams.corpCode}}" model="editParams.corpCode" same="true" /> -->
+						</div>
+						<div ng-show="querySystemType(editParams.systemId) == 'SFYOFF' " class="er-temp-goods-input flex">
+								<div class="text flex-1 flex-w">企业代码</div>
+								<corp-code ng-model="editParams.corpCode"></corp-code>
+								<!-- <static-data table="OrgCorpCode" value="{{editParams.corpCode}}" model="editParams.corpCode" same="true" /> -->
+						</div>
+						<div ng-show="querySystemType(editParams.systemId) == 'SFYON' " class="er-temp-goods-input flex">
+								<div class="text flex-1 flex-w">企业代码</div>
+								<corp-code ng-model="editParams.corpCode"></corp-code>
+								<!-- <static-data table="OrgCorpCode" value="{{editParams.corpCode}}" model="editParams.corpCode" same="true" /> -->
+						</div>
+						<div ng-show="querySystemType(editParams.systemId) == 'CSS'" class="er-temp-goods-input flex">
+								<div class="text flex-1 flex-w">类型</div>
+								<static-data style="border: 1px solid #DDD; background-color: #F5F5F5; color: #ACA899;"
+										disabled="disabled" value="{{editParams.type}}" table="CCSRoleType" model="editParams.type" same="false" />
+						</div>
+						<div ng-show="querySystemType(editParams.systemId) == 'ACRM'" class="er-temp-goods-input flex">
+								<div class="text flex-1 flex-w">类型</div>
+								<static-data style="border: 1px solid #DDD; background-color: #F5F5F5; color: #ACA899;"
+										disabled="disabled" value="{{editParams.type}}" table="ACRMRoleType" model="editParams.type" same="false" />
+						</div>
+						
+						
+				</div>
+				<div class="flex flex-wrap">
+						<div class="er-temp-goods-input flex" style="width: 95%; height: auto;">
+								<div class="text flex-1 flex-w" style="height: inherit; line-height: inherit;">描述</div>
+								<textarea ng-model="editParams.description" cols="82" rows="3"></textarea>
+						</div>
+				</div>
+				<div class="flex flex-wrap">
+						<div class="text flex-1 flex-w" style="margin: 8px;">注意： 上级可以修改下级发布的内容，反之不行；1-10的级别越来越小。
+						</div>
+				</div>
+				<div class="flex flex-pack-end flex-align-center"
+						style="width: 99.7%; padding: 0 16px; height: 80px;">
+						<button class="manageSure" ng-click="editConfirm()">确认</button>
+						<button class="manageCancel" ng-click="cancelEdit()">关闭</button>
+				</div>
+		</div>

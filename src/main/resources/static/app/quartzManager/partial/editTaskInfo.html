@@ -1,0 +1,112 @@
+<style>
+#table{
+	float:left;
+	width:800px;
+	border-left:#999999 0px solid;
+	border-top:#999999 0px solid;
+}
+#table li{
+	float:left;
+	width:399px;
+	margin-top:10px;    
+	list-style:none outside;
+	border-bottom:#999999 0px solid;
+	border-right:#999999 0px solid;
+	text-align:center;
+}
+#table div{
+	float:left;
+}
+.left{
+	width:100px;
+	border-right:#999999 0px solid;
+}
+.right{
+	width:298px;
+}
+</style>
+
+
+<div class="modalAll" style="height: auto;">
+    <div class="modalTop">
+      <div class="modalTitle">编辑调度任务</div>
+    </div>
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  <div class="modal_content_container">
+   <div id="table">
+
+	<li>
+		<div class="left">*任务名称</div>
+		<div class="right"><input  type="text" width="30" ng-model="cronJobInfo.jobName" style="border:1px solid #DDD;background-color:#F5F5F5;color:#ACA899;" readonly="readonly"></div>
+	</li>
+	<li>
+		<div class="left">*任务组</div>
+		<div class="right"><input  type="text" width="30" ng-model="cronJobInfo.jobGroup" style="border:1px solid #DDD;background-color:#F5F5F5;color:#ACA899;" readonly="readonly"></div>
+	</li>
+
+	<li>
+		<div class="left">*CRON表达式</div>
+		<div class="right">
+				<input type="text" width="30" ng-model="cronJobInfo.cronExpression">
+		</div>
+	</li>
+	<li>
+		<div class="left">*调度方法</div>
+		<div class="right">
+		 <select ng-options="Object.value as Object.title for Object in methodList" ng-model="cronJobInfo.method">
+	              	<option value="">---------方法类型---------</option>
+	     </select>
+		</div>
+	</li>
+	<li style="width:798px;">
+		<div class="left">*调度URL</div>
+		<div class="right" style="width:696px"><input  type="text" style="width:572px" ng-model="cronJobInfo.url"></div>
+	</li>
+	<div ng-repeat="key in list">
+    	<li>
+			<div class="left">参数名</div>
+			<div class="right"><input  type="text" width="30" ng-model="cronJobInfo.argsNames[$index]"></div>
+		</li>
+		<li>
+			<div class="left">参数值</div>
+			<div class="right"><input  type="text" width="30"  ng-model="cronJobInfo.argsValues[$index]"></div>
+		</li>	
+    </div>
+	
+</div>
+    
+   <!--   <div  class="flex flex-wrap">
+
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	系统名称
+        </div>
+        <input class="input flex-2 flex-w" type="text" ng-model="addParams.sysName">
+      </div>
+      
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	系统编码
+        </div>
+        <input class="input flex-2 flex-w" type="text" ng-model="addParams.sysCode">
+      </div>
+     -->
+    </div>
+
+  </div>
+
+  <div class="flex flex-pack-end flex-align-center" style="width: 99.7%; padding:  0 16px; height: 80px;">
+  	<button class="manageSure" ng-click="addCronExpress()"
+		style="background-color: teal;width: 95px;">修改表达式</button>
+    <button class="manageSure" ng-click="addList()" style="background-color: teal;">增加参数</button>
+    <button class="manageSure" ng-click="delList()" style="background-color: olive;">删除参数</button>
+    <button class="manageSure" ng-click="editTask()">确认</button>
+    <button class="manageCancel" ng-click="cancelEdit()">关闭</button>
+  </div>
+
+</div>

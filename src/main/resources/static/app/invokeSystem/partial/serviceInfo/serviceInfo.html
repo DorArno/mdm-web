@@ -1,0 +1,114 @@
+<div ng-controller="ServiceInfoCrl"  ng-init="init()" style="position:relative;left:10px; margin-top: 20px;">
+    <form class="form-inline">
+	    <div class="form-group">
+	      		<input type="text" id="sysName" class="form-control" ng-model="queryParams.sysName"
+	                   placeholder="接口名称">
+	
+	      		<input type="text" id="sysCode" class="form-control" ng-model="queryParams.sysCode"
+	                   placeholder="接口URL">
+	            <select class="form-control"
+	               		   ng-options="type.value as type.title for type in serviceTypeList"
+	            		  ng-model="queryParams.serviceType">
+	             		 <option value="">接口类型</option>
+	       		</select>      
+				<select class="form-control"
+	               		   ng-options="type.value as type.title for type in statusList"
+	            		  ng-model="queryParams.status">
+	             		 <option value="">接口状态</option>
+	       		</select>
+				<br>
+	 		   
+	            <button keycode="queryServiceInfoList"  class="buttonCommon complaintDetail" ng-click="queryServiceInfoList()"><div class="glyphicon glyphicon-search"></div>查询</button>
+	            <button keycode="addServiceInfo" class="buttonCommon complaintDetail" ng-click="addServiceInfo()"><div class="glyphicon glyphicon-plus"></div>新增</button>
+			
+	    </div>
+
+    </form>
+
+	<div class="table_container">
+		<table class="crmAllTable" style="">
+		<colgroup>
+			<col style>
+			<col style="width:15%;">
+			<col style="width:15%;">
+			<col style>
+			<col style>
+			<col style>
+			<col style>
+			<col style >
+			<col style >
+	    </colgroup>
+        <thead style="darkgray;background-color:#e8e8e8;text-align:center;">
+        	<th>序号</th>
+	        <th>接口名称</th>
+        	<th>接口URL</th>
+	        <th>入参</th>
+	        <th>出参</th>
+	        <th>接口类型</th>
+	        <th>接口状态</th>
+	        <th>更新时间</th>
+	        <th>操作</th>
+        </thead>
+		<tbody >
+	        <tr ng-repeat="serviceInfo in serviceInfoList" repeat-finish>
+	          <td>{{queryParams.start + $index+1}}</td>
+	          <td title='{{serviceInfo.serviceName}}'>{{serviceInfo.serviceName| cut:true:20:' ...'}}</td>
+	          <td title='{{serviceInfo.serviceCode}}'>{{serviceInfo.serviceCode| cut:true:20:' ...'}}</td>
+	          <td title='{{serviceInfo.inputParam}}'>
+	              {{serviceInfo.inputParam| cut:true:20:' ...'}}
+	          </td>
+	          <td title='{{serviceInfo.outputParam}}'>
+	              {{serviceInfo.outputParam| cut:true:20:' ...'}}
+	          </td>
+	          <td>
+	          	  <span ng-switch on="serviceInfo.serviceType">
+	          	 	 <span ng-switch-when="3">PUT</span>
+	          	  	<span ng-switch-when="2">POST</span>
+	                <span ng-switch-when="1">GET</span>
+	                <span ng-switch-when="0">DELETE</span>
+	              </span>
+	          </td>
+	          <td>
+	          	<span ng-switch on="serviceInfo.status">
+	                <span ng-switch-when="0">停用</span>
+	                <span ng-switch-when="1">启用</span>
+	              </span>
+	          </td>
+	          <td>
+	              {{serviceInfo.modifiedOn}}
+	          </td>
+	          <td>
+							<div class="btn_tr flex">
+
+	              <span>
+									<button title="查看数据" class="goodButtonCommonEdit flex" ng-click="goView($index)">
+										<div class="button_icon checkout_btn"></div>
+									</button>
+								</span>
+
+
+								<span>
+									<button keycode="updateServiceInfo"  title="修改" class="goodButtonCommonEdit flex"  ng-click="goEdit($index)">
+										<span title="编辑" class="button_icon edit_icon"></span>
+									</button>
+								</span>
+								<span>
+								<button  keycode="deleteServiceInfo" title="删除" class="goodButtonCommonEdit flex" style="background-color: #f75252"  ng-click="doDel($index)">
+									<span title="删除" class="button_icon delete_btn"></span>
+								</button>
+							</span>
+
+							</div>
+	          </td>
+	        </tr>
+	        <tr ng-if="serviceInfoList == null || serviceInfoList.length == 0">
+	        	<td colspan="10">没有可以显示的数据</td>
+	        </tr>	        
+        </tbody>
+	</table>
+	 
+	</div>
+
+	 <div class="pagination_con flex" ng-include="'app/components/page/page.html'"></div>
+</div>
+

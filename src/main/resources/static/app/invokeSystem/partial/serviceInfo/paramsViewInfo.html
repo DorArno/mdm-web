@@ -1,0 +1,88 @@
+
+<div class="modalAll" style="height: auto;">
+    <div class="modalTop">
+      <div class="modalTitle">查看数据</div>
+    </div>
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  <div class="modal_content_container">
+    <div  class="flex flex-wrap">
+
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	接口名称
+        </div>
+        <input class="input flex-2 flex-w" readonly="readonly" type="text" ng-model="viewParams.serviceName">
+      </div>
+      
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	接口URL
+        </div>
+        <input class="input flex-2 flex-w" readonly="readonly" type="text" ng-model="viewParams.serviceCode">
+      </div> 
+      <div class="er-temp-goods-input flex" data-toggle="tooltip" data-placement="top" title="状态">
+        <div class="text flex-1 flex-w" >
+         	  接口类型
+        </div>
+        <select class="select flex-2 flex-w" disabled
+                  ng-options="type.value as type.title for type in serviceTypeList"
+              ng-model="viewParams.serviceType">
+        </select>
+      </div>
+      <div class="er-temp-goods-input flex" data-toggle="tooltip" data-placement="top" title="接口类型">
+        <div class="text flex-1 flex-w" >
+         	  接口状态
+        </div>
+        <select class="select flex-2 flex-w" disabled
+                  ng-options="type.value as type.title for type in statusList"
+              ng-model="viewParams.status">
+        </select>
+        
+      </div>
+      
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	更新日期
+        </div>
+        <input class="input flex-2 flex-w" readonly="readonly" type="text" ng-model="viewParams.createdOn">
+      </div>
+      <div class="er-temp-goods-input flex" style="width:94%; height:75px;">
+        <div class="text flex-1 flex-w" style="height:100%;">
+          	接入系统
+        </div>
+        <div style="width:90%; border:0;align:left;"><span ng-repeat="sys in sysNames">{{sys.label}}  </span></div>
+      </div>    
+      
+      
+      <div class="er-temp-goods-input flex" style="width:94%; height:75px;">
+        <div class="text flex-1 flex-w" style="height:100%;">
+          	功能描述
+        </div>
+        <textarea readonly="readonly" style="width:90%; border:0;">{{viewParams.description}}</textarea>
+      </div>
+      <div class="er-temp-goods-input flex" style="width:94%; height:100px;">
+        <div class="text flex-1 flex-w" style="height:100%;">
+          	入参
+        </div>
+        <textarea readonly="readonly" style="width:90%; border:0;">{{viewParams.inputParam}}</textarea>
+      </div>
+      <div class="er-temp-goods-input flex" style="width:94%; height:100px;">
+        <div class="text flex-1 flex-w" style="height:100%;">
+          	出参
+        </div>
+        <textarea readonly="readonly" style="width:90%; border:0;">{{viewParams.outputParam}}</textarea>
+      </div>
+
+  </div>
+
+  <div class="flex flex-pack-end flex-align-center" style="width: 99.7%; padding:  0 16px; height: 80px;">
+    <button class="manageCancel" ng-click="closeView()">关闭</button>
+  </div>
+
+ </div>
+</div>

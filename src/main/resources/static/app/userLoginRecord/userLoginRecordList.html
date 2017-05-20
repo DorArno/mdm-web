@@ -1,0 +1,60 @@
+<div ng-controller="userLoginRecordCrl" ng-init="init()"
+	style="position: relative; left: 16px; margin-top: 8px;">
+	<form class="form-inline">
+		<div class="form-group" op-ctrl>
+			<input type="text" class="form-control"
+				ng-model="queryParams.account" placeholder="账号"> <input
+				id="da1" class="form-control" style="width: 160px;" type="text"
+				ng-model="queryParams.startDate" onChange=""
+				onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'da2\')||\'2099-10-01\'}',dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+				placeholder="开始时间" /> - <input id="da2" class="form-control"
+				style="width: 160px;" type="text" ng-model="queryParams.endDate"
+				onChange=""
+				onFocus="WdatePicker({minDate:'#F{$dp.$D(\'da1\')}',maxDate:'2099-10-01',dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+				placeholder="结束时间" />
+			<br>
+			<button keycode="queryUserLoginRecord"
+				class="buttonCommon complaintDetail"
+				ng-click="queryUserLoginRecordList()">
+				<div class="glyphicon glyphicon-search"></div>
+				查询
+			</button>
+		</div>
+	</form>
+	<!-- 数据部分 -->
+	<div class="table_container">
+	<table class="crmAllTable" style="">
+		<thead
+			style="">
+			<th>序号</th>
+			<th>账号</th>
+			<th>渠道</th>
+			<th>登录IP</th>
+			<th>状态</th>
+			<th>登录时间</th>
+			<th>类型</th>
+		</thead>
+		<tbody>
+			<tr ng-repeat="userLoginRecord in userLoginRecordList" repeat-finish>
+				<td>{{queryParams.start + $index+1}}</td>
+				<td>{{userLoginRecord.account}}</td>
+				<td>{{userLoginRecord.channel}}</td>
+				<td>{{userLoginRecord.loginIp}}</td>
+				<td><span ng-switch on="userLoginRecord.status"> <span
+						ng-switch-when="1">成功</span> <span ng-switch-when="0">失败</span>
+				</span></td>
+				<td>{{userLoginRecord.loginTime}}</td>
+				<td><span ng-switch on="userLoginRecord.type"> <span
+						ng-switch-when="1">登录</span> <span ng-switch-when="0">登出</span>
+				</span></td>
+			</tr>
+			<tr
+				ng-if="userLoginRecordList == null || userLoginRecordList.length == 0">
+				<td colspan="10">没有可以显示的数据</td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+	<!-- 分页及汇总 -->
+	<div class="pagination_con flex" ng-include="'app/components/page/page.html'"></div>
+</div>

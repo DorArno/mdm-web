@@ -1,0 +1,110 @@
+<div ng-controller="quartzManagerController" ng-init="init()" style="position:relative;left:10px; margin-top: 20px;">
+	
+    <form class="form-inline">
+	    <div class="form-group" op-ctrl>
+	      		<input type="text" id="sysName" class="form-control" ng-model="queryParams.taskName"   oninput="if(value.length>20)value=value.slice(0,20)" 
+	                   placeholder="任务名称">
+                <input type="text" id="sysName" class="form-control" ng-model="queryParams.group"   oninput="if(value.length>20)value=value.slice(0,20)" 
+                  placeholder="任务组">
+				<br>
+
+				<button keycode="taskInfos" class="buttonCommon complaintDetail" style="" ng-click="queryInfoList()"><div class="glyphicon glyphicon-search"></div>查询</button>
+	            <button keycode="addTaskInfos"  class="buttonCommon complaintDetail" style="" ng-click="addTaskInfo()"><div class="glyphicon glyphicon-plus"></div>新增任务</button>
+	            <button keycode="resumeAllTaskInfos"  class="buttonCommon complaintDetail" style="" ng-click="resumeAllTask()">
+								<div class="glyphicon glyphicon-play"></div>批量开始</button>
+	            <button keycode="pauseAllTaskInfos"  class="buttonCommon complaintDetail" style="" ng-click="pauseAllTask()"><div class="glyphicon glyphicon-pause"></div>批量停止</button>
+	         
+	    </div>
+	  
+    </form>
+  <!-- 数据部分 -->
+	<div class="table_container">
+
+
+	<table class="crmAllTable" style="">
+       <thead style="">
+	        <th width="40">
+						<label>
+							<input type="checkbox" class="css-checkbox" ng-model="master" ng-click="all(master,systemInfoList)" />
+							<span class="css-checkbox-label"></span>
+						</label>
+						<!--<input type="checkbox" ng-model="master" ng-click="all(master,systemInfoList)">-->
+					</th>
+	        <th>序号</th>
+	        <th>任务名称</th>
+	        <th>任务组</th>
+	        <th>任务状态</th>
+	        <th>频率</th>
+	        <th>任务修改时间</th>
+	        <th>下次执行时间</th>
+	        <th>操作</th>
+        </thead>
+        <tbody>
+	        <tr  ng-repeat="system in systemInfoList" op-ctrl>
+	          <td>
+							<label>
+								<input type="checkbox" class="css-checkbox" ng-model="x" ng-checked="master" ng-click="chk(system,x)" />
+								<span class="css-checkbox-label"></span>
+							</label>
+							<!--<input id={{$index}} type="checkbox"  ng-model="x" ng-checked="master" ng-click="chk(system,x)"/>-->
+						</td>
+	          <td>{{queryParams.start + $index+1}}</td>
+	          <td>{{system.triggers[0].jobName}}</td>
+	          <td>{{system.triggers[0].group}}</td>
+	          <!-- <td>{{system.createdOn}}</td> -->
+	          <td>{{system.status}}</td>
+	          <td>{{system.triggers[0].cronExpression}}
+	          <td>{{system.triggers[0].startTime}}</td>
+	          <td>{{system.triggers[0].nextFireTime}}</td>
+	          <td>
+							<div class="btn_tr flex" op-ctrl>
+
+							<span ng-show='system.status=="正常"'>
+								<button  keycode="pauseTaskInfos" title="暂停任务" class="goodButtonCommonEdit flex"  style="" ng-click="pauseTask($index)">
+									<span class="button_icon pause_icon"></span>
+								</button>
+							</span>
+	          <span ng-show='system.status!="正常"'>
+							<button  keycode="resumeTaskInfos" title="继续任务" class="goodButtonCommonEdit flex" style=""  ng-click="resumeTask($index)">
+								<span class="button_icon continue_icon"></span>
+							</button>
+						</span>
+	          <span>
+							<button keycode="executeTaskInfos" title="立即执行" class="goodButtonCommonEdit flex" style="" ng-click="executeTask($index)">
+								<span class="button_icon immediately_icon"></span>
+							</button>
+						</span>
+	          <span>
+							<button keycode="editTaskInfos" title="编辑任务" class="goodButtonCommonEdit flex" style="" ng-click="editTaskInfo($index)">
+																		<span class="button_icon edit_icon"></span>
+							</button>
+						</span>
+	          <span>
+							<button keycode="deleteTaskInfos" title="删除任务" class="goodButtonCommonEdit flex" style="background-color: #f75252" ng-click="deleteTask($index)">
+								<span class="button_icon delete_btn"></span>
+							</button></span>
+
+								</div>
+	          </td>
+
+	        </tr>
+	     <tr ng-if="systemInfoList == null || systemInfoList.length == 0">
+						<td colspan="9">没有可以显示的数据</td>
+		</tr>
+        </tbody>
+      </table>
+	</div>
+  <!-- 分页及汇总 -->
+   <div  class="pagination_con flex">
+    <pagination style="height:30px;background-color:#F5F5FE" ng-change="pageChanged()" ng-click="setPage(currentPage)" total-items="totalItems"
+                ng-model="currentPage" max-size="maxSize" num-pages="numPages" class="pagination-sm" boundary-links="true"
+                rotate="false" previous-text="前一页" next-text="后一页" first-text="首页" last-text="尾页"></pagination>
+		<span style="margin-top:0px; color: #777;">共{{totalItems}}条</span>
+
+  </div>
+
+
+	
+  <!--  
+ <div ng-include="'app/components/page/page.html'"></div>-->
+</div>

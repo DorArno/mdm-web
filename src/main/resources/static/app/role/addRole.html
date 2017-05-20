@@ -1,0 +1,74 @@
+<div class="modalAll" style="height: auto;">
+		<div class="modalTop">
+				<div class="modalTitle">新增角色</div>
+		</div>
+		<script>
+			$(function() {
+				$('[data-toggle="tooltip"]').tooltip()
+			})
+		</script>
+		<div class="modal_content_container">
+				<div class="flex flex-wrap">
+						<div class="er-temp-goods-input flex">
+								<div class="text flex-1 flex-w">
+										<span class="text-danger">*</span>
+										名称
+								</div>
+								<input class="input flex-2 flex-w" type="text" ng-model="addParams.name">
+						</div>
+						<div class="er-temp-goods-input flex">
+								<div class="text flex-1 flex-w">
+										<span class="text-danger">*</span>
+										级别
+								</div>
+								<role-level table="RoleLevel" model="addParams.level" />
+						</div>
+						
+						<div  class="er-temp-goods-input flex">
+								<div class="text flex-1 flex-w">
+										<span class="text-danger">*</span>
+										来源系统
+								</div>
+								<select class="select flex-2 flex-w" ng-model="addParams.systemId"
+										ng-options="x.id as x.sysName for x in systemInfoList">
+										<option value="">请选择</option>
+								</select>
+						</div>
+						<div ng-show="querySystemType(addParams.systemId) == 'CSS'" class="er-temp-goods-input flex">
+								<div class="text flex-1 flex-w">企业代码</div>
+								<corp-code ng-model="addParams.corpCode"></corp-code>
+						</div>
+						<div ng-show="querySystemType(addParams.systemId) == 'SFYOFF'" class="er-temp-goods-input flex">
+								<div class="text flex-1 flex-w">企业代码</div>
+								<corp-code ng-model="addParams.corpCode"></corp-code>
+						</div>
+						<div ng-show="querySystemType(addParams.systemId) == 'SFYON' " class="er-temp-goods-input flex">
+								<div class="text flex-1 flex-w">企业代码</div>
+								<corp-code ng-model="addParams.corpCode"></corp-code>
+						</div>
+						<div ng-show="querySystemType(addParams.systemId) == 'CSS'" class="er-temp-goods-input flex">
+								<div class="text flex-1 flex-w">类型</div>
+								<static-data table="CCSRoleType" model="addParams.type" same="false" />
+						</div>
+						<div ng-show="querySystemType(addParams.systemId) == 'ACRM'" class="er-temp-goods-input flex">
+								<div class="text flex-1 flex-w">类型</div>
+								<static-data table="ACRMRoleType" model="addParams.type" same="false" />
+						</div>
+						
+				</div>
+				<div class="flex flex-wrap">
+						<div class="er-temp-goods-input flex" style="width: 95%; height: auto;">
+								<div class="text flex-1 flex-w"
+										style="height: inherit; line-height: inherit; padding-top: 10px;">描述</div>
+								<textarea ng-model="addParams.description" cols="82" rows="3"></textarea>
+						</div>
+				</div>
+				<div class="flex flex-wrap">
+						<div class="text flex-1 flex-w" style="margin: 8px;">注意： 上级可以修改下级发布的内容，反之不行；1-10的级别越来越小。</div>
+				</div>
+				<div class="flex flex-pack-end flex-align-center"
+						style="width: 99.7%; padding: 0 16px; height: 80px;">
+						<button class="manageSure" ng-click="addConfirm()">确认</button>
+						<button class="manageCancel" ng-click="cancelAdd()">关闭</button>
+				</div>
+		</div>

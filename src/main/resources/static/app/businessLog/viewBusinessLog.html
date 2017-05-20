@@ -1,0 +1,90 @@
+<div class="modalAll" style="height: auto;">
+    <div class="modalTop">
+      <div class="modalTitle">查看数据</div>
+    </div>
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  <div class="modal_content_container">
+    <div  class="flex flex-wrap">
+
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	来源系统
+        </div>
+        <input class="input flex-2 flex-w" readonly="readonly" type="text" ng-model="viewParams.sourceSystem.sysName">
+      </div>
+      
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	目标系统
+        </div>
+        <input class="input flex-2 flex-w" readonly="readonly" type="text" ng-model="viewParams.destSystem.sysName">
+      </div>
+      
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	日志类型
+        </div>
+        <input class="input flex-2 flex-w" readonly="readonly" type="text" ng-model="viewParams.logTypeText">
+      </div>
+      
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	数据类型
+        </div>
+        <input class="input flex-2 flex-w" readonly="readonly" type="text" ng-model="viewParams.dataTypeText">
+      </div>
+      
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	错误信息
+        </div>
+        <input class="input flex-2 flex-w" readonly="readonly" type="text" ng-model="viewParams.errorMsg">
+      </div>
+      
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	状态
+        </div>
+        <input class="input flex-2 flex-w" readonly="readonly" type="text" ng-model="viewParams.statusText">
+      </div>
+      
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	日期
+        </div>
+        <input class="input flex-2 flex-w" readonly="readonly" type="text" ng-model="viewParams.createdOn">
+      </div>
+      
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	下发模式
+        </div>
+        <input class="input flex-2 flex-w" readonly="readonly" type="text" value="队列下发" />
+      </div>
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	子系统数据版本
+        </div>
+        <input class="input flex-2 flex-w" readonly="readonly" type="text" ng-model="viewParams.clientDataVersion"/>
+      </div>
+
+      <div class="er-temp-goods-input flex" style="width:94%; height:250px;">
+        <!--<div class="text flex-1 flex-w" style="height:100%;">
+          	数据内容
+        </div>-->
+        <!--<textarea readonly="readonly" style="width:90%; border:0;">{{viewParams.content}}</textarea>-->
+        <json-view ng-model="viewParams.content"></json-view>
+      </div>
+
+  </div>
+
+  <div class="flex flex-pack-end flex-align-center" style="width: 99.7%; padding:  0 16px; height: 80px;">
+    <button class="manageCancel" ng-click="closeView()">关闭</button>
+  </div>
+
+</div>

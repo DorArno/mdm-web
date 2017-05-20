@@ -1,0 +1,54 @@
+<style>
+	.app-modal-window .modal-dialog,.modal-content {
+  width: 1200px;
+}
+.modal-content {
+	overflow:auto;
+}
+</style>
+<div class="modalTop">
+      <div class="modalTitle">历史记录</div>
+    </div>
+<div ng-controller="OperationLogCrl" ng-init="queryOperationLogList()" style="margin: 10px;">
+  <!-- 数据部分 -->
+	<table class="crmAllTable" style=" margin-top: 20px; width: 97%;">
+        <thead style="border: 1px solid darkgray;background-color:#F5F5FE;text-align:center;">
+        	<th>序号</th>
+        	<th>数据类型</th>
+        	<th>数据内容</th>
+        	<th>用户</th>
+        	<th>日期</th>
+        	<th>来源</th>
+        	<th>上/下行</th>
+	        <th>操作</th>
+        </thead>
+        <tbody>
+	        <tr ng-repeat="operationLog in operationLogList" repeat-finish>
+	          <td>{{queryParams.start + $index+1}}</td>
+	          <td>{{operationLog.dataTypeText}}</td>
+	          <td title='{{operationLog.content}}'>{{operationLog.content | cut:true:40:' ...'}}</td>
+	          <td>{{operationLog.createdBy}}</td>
+	          <td>{{operationLog.createdOn | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+	          <td>{{operationLog.sysCode}}</td>
+	          <td ng-if="operationLog.flowFlag==1">下行</td>
+	          <td ng-if="operationLog.flowFlag==0">上行</td>
+	          <td>
+							<div class="btn_tr flex">
+	          	<span><button title="查看" keycode="viewHistoryDetail" class="goodButtonCommonEdit flex" ng-click="goView($index)">
+								<div class="button_icon checkout_btn"></div></button></span>
+	          	<span><button title="恢复" keycode="recoverHistory" class="goodButtonCommonEdit flex" ng-click="recoverHistory(operationLog.id)">
+								<div class="glyphicon glyphicon-share-alt"></div></button></span>
+								</div>
+	          </td>
+	        </tr>
+	        <tr ng-if="operationLogList == null || operationLogList.length == 0">
+	        	<td colspan="6">没有可以显示的数据</td>
+	        </tr>
+        </tbody>
+      </table>
+  <!-- 分页及汇总 -->
+  <div class="pagination_con flex" ng-include="'app/components/page/page.html'"></div>
+  <div class="flex flex-pack-end flex-align-center" style="width: 99.7%; padding:  0 16px; height: 80px;">
+    <button class="manageCancel" ng-click="cancelAdd()">关闭</button>
+  </div>
+</div>

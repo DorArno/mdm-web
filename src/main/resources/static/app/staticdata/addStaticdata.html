@@ -1,0 +1,42 @@
+<div class="modalAll" style="height: auto;">
+    <div class="modalTop">
+      <div class="modalTitle">新增数据字典</div>
+    </div>
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  <div class="modal_content_container">
+    <div  class="flex flex-wrap">
+
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	<span class="text-danger">*</span>类型
+        </div>
+        <input class="input flex-2 flex-w" type="text" ng-model="addParams.tableName">
+      </div>
+      
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	<span class="text-danger">*</span>KEY
+        </div>
+        <input class="input flex-2 flex-w" type="text" ng-model="addParams.colName">
+      </div>
+	<div class = "er-temp-goods-input flex">
+		<div class="text flex-1 flex-w">VALUE</div>
+		<input class="input flex-2 flex-w" type="text" ng-model="addParams.colValue">
+	</div>
+	<div class = "er-temp-goods-input flex">
+		<div class="text flex-1 flex-w">描述</div>
+		<input class="input flex-2 flex-w" type="text" ng-model="addParams.description">
+	</div>
+  </div>
+
+  <div class="flex flex-pack-end flex-align-center" style="width: 99.7%; padding:  0 16px; height: 80px;">
+    <button class="manageSure" ng-click="addConfirm()">确认</button>
+    <button class="manageCancel" ng-click="cancelAdd()">关闭</button>
+  </div>
+
+</div>

@@ -1,0 +1,31 @@
+<div class="modalAll" style="height: auto;">
+	<div class="modalTop">
+		<div class="modalTitle">设置企业代码</div>
+	</div>
+	<script>
+		$(function() {
+			$('[data-toggle="tooltip"]').tooltip();
+		});
+	</script>
+
+	<div class="modal_content_container">
+		<div class="flex flex-wrap">
+			<div class="er-temp-goods-input flex" data-placement="top"
+				title="企业代码，加盟商编码" id="addCorpCode">
+				<div class="text flex-1 flex-w">企业代码</div>
+				<corp-code ng-model="backEnd.corpCode"
+					ng-change="setQueryCorpCode(backEnd.corpCode)"></corp-code>
+			</div>
+		</div>
+		<div class="flex flex-wrap" style="color:red;">
+			注：原前端会员没有企业代码，需要设置企业代码
+		</div>
+	</div>
+
+	<div class="flex flex-pack-end flex-align-center"
+		style="width: 99.7%; padding: 0 16px; height: 80px;">
+		<button class="manageSure" ng-click="checkConfirmed(backEnd.userId)">确定</button>
+		<button class="manageCancel" ng-click="cancelCheck()">取消</button>
+	</div>
+
+</div>

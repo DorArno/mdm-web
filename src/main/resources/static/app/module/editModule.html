@@ -1,0 +1,68 @@
+<div class="modalAll" style="height: auto;">
+    <div class="modalTop">
+      <div class="modalTitle">编辑菜单</div>
+    </div>
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  <div class="modal_content_container">
+    <div  class="flex flex-wrap">
+
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+        	<span class="text-danger">*</span>
+          	名称
+        </div>
+        <input class="input flex-2 flex-w" type="text" ng-model="editParams.moduleName">
+      </div>
+      
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	父节点
+        </div>
+        <input class="input flex-2 flex-w" type="text" readonly="readonly" ng-model="editParams.parent.moduleName">
+        <input type="hidden" ng-model="editParams.parentId">
+        <input type="hidden" ng-model="editParams.parent.path">
+        <input type="hidden" ng-model="editParams.parent.moduleState">
+        <input class="input" type="button" ng-click="chooseParent()" value="选择">
+      </div>
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+        	<span class="text-danger">*</span>
+          	状态
+        </div>
+         <select class="select flex-2 flex-w" ng-model="editParams.moduleState" ng-options="t.value as t.title for t in moduleStates">
+			<option value="">请选择</option>
+		</select>
+      </div>
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+        	<span class="text-danger">*</span>
+          	排序
+        </div>
+        <input class="input flex-2 flex-w" type="text" ng-model="editParams.moduleSort">
+      </div>
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	URL
+        </div>
+        <input class="input flex-2 flex-w" type="text" ng-model="editParams.moduleUrl">
+      </div>
+     <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	描述
+        </div>
+        <input class="input flex-2 flex-w" type="text" ng-model="editParams.description">
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-pack-end flex-align-center" style="width: 99.7%; padding:  0 16px; height: 80px;">
+    <button class="manageSure" ng-click="editConfirm()">确认</button>
+    <button class="manageCancel" ng-click="cancelEdit()">关闭</button>
+  </div>
+
+</div>

@@ -1,0 +1,22 @@
+<div class="modalAll" style="height: auto;">
+	<div class="modalTop">
+		<div class="modalTitle">导入数据</div>
+	</div>
+	<div class="modal_content_container">
+		<div class="flex flex-wrap">
+			<div class="er-temp-goods-input flex" style="width:99.7%; height:100%;">
+				<span style="margin:5px;"><button class="buttonCommon complaintDetail" ng-click="exportTemplate()">下载导入模版</button></span>
+				<span style="margin:5px;"><button class="buttonCommon complaintDetail" ng-file-select ng-file-change="importFile($files)" >导入</button></span>
+			</div>
+			<div class="flex" ng-show="importParams.showMsg" style="width:99.7%; color:#ff0000">
+				<p style="margin:5px; width:100px">{{importParams.showMsgText}}</p>
+				<br />
+				<textarea ng-show="importParams.showError" style="width:85%; height:50px; resize: none;">{{importParams.showErrorText}}</textarea>
+			</div>
+		</div>
+	</div>
+	
+	<div class="flex flex-pack-end flex-align-center" style="width: 99.7%; padding: 0 16px; height: 80px;">
+		<button class="manageCancel" ng-click="closeImportData()">关闭</button>
+	</div>
+</div>

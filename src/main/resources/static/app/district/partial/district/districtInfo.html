@@ -1,0 +1,137 @@
+<link rel="stylesheet" href="app/components/tree/zTreeStyle.css"
+	type="text/css">
+<script type="text/javascript" src="app/components/tree/jquery.ztree-2.6.min.js"></script>
+		
+<script>
+	function onSelect(event, treeId, treeNode) {
+		var appElement = document.querySelector('[ng-controller=DistrictInfoCrl]');
+		var $scope = angular.element(appElement).scope();
+		$scope.queryDistrictListByNode(treeNode.id);
+	}
+	
+	function onExpand(event, treeId, treeNode)
+	{
+		var appElement = document.querySelector('[ng-controller=DistrictInfoCrl]');
+		var $scope = angular.element(appElement).scope();
+		$scope.queryTreeNodes(treeNode.id);
+	}
+</script>
+
+<div ng-controller="DistrictInfoCrl"
+	ng-init="init({'builder':'districtStaticTreeBuilder'})"
+	style="position: relative; left: 10px; margin-top: 20px;">
+	
+	<input type="hidden" id="hd_pid">
+	<input type="hidden" id="hd_name">
+	
+	<div class="row">
+		<div class="col-sm-2"><!-- ng-click="queryTreeNodes()" -->
+			<div style="width: 99%; height: 555px; overflow: auto; background: #fff;">
+				<form class="form-inline">
+					<ul tree class="ztree" class="form-control" id="myTree"
+						ng-model="queryParams.id" 
+						ng-bind-html="html|htmlContent"></ul>
+				</form>
+			</div>
+		</div>
+		<!-- 数据 -->
+		<div class="col-sm-10">
+			<form class="form-inline">
+				<div class="form-group" op-ctrl>
+					<input type="text" id="name" class="form-control"
+						style="width: 120px" ng-model="queryParams.name"
+						placeholder="名称"> <input type="text"
+						style="width: 120px" id="code" class="form-control"
+						ng-model="queryParams.code" placeholder="编码"> <input
+						data-toggle="tooltip" data-placement="top" title="早于当前选中日期"
+						type="text" id="createdDate" class="form-control" onChange=""
+						ng-model="queryParams.createdDate" placeholder="创建时间"
+						onFocus="WdatePicker({maxDate:'2099-10-01\'}',dateFmt:'yyyy-MM-dd'})">
+					<!-- <span style="position: relative; margin-left: -180px;">  -->
+					<br>
+					<button class="buttonCommon complaintDetail"
+						ng-click="queryDistrictList()" keycode="queryDistrictList">
+						<div class="glyphicon glyphicon-search"></div>
+						查询
+					</button>
+					<button class="buttonCommon complaintDetail"
+						ng-click="addDistrict()" keycode="addDistrict">
+						<div class="glyphicon glyphicon-plus"></div>
+						新增
+					</button>
+					<import-Excel ng-model="queryParams"
+						importUrl="/web/mdm/district/importDistrict"
+						templateUrl="/web/mdm/district/exportTemplete" keycode="importDistrict"></import-Excel>
+					<export-Excel ng-model="queryParams"
+						exportUrl="/web/mdm/district/export" keycode="exportDistrict"></export-Excel>
+					<!-- </span>  -->
+					<bach-send-mq ng-model="selection" datatype="3" keycode="mqDistrict"></bach-send-mq>
+				</div>
+			</form>
+
+			<div class="table_container">
+
+
+			<table class="crmAllTable" style="">
+				<thead
+					style="">
+					<th>
+						<label ng-show="districtList.length > 0"> <input type="checkbox"
+										   class="css-checkbox" name="statusFlag"
+										   ng-checked="selection.length == districtList.length"
+										   ng-click="toggleSelectionAll()">
+							<span class="css-checkbox-label"></span>
+						</label>
+					</th>
+					<th>序号</th>
+					<th>名称</th>
+					<th>编码</th>
+					<th>经度</th>
+					<th>纬度</th>
+					<th>描述</th>
+					<th>创建时间</th>
+					<th>操作</th>
+				</thead>
+				<tbody>
+					<tr ng-repeat="system in districtList" repeat-finish>
+						<td>
+							<label> <input type="checkbox"
+									class="css-checkbox" name="statusFlag"
+											   ng-checked="selection.indexOf(system.id) > -1"
+											   ng-click="toggleSelection(system.id)" />
+								<span class="css-checkbox-label"></span>
+							</label>
+						</td>
+						<td>{{queryParams.start + $index+1}}</td>
+						<td>{{system.name}}</td>
+						<td>{{system.code}}</td>
+						<td>{{system.longitude}}</td>
+						<td>{{system.latitude}}</td>
+						<td>{{system.description}}</td>
+						<td>{{system.createdOn | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+						<td>
+							<div class="btn_tr flex" op-ctrl>
+								<button title="编辑" class="goodButtonCommonEdit flex"	ng-click="goEdit($index)" keycode="editDistrict">
+									<span class="button_icon edit_icon"></span>
+								</button>
+								<!-- <view-history keycode="viewDistrictHistory"	id="system.id" dataType="3" callback="queryDistrictList"></view-history> -->
+								<send-mq dataid="system.id" datatype="3" keycode="mqDistrict"></send-mq>
+								<button title="删除" class="goodButtonCommonEdit flex" style="background-color: #f75252" ng-click="goDelete($index)" keycode="deleteDistrict">
+									<span class="button_icon delete_btn"></span>
+								</button>
+							</div>
+						</td>
+					</tr>
+					<tr ng-if="districtList == null || districtList.length == 0">
+						<td colspan="8">没有可以显示的数据</td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+			<!-- 分页及汇总 -->
+			<div class="pagination_con flex" ng-include="'app/components/page/page.html'"></div>
+		</div>
+
+	</div>
+
+</div>

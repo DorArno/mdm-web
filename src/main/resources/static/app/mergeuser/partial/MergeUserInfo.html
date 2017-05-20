@@ -1,0 +1,300 @@
+<!--
+
+select{width:95px;text-align:center；}
+-->
+<style>
+	.merge_user_modal .modal-dialog{width: 80% !important;}
+	.merge_user_modal .modal-dialog .modal-content{width: 100%}
+	.app-modal-window .modal-dialog,.modal-content {
+  /*width: 800px;*/
+  overflow:auto;
+}
+.modal-content {
+	 overflow:auto;
+}
+#table {
+	float: left;
+
+	border-left: #999999 0px solid;
+	border-top: #999999 0px solid;
+
+}
+
+#table li {
+	float: left;
+	width: 399px;
+	margin-top: 10px;
+	list-style: none outside;
+	border-bottom: #999999 0px solid;
+	border-right: #999999 0px solid;
+	text-align: center;
+}
+#table td{
+	vertical-align:middle; text-align:left;
+}
+
+input[type=text]{width:95px;}
+
+#table div {
+	float: left;
+}
+
+.left {
+	width: 100px;
+	border-right: #999999 0px solid;
+}
+
+.right {
+	width: 298px;
+}
+</style>
+
+
+<div class="modalAll">
+	<div class="modalTop">
+		<div class="modalTitle">用户待合并</div>
+	</div>
+	<script>
+		$(function() {
+			$('[data-toggle="tooltip"]').tooltip()
+		})
+	</script>
+
+	<div style="padding: 0 16px; overflow-x:auto; overflow-y: auto; border-bottom: 1px solid #efefef;">
+		<table class="crmAllTable" style="width:3000px; padding: 0 16px ; overflow-x:auto; overflow-y: auto; margin-top: 20px;">
+			<thead style="border: 1px solid darkgray;background-color:#F5F5FE;text-align:center;">
+			<th style="width:50px"></th>
+			<th style="width:100px">账号</th>
+			<th style="width:100px">性别</th>
+			<th style="width:100px">微信ID</th>
+			<th style="width:110px">电话号码</th>
+			<th style="width:100px">客户编号</th>
+			<th style="width:100px">用户姓名</th>
+			<th style="width:100px">状态</th>
+			<th style="width:100px">类型</th>
+			<th style="width:100px">手机号</th>
+			<th style="width:100px">邮箱</th>
+			<th style="width:100px">昵称</th>
+			<th style="width:100px">生日</th>
+			<th style="width:100px">注册日期</th>
+			<th style="width:100px">是否邮箱验证</th>
+			<th style="width:100px">是否电话验证</th>
+			<th style="width:100px">会员/用户来源</th>
+			<th style="width:100px">描述</th>
+			<th style="width:100px">我的社区</th>
+			<th style="width:100px">家庭地址</th>
+			<th style="width:100px">序号</th>
+			<th style="width:100px">个性签名</th>
+			<th style="width:100px">上一次登陆时间</th>
+			<th style="width:100px">是否内置用户</th>
+			<th style="width:100px">用户头像</th>
+			<th style="width:100px">入职时间</th>
+			<th style="width:100px">来源系统ID</th>
+
+
+			</thead>
+			<!--  <input id={{$index}} type="checkbox"  ng-model="x" ng-checked="master" ng-click="chk(system,x)"/></td> -->
+			<!--  <td>{{queryParams.start + $index+1}}</td>-->
+			<tbody>
+			<tr ng-repeat="system in sysList" align="left">
+				<td><input name="all" type="radio" value="true" ng-click="mergeAll($index,system)"></td>
+				<td><input name="account" type="radio" value="{{system.account}}" ng-click="merge('account',system)">{{system.account}}
+				</td>
+			
+				<td ng-if="system.sex==0"><input name="sex" ng-checked="select" type="radio" value="true" ng-click="merge('sex',system)">女
+				</td>
+				<td ng-if="system.sex==1"><input name="sex" ng-checked="select" type="radio" value="true" ng-click="merge('sex',system)">男
+				</td>
+				
+				<td><input name="weChatID" ng-checked="select" type="radio" value="true" ng-click="merge('weChatID',system)">{{system.weChatID}}
+				</td>
+				<td><input name="phoneNumber" ng-checked="select" type="radio" value="true"
+									 ng-click="merge('phoneNumber',system)">{{system.phoneNumber}}
+				</td>
+				<td><input name="customerCode" ng-checked="select" type="radio" value="true"
+									 ng-click="merge('customerCode',system)">{{system.customerCode}}
+				</td>
+				<td><input name="username" ng-checked="select" type="radio" value="true" ng-click="merge('username',system)">{{system.username}}
+				</td>
+				<td ng-if="system.status==1"><input name="status" ng-checked="select" type="radio" value="true" ng-click="merge('status',system)">启用
+				</td>
+				<td ng-if="system.status==0"><input name="status" ng-checked="select" type="radio" value="true" ng-click="merge('status',system)">停用
+				</td>
+				
+				<td ng-if="system.type==10"><input name="type" ng-checked="select" type="radio" value="true" ng-click="merge('type',system)">其它
+				</td>
+				<td ng-if="system.type==4"><input name="type" ng-checked="select" type="radio" value="true" ng-click="merge('type',system)">会员
+				</td>
+				<td ng-if="system.type==3"><input name="type" ng-checked="select" type="radio" value="true" ng-click="merge('type',system)">业主
+				</td>
+				<td ng-if="system.type==2"><input name="type" ng-checked="select" type="radio" value="true" ng-click="merge('type',system)">帮工
+				</td>
+				<td ng-if="system.type==1"><input name="type" ng-checked="select" type="radio" value="true" ng-click="merge('type',system)">后台用户
+				</td>
+				<td ng-if="system.type==null"><input name="type" ng-checked="select" type="radio" value="true" ng-click="merge('type',system)">
+				</td>
+				<td><input name="cellPhone" ng-checked="select" type="radio" value="true" ng-click="merge('cellPhone',system)">{{system.cellPhone}}
+				</td>
+				<td><input name="email" ng-checked="select" type="radio" value="true" ng-click="merge('email',system)">{{system.email}}
+				</td>
+				<td><input name="nickName" ng-checked="select" type="radio" value="true" ng-click="merge('nickName',system)">{{system.nickName}}
+				</td>
+				<td><input name="birthDay" ng-checked="select" type="radio" value="true" ng-click="merge('birthDay',system)">{{system.birthDay}}
+				</td>
+				<td><input name="registerDate" ng-checked="select" type="radio" value="true"
+									 ng-click="merge('registerDate',system)">{{system.registerDate}}
+				</td>
+				<td><input name="emailConfirmed" ng-checked="select" type="radio" value="true"
+									 ng-click="merge('emailConfirmed',system)">{{system.emailConfirmed}}
+				</td>
+				<td><input name="phoneNumberConfirmed" ng-checked="select" type="radio" value="true"
+									 ng-click="merge('phoneNumberConfirmed',system)">{{system.phoneNumberConfirmed}}
+				</td>
+				<td><input name="memberFrom" ng-checked="select" type="radio" value="true"
+									 ng-click="merge('memberFrom',system)">{{system.memberFrom}}
+				</td>
+				<td><input name="description" ng-checked="select" type="radio" value="true"
+									 ng-click="merge('description',system)">{{system.description}}
+				</td>
+				<td><input name="areaID" ng-checked="select" type="radio" value="true" ng-click="merge('areaID',system)">{{system.areaID}}
+				</td>
+				<td><input name="homeAddress" ng-checked="select" type="radio" value="true"
+									 ng-click="merge('homeAddress',system)">{{system.homeAddress}}
+				</td>
+				<td><input name="userNo" ng-checked="select" type="radio" value="true" ng-click="merge('userNo',system)">{{system.userNo}}
+				</td>
+				<td><input name="signature" ng-checked="select" type="radio" value="true" ng-click="merge('signature',system)">{{system.signature}}
+				</td>
+				<td><input name="lastLoginTime" ng-checked="select" type="radio" value="true"
+									 ng-click="merge('lastLoginTime',system)">{{system.lastLoginTime}}
+				</td>
+				<td><input name="isInternal" ng-checked="select" type="radio" value="true"
+									 ng-click="merge('isInternal',system)">{{system.isInternal}}
+				</td>
+				<td><input name="salt" ng-checked="select" type="radio" value="true" ng-click="merge('salt',system)">{{system.salt}}
+				</td>
+				<td><input name="enteryTime" ng-checked="select" type="radio" value="true"
+									 ng-click="merge('enteryTime',system)">{{system.enteryTime}}
+				</td>
+				<td><input name="systemId" ng-checked="select" type="radio" value="true" ng-click="merge('systemId',system)">
+				
+				<select
+					ng-options="source.id as source.sysName for source in systemSourceInfoList"
+					ng-model="system.systemId"
+					disabled="disabled">
+				</select>
+				</td>
+			</tr>
+
+			<tr>
+				<td style="font-weight: bold;">结果</td>
+				<td><input type="text" ng-model="mergeuser.account" oninput="if(value.length>20)value=value.slice(0,20)"/></td>
+				<td>
+				<select ng-model="mergeuser.sex"  ng-options="node.value as node.title for node in sex">
+        				<option value="">性别</option>
+				</select>
+				<!-- <input type="text" ng-model="mergeuser.sex" oninput="if(value.length>20)value=value.slice(0,20)"/>
+				-->
+				</td>
+				<td><input type="text" ng-model="mergeuser.weChatID" oninput="if(value.length>20)value=value.slice(0,20)"/></td>
+				<td><input type="text" ng-model="mergeuser.phoneNumber" oninput="if(value.length>20)value=value.slice(0,20)"/>
+				</td>
+				<td><input type="text" ng-model="mergeuser.customerCode" oninput="if(value.length>20)value=value.slice(0,20)"/>
+				</td>
+				<td><input type="text" ng-model="mergeuser.username" oninput="if(value.length>20)value=value.slice(0,20)"/></td>
+				<td>
+				<select ng-model="mergeuser.status"  ng-options="node.value as node.title for node in status">
+        				<option value="">状态</option>
+				</select>
+				</td>
+				<td>
+				<select ng-model="mergeuser.type"  ng-options="node.value as node.title for node in type">
+        				<option value="">类型</option>
+				</select>
+					<!-- <input type="text" ng-model="mergeuser.type" oninput="if(value.length>20)value=value.slice(0,20)"/> -->
+				</td>
+				<td><input type="text" ng-model="mergeuser.cellPhone" oninput="if(value.length>20)value=value.slice(0,20)"/>
+				</td>
+				<td><input type="text" ng-model="mergeuser.email" oninput="if(value.length>20)value=value.slice(0,20)"/></td>
+				<td><input type="text" ng-model="mergeuser.nickName" oninput="if(value.length>20)value=value.slice(0,20)"/></td>
+				<td>
+				
+				
+				<input type="text" onChange="" ng-model="mergeuser.birthDay" readonly="readonly" onFocus="WdatePicker({maxDate:'#F{\'2099-10-01\'}',dateFmt:'yyyy-MM-dd'})"/>
+				
+				</td>
+				<td><input type="text" onChange="" ng-model="mergeuser.registerDate" readonly="readonly" onFocus="WdatePicker({maxDate:'#F{\'2099-10-01\'}',dateFmt:'yyyy-MM-dd'})"/>
+				</td>
+				<td>
+				<select ng-model="mergeuser.emailConfirmed"  ng-options="node.value as node.title for node in bool">
+        			<option value="">邮箱验证</option>
+				</select>
+				</td>
+				<td>
+				<select ng-model="mergeuser.phoneNumberConfirmed"  ng-options="node.value as node.title for node in boolen">
+        			<option value="">电话验证</option>
+				</select>
+				</td>
+				<td><input type="text" ng-model="mergeuser.memberFrom" oninput="if(value.length>20)value=value.slice(0,20)"/>
+				</td>
+				<td><input type="text" ng-model="mergeuser.description" oninput="if(value.length>20)value=value.slice(0,20)"/>
+				</td>
+				<td><input type="text" ng-model="mergeuser.areaID" oninput="if(value.length>20)value=value.slice(0,20)"/></td>
+				<td><input type="text" ng-model="mergeuser.homeAddress" oninput="if(value.length>20)value=value.slice(0,20)"/>
+				</td>
+				<td><input type="text" ng-model="mergeuser.userNo" oninput="if(value.length>20)value=value.slice(0,20)"/></td>
+				<td><input type="text" ng-model="mergeuser.signature" oninput="if(value.length>20)value=value.slice(0,20)"/>
+				</td>
+				<td><input type="text" onChange="" ng-model="mergeuser.lastLoginTime" readonly="readonly" onFocus="WdatePicker({maxDate:'#F{\'2099-10-01\'}',dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+				</td>
+				<td>
+				<select ng-model="mergeuser.isInternal"  ng-options="node.value as node.title for node in bool">
+        			<option value="">内置用户</option>
+				</select>
+				
+				</td>
+				<td><input type="text" ng-model="mergeuser.salt" oninput="if(value.length>20)value=value.slice(0,20)"/></td>
+				<td><input type="text" onChange="" ng-model="mergeuser.enteryTime" readonly="readonly" onFocus="WdatePicker({maxDate:'#F{\'2099-10-01\'}',dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+				</td>
+				<td>
+				<select ng-model="mergeuser.systemId">
+	            	<option value="">来源系统</option>
+	            	<option ng-repeat="x in systemSourceInfoList" value="{{x.id}}">{{x.sysName}}</option>
+				</select>
+				<!--  
+				<input type="text" ng-model="mergeuser.systemId" oninput="if(value.length>20)value=value.slice(0,20)"/></td>
+				-->
+
+			</tr>
+
+			</tbody>
+		</table>
+
+
+	</div>
+
+		<!--   <div  class="flex flex-wrap">
+
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	系统名称
+        </div>
+        <input class="input flex-2 flex-w" type="text" ng-model="addParams.sysName">
+      </div>
+      
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	系统编码
+        </div>
+        <input class="input flex-2 flex-w" type="text" ng-model="addParams.sysCode">
+      </div>
+     -->
+     <div class="flex flex-pack-end flex-align-center"
+		style="width: 99.7%; padding: 0 16px; height: 80px;">
+
+		<button class="manageSure" ng-click="mergeSubmit()">确认</button>
+		<button class="manageCancel" ng-click="cancelMerge()">关闭</button>
+	</div>
+	</div>
+
+

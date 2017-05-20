@@ -1,0 +1,73 @@
+<!--主框架-->
+<mdm-nav class="flex flex-direction-column"></mdm-nav>
+
+<div class="er-page-right flex-1  flex flex-direction-column">
+  <!--顶部信息栏-->
+  <div class="er-page-topbar flex flex-pack-justify" ng-controller="MainCtrl" ng-class="{'dark' : !sideMenushow}">
+    <div class="left flex flex-align-center">
+      <button class="er-btn-topbar" ng-click="toggleSideMenu()" data-toggle="tooltip" data-placement="bottom" data-trigger="hover" title="收起/展开菜单">
+        <i class="glyphicon glyphicon-menu-hamburger" style="" aria-hidden="true"></i>
+      </button>
+    </div>
+    
+    <div class="right flex flex-align-center">
+      <!--用户信息-->
+       
+      <img src="resources/image/userIcon.jpg" alt="" width="30px" height="30px" style="border-radius:30px;">
+      <button class="er-btn-topbar" data-toggle="tooltip" data-placement="bottom" data-trigger="hover" title="您好,{{userName}}">{{userName}}</button>
+      <button class="er-btn-topbar" ng-click="goChangePassword()" data-toggle="tooltip" data-placement="bottom" data-trigger="hover" title="修改密码"><i class="glyphicon glyphicon-cog" aria-hidden="true"></i></button>
+      <button class="er-btn-topbar" ng-click="logout()" data-toggle="tooltip" data-placement="bottom" data-trigger="hover" title="登出"><i class="glyphicon glyphicon-log-out" aria-hidden="true"></i></button>
+	  <!-- <a href="swagger-ui.html"  target="_blank" data-toggle="tooltip" data-placement="bottom" data-trigger="hover" title="进入Swagger..."  class="er-btn-topbar" >Api docs</a> -->
+    </div>
+  </div>
+  
+  <!--ui-view-->
+  <div class="er-page-container flex-1" id="main" id="er-page-container" ui-view></div>
+</div>
+
+<script>
+  //bootstrap js api
+  $(function () {
+    //提示标签
+    $('[data-toggle="tooltip"]').tooltip();
+
+    //快速进入优化
+//    $("#fastenter").on("mouseover", function() {
+//      if ($(this).parent().is(".open")) {
+//        return
+//      }
+//      $(this).dropdown("toggle")
+//    });
+
+    $('#fastenter-box').on('hide.bs.dropdown', function () {
+      if ($("#fastenter").is(":focus")) {
+        $("#fastenter").dropdown("toggle")
+      }
+      return;
+    });
+
+    $('#fastenter').keydown(function(event){
+      if(event.which == 40 || event.which == 13){
+        $(".fastitem").first().children().focus();
+      }
+      if(event.which == 38){
+        $(".fastitem").last().children().focus();
+      }
+      if(event.which == 27){
+        $("#fastenter").blur();
+        $("#fastenter").dropdown("toggle")
+      }
+    });
+
+    $('html').keydown(function(event){
+      if(event.ctrlKey && event.which == 69){
+        $("#fastenter").focus();
+        if ($("#fastenter").parent().is(".open")) {
+          return
+        }
+        $("#fastenter").dropdown("toggle")
+      }
+    });
+
+  })
+</script>

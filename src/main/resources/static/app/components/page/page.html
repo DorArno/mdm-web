@@ -1,0 +1,14 @@
+
+<div>
+	<pagination style="background-color:#F5F5FE" ng-change="pageChanged(currentPage)"
+		 total-items="totalItems"
+		ng-model="currentPage" max-size="maxSize" num-pages="numPages"
+		class="pagination-sm" boundary-links="true" rotate="false"
+		previous-text="前一页" next-text="后一页" first-text="<首页" last-text="尾页>"></pagination>
+
+	<span style="color: #777; ">共{{totalItems}}条</span>
+
+</div>
+
+
+

@@ -1,0 +1,79 @@
+<div class="modalAll" style="height: auto;">
+    <div class="modalTop">
+      <div class="modalTitle">编辑接入系统接口</div>
+    </div>
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  <div class="modal_content_container">
+    <div  class="flex flex-wrap">
+
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	 接口名称
+        </div>
+        <input class="input flex-2 flex-w"  type="text" ng-model="editParams.serviceName">
+      </div>
+      
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	 接口URL
+        </div>
+        <input class="input flex-2 flex-w"  type="text" ng-model="editParams.serviceCode">
+      </div>     
+      <div class="er-temp-goods-input flex" data-toggle="tooltip" data-placement="top" title="状态">
+        <div class="text flex-1 flex-w" >
+         	  接口类型
+        </div>
+        <select class="select flex-2 flex-w"
+                  ng-options="type.value as type.title for type in serviceTypeList"
+              ng-model="editParams.serviceType">
+        </select>
+      </div>
+      <div class="er-temp-goods-input flex" data-toggle="tooltip" data-placement="top" title="状态">
+        <div class="text flex-1 flex-w">
+         	  接口状态
+        </div>
+        <select class="select flex-2 flex-w"
+                  ng-options="type.value as type.title for type in statusList"
+              ng-model="editParams.status">
+        </select>
+      </div>
+      <div class="er-temp-goods-input flex" style="width:94%; height:75px;">
+        <div class="text flex-1 flex-w" style="height:100%;">
+          	功能描述
+        </div>
+        <textarea ng-model="editParams.description" style="width:90%; border:0;"></textarea>
+      </div>
+     <div class="er-temp-goods-input flex" style="width:94%; height:100px;">
+        <div class="text flex-1 flex-w" style="height:100%;">
+          	入参
+        </div>
+        <textarea ng-model="editParams.inputParam" style="width:90%; border:0;"></textarea>
+      </div>
+      <div class="er-temp-goods-input flex" style="width:94%; height:100px;">
+        <div class="text flex-1 flex-w" style="height:100%;">
+          	出参
+        </div>
+        <textarea ng-model="editParams.outputParam" style="width:90%; border:0;"></textarea>
+      </div>
+    
+	</div>
+	  	  	<div class="er-temp-goods-input flex" data-placement="top"style="width:94%; height:40px;"
+				title="选用接入系统"  >
+				<div class="text flex-1 flex-w" style="width:15%; height:100%;">
+					接入系统
+				</div>
+				<div  class="select flex-2 flex-w" style="width:85%;" ng-dropdown-multiselect=""
+					options="sysNameList" selected-model="typeModel"
+					extra-settings="typeSettings" getButtonText="checkeds"></div>
+			</div>  
+ 	 <div class="flex flex-pack-end flex-align-center" style="width: 99.7%; padding:  0 16px; height: 80px;">
+    	<button class="manageSure" ng-click="editConfirm()">确认</button>
+   		 <button class="manageCancel" ng-click="cancelEdit()">关闭</button>
+ 	 </div>
+ </div>
+</div>

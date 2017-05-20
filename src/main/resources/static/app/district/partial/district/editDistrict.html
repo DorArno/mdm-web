@@ -1,0 +1,192 @@
+<link rel="stylesheet" href="resources/ztree-v3/ztree-demo.css" type="text/css">
+<link rel="stylesheet" href="resources/ztree-v3/zTreeStyle/zTreeStyle.css" type="text/css">
+<script type="text/javascript" src="resources/ztree-v3/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="resources/ztree-v3/jquery.ztree.excheck.js"></script>
+<div class="modalAll" style="height: auto;">
+	<div class="modalTop">
+		<div class="modalTitle">编辑行政区划信息</div>
+	</div>
+	<script>
+		function beforeClick(treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("treeDistrict");
+			zTree.checkNode(treeNode, !treeNode.checked, null, true);
+			return true;
+		}
+			
+		function showMenu() {
+			var cityObj = $("#citySel");
+			var left = document.getElementById("citySel").offsetLeft,
+				top = document.getElementById("citySel").offsetTop;
+			$("#menuContent").css({left:left + "px", top:top + cityObj.outerHeight() + "px"}).slideDown("fast");
+			$("body").bind("mousedown", onBodyDown);
+		}
+		
+		function hideMenu() {
+			$("#menuContent").fadeOut("fast");
+			$("body").unbind("mousedown", onBodyDown);
+		}
+		
+		function onBodyDown(event) {
+			if (!(event.target.id == "menuBtn" || event.target.id == "citySel" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
+				hideMenu();
+			}
+		}
+			
+		//	树形下拉框
+		var treeSetting = {
+			view: {
+				dblClickExpand: false
+			},
+			data: {
+				simpleData: {
+					enable: true
+				}
+			},
+			callback: {
+				beforeClick: beforeClick,
+				onClick: selectNode,
+				onExpand: zTreeOnExpand
+			}
+		};
+		
+		function getDistrictTreeData(parentId){
+			var appElement = document.querySelector('[ng-controller=DistrictInfoCrl]');
+			var $scope = angular.element(appElement).scope();
+			$scope.myHttpService("POST", "/web/mdm/district/queryDistrictForTree", {'parentId' : parentId}, function(result) {
+				var data = result.data;
+				if (data != null) {
+					//添加到父节点
+					var zTree = $.fn.zTree.getZTreeObj("treeDistrict");
+					var pNode = zTree.getNodeByParam("id", parentId, null);
+					zTree.addNodes(pNode, data);
+				}
+			}, true);
+		}
+		
+		function zTreeOnExpand(event, treeId, treeNode) {
+		    getDistrictTreeData(treeNode.id);
+		};
+		
+		function selectNode(e, treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("treeDistrict");
+			$("#citySel").val(treeNode.name);
+			//	设置父节点id
+			var appElement = document.querySelector('[ng-controller=DistrictInfoCrl]');
+			var $scope = angular.element(appElement).scope();
+			$scope.editParams.parentId = treeNode.id;
+			$scope.editParams.level = treeNode.level +1;
+			hideMenu();
+		}
+		
+		$(function() {
+			$('[data-toggle="tooltip"]').tooltip();
+			
+			// 加载树
+			var rootNodes =[{id:0, pId:null, name:"所有地区"}];
+			$.fn.zTree.init($("#treeDistrict"), treeSetting, rootNodes);
+			var zTree = $.fn.zTree.getZTreeObj("treeDistrict");
+			getDistrictTreeData(0);
+			zTree.expandAll(false);
+		});
+	</script>
+
+	<div class="modal_content_container">
+		<div id="menuContent" class="menuContent" style="display:none; position: absolute;">
+			<ul id="treeDistrict" class="ztree" style="margin-top:0; width:180px; height: 300px;"></ul>
+		</div>
+		<div class="flex flex-wrap">
+
+			<div class="er-temp-goods-input flex" data-toggle="tooltip"
+				data-placement="top" title="上级地区" disabled="disabled">
+				<div class="text flex-1 flex-w">上级地区</div>
+				<!-- <input class="input flex-2 flex-w" type="text"
+					ng-model="editParams.parentName" disabled="disabled">
+				<input class="input flex-2 flex-w" type="hidden"
+					ng-model="editParams.parentId"> -->
+				<input class="input flex-2 flex-w" type="hidden"
+					ng-model="editParams.parentId">
+					
+				<input class="input flex-2 flex-w"  id="citySel" type="text" readonly value="" style="width:120px;" onclick="showMenu();" />
+			</div>
+
+			<div class="er-temp-goods-input flex" data-toggle="tooltip"
+				data-placement="top" title="编码">
+				<div class="text flex-1 flex-w">
+					<span class="text-danger">*</span>编码
+				</div>
+				<input class="input flex-2 flex-w" type="text"
+					ng-model="editParams.code">
+			</div>
+
+			<div class="er-temp-goods-input flex" data-toggle="tooltip"
+				data-placement="top" title="名称">
+				<div class="text flex-1 flex-w">
+					<span class="text-danger">*</span>名称
+				</div>
+				<input class="input flex-2 flex-w" type="text"
+					ng-model="editParams.name">
+			</div>
+
+			<div class="er-temp-goods-input flex" data-toggle="tooltip"
+				data-placement="top" title="邮政编码">
+				<div class="text flex-1 flex-w">邮政编码</div>
+				<input class="input flex-2 flex-w" type="text"
+					ng-model="editParams.postCode">
+			</div>
+
+			<div class="er-temp-goods-input flex" data-toggle="tooltip"
+				data-placement="top" title="经度">
+				<div class="text flex-1 flex-w">经度</div>
+				<input class="input flex-2 flex-w" type="text"
+					ng-model="editParams.longitude">
+			</div>
+
+			<div class="er-temp-goods-input flex" data-toggle="tooltip"
+				data-placement="top" title="纬度">
+				<div class="text flex-1 flex-w">纬度</div>
+				<input class="input flex-2 flex-w" type="text"
+					ng-model="editParams.latitude">
+			</div>
+
+
+			<div class="er-temp-goods-input flex" data-toggle="tooltip"
+				data-placement="top" title="层级">
+				<div class="text flex-1 flex-w">层级</div>
+				<input class="input flex-2 flex-w" type="text"
+					ng-model="editParams.level" disabled="disabled">
+			</div>
+
+
+			<!-- <div class="er-temp-goods-input flex" data-toggle="tooltip"
+				data-placement="top" title="描述">
+				<div class="text flex-1 flex-w">描述</div>
+				<textarea class="input flex-9 flex-w" type="text"
+					ng-model="editParams.description"></textarea>
+			</div> -->
+			<div class="er-temp-goods-textarea flex" data-placement="top"
+				title="签名">
+				<div class="areatext flex-1 flex-w">描述</div>
+				<textarea class="textarea flex-9 flex-w" type="text"
+					ng-model="editParams.description"></textarea>
+			</div>
+
+			<!--    <div class="er-temp-goods-input flex" data-toggle="tooltip" data-placement="top" title="平台">
+        <div class="text flex-1 flex-w">
+         	 状态
+        </div>
+        <select class="select flex-2 flex-w"
+                  ng-options="type.value as type.title for type in isDeletedList"
+              ng-model="editParams.isDeleted">
+        </select>
+      </div> -->
+		</div>
+
+	</div>
+
+	<div class="flex flex-pack-end flex-align-center"
+		style="width: 99.7%; padding: 0 16px; height: 80px;">
+		<button class="manageSure" ng-click="editConfirm()">确认</button>
+		<button class="manageCancel" ng-click="cancelEdit()">关闭</button>
+	</div>
+
+</div>

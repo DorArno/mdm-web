@@ -1,0 +1,97 @@
+<div ng-controller="RefundCrl" ng-init="init()" style="position:relative;left:16px; margin-top: 8px;">
+    <form class="form-inline">
+	    <div class="form-group" op-ctrl>
+	      		<input type="text" style="width:110px" id="sysName" class="form-control" ng-model="queryParams.ordernumber"
+	                   placeholder="订单号">
+	            <input type="text" style="width:110px" id="code" class="form-control" ng-model="queryParams.refundordernum"
+	                   placeholder="退换货单号">
+				<select class="form-control" ng-model="queryParams.ordertype">
+	            	<option value="">订单类型</option>
+	            	<option ng-repeat="order in orderType" value="{{order.value}}">{{order.title}}</option>
+				</select>
+				<select class="form-control" ng-model="queryParams.refundtype">
+					<option value="">退换货类型</option>
+					<option ng-repeat="x in refundType" value="{{x.value}}">{{x.title}}</option>
+				</select>
+				 <input id="da1" class="form-control" style="width:160px;" type="text" ng-model="queryParams.startDate" onChange=""
+	        	onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'da2\')||\'2099-10-01\'}',dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+	        	placeholder="退换货开始时间"/>
+	        - <input id="da2" class="form-control" style="width:160px;" type="text" ng-model="queryParams.endDate" onChange=""
+	        	 onFocus="WdatePicker({minDate:'#F{$dp.$D(\'da1\')}',maxDate:'2099-10-01',dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+	        	placeholder="退换货结束时间"/>
+				<br>
+	            <button keycode="queryRefund" class="buttonCommon complaintDetail" ng-click="queryRefundInfoList()">
+								<div class="btn_com_icon magnifier_btn_com"></div>查询</button>
+			<!--
+	            <button keycode="addRefund" class="buttonCommon complaintDetail" ng-click="addSystemInfo()">
+								<div class="btn_com_icon plus_btn_com"></div>新增</button>
+	            <button keycode="batchDeleteRefund" class="buttonCommon complaintDetail" ng-show="levelZeroCount==0" ng-click="batchDeleteRefund()">
+								<div class="btn_com_icon delete_btn_com"></div>删除</button>
+				<bach-send-mq ng-model="selection" datatype="2" keycode="viewRefundDownload"></bach-send-mq>
+				-->
+	    </div>
+    </form>
+  <!-- 数据部分 -->
+	<div class="table_container">
+	<table class="crmAllTable" style="">
+        <thead style="">
+        	<th>
+        		<label ng-show="refundList.length > 0"> <input type="checkbox"
+										   class="css-checkbox" name="statusFlag"
+										   ng-checked="selection.length == roleList.length"
+										   ng-click="toggleSelectionAll()">
+							<span class="css-checkbox-label"></span>
+						</label>
+        	</th>
+        	<th>退换货编号</th>
+        	<th>客户姓名</th>
+        	<th>订单编号</th>
+			<th>订单类型</th>
+        	<th>手机号</th>
+        	<th>数量</th>
+	        <th>退款来源</th>
+	        <th>退款订单总价</th>
+			<th>类型</th>
+			<th>退换货状态</th>
+			<th>退换货时间</th>
+
+        </thead>
+        <tbody>
+	        <tr ng-repeat="refund in refundList" repeat-finish>
+	          <td>
+							<!-- <label>
+								<input type="checkbox" class="css-checkbox" name="statusFlag" ng-model="statusFlag" value="{{$index}}" />
+								<span class="css-checkbox-label"></span>
+							</label> -->
+							
+							<label> <input type="checkbox"
+									class="css-checkbox" name="statusFlag"
+											   ng-checked="selection.indexOf(role.id) > -1"
+											   ng-click="toggleSelection(role)" />
+								<span class="css-checkbox-label"></span>
+							</label>
+							
+							<!--<input type="checkbox" name="statusFlag" ng-model="statusFlag" value="{{$index}}" />-->
+						</td>
+	         <!-- <td>{{queryParams.start + $index+1}}</td>-->
+	            <td>{{refund.refundordernum}}</td>
+	            <td>{{refund.customername}}</td>
+	            <td>{{refund.ordernumber}}</td>
+				<td>{{orderTypeView[refund.ordertype]}}</td>
+	            <td>{{refund.customertel}}</td>
+	            <td>{{refund.refundnum}}</td>
+				<td>{{refund.refundnum}}</td>
+				<td>{{refund.refundfee}}</td>
+				<td>{{refund.refundtype}}</td>
+				<td>{{refund.statuscode}}</td>
+				<td>{{refund.modifiedon| date:'yyyy-MM-dd HH:mm:ss'}}</td>
+	        </tr>
+	        <tr ng-if="refundList == null || refundList.length == 0">
+	        	<td colspan="10">没有可以显示的数据</td>
+	        </tr>
+        </tbody>
+      </table>
+	</div>
+  <!-- 分页及汇总 -->
+  <div class="pagination_con flex" ng-include="'app/components/page/page.html'"></div>
+</div>

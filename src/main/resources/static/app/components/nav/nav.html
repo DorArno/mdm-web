@@ -1,0 +1,21 @@
+<div class="er-page-left flex flex-1 flex-direction-column" ng-class="{'hide' : !sideMenushow}">
+  <div class="er-logo-top"><span class="glyphicon glyphicon-leaf" aria-hidden="true"></span>&nbsp;CCPG-PAAS-MDM</div>
+  <div class="er-page-nav flex-1">
+    <div id="menu-{{menu.id}}" class="box-nav flex flex-direction-column" ng-class="{'active' : menuActiveFlag[menu.id]}" ng-repeat="menu in topMenuList">
+      <div class="nav flex" ng-click="switchMenu(menu.id)">
+        <img class="title_icon" src="resources/image/left_menu_0{{$index%6 + 1}}.png" alt="{{menu.name}}">
+        <a href="" class="title flex-1 flex-w">{{menu.name}}</a>
+        <div class="icon">
+
+        </div>
+      </div>
+      <div class="subnav flex" ng-repeat="subMenu in subMenuRef[menu.id]" ng-class="{'active': subMenuActiveFlag[subMenu.id]}">
+      <a href="/web/#{{subMenu.url}}" class="title flex-1 flex-w" ng-click="changeMenu(subMenu.id,menu.id)" title="{{subMenu.name}}">{{subMenu.name}}</a>
+        
+        <!--Todo 添加收藏menu功能 by eWei-->
+        <!--<div class="icon"><i class="icon-star-empty glyphicon glyphicon-star-empty" aria-hidden="true"></i></div>-->
+      </div>
+    </div>
+  </div>
+  
+</div>

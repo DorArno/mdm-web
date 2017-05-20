@@ -1,0 +1,72 @@
+<div class="modalAll" style="height: auto;">
+	<div class="modalTop">
+		<div class="modalTitle">导出数据</div>
+	</div>
+	<script>
+		$(function() {
+			$('[data-toggle="tooltip"]').tooltip()
+		})
+	</script>
+
+	<div class="modal_content_container">
+		<div class="flex flex-wrap">
+			<p id="exportMsg" style="margin:5px; width:200px">数据导出中…</p>
+			<input id="hfExportUrl" type="hidden" value="{{exportParams.exportUrl}}" />
+		</div>
+
+		<div class="flex flex-pack-end flex-align-center" style="width: 99.7%; padding: 0 16px; height: 80px;">
+			<button id="btnClose" class="manageCancel" ng-click="closeExport()">关闭</button>
+		</div>
+
+	</div>
+	<script>
+		var clock;
+		var iframeExport = document.getElementById("iframeExport");
+
+		function checkReadyState() {
+		    console.info("checkReadyState");
+		    console.info(iframeExport);
+
+			if(iframeExport != null) {
+			    console.info(iframeExport.contentWindow.document);
+                console.info(iframeExport.contentWindow.document.readyState);
+			    if(iframeExport.contentWindow.document.readyState != "complete") {
+                    setTimeout(checkReadyState, 1000);
+                } else {
+                    console.info(iframeExport.contentWindow.document.body.innerHTML);
+			        if(iframeExport.contentWindow.document.body.innerText.indexOf("当前查询条件无数据") > 0) {
+                        $("#exportMsg").text("当前查询条件无数据");
+                        return;
+					}
+			        console.info("开始下载");
+                    $("#exportMsg").text("开始下载");
+                    setTimeout(function () {
+                        $("#btnClose").click();
+					}, 5000);
+				}
+            }
+        }
+
+        function setUrl() {
+            if($("#hfExportUrl").val() != "{{exportParams.exportUrl}}") {
+                iframeExport.src = $("#hfExportUrl").val();
+                clock = setTimeout(checkReadyState, 1000);
+			} else {
+                setTimeout(setUrl, 500);
+			}
+        }
+		
+		$(function () {
+		    console.info("导出开始");
+            if(iframeExport == null) {
+                iframeExport = document.createElement("iframe");
+                iframeExport.id = "iframeExport";
+                iframeExport.style.display = "none";
+                document.body.appendChild(iframeExport);
+            }
+            if(iframeExport != null) {
+				clock = setTimeout(setUrl, 500);
+			}
+        });
+	</script>
+</div>

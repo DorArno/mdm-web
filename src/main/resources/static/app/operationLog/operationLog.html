@@ -1,0 +1,55 @@
+<div ng-controller="OperationLogCrl" ng-init="init()" style="position:relative;left:16px; margin-top: 8px;">
+    <form class="form-inline">
+	    <div class="form-group">
+	      	<input type="text" id="content" class="form-control" ng-model="queryParams.content"
+	                   placeholder="数据内容">
+	        <input type="text" id="content" class="form-control" ng-model="queryParams.createdBy"
+	                   placeholder="用户">
+	        <input id="da1" class="form-control" style="width:160px;" type="text" ng-model="queryParams.beginDate" onChange=""
+	        	onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'da2\')||\'2099-10-01\'}',dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+	        	placeholder="开始时间"/>
+	        - <input id="da2" class="form-control" style="width:160px;" type="text" ng-model="queryParams.endDate" onChange=""
+	        	onFocus="WdatePicker({minDate:'#F{$dp.$D(\'da1\')}',maxDate:'2099-10-01',dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+	        	placeholder="结束时间"/>
+	        <select class="form-control" style="width:160px;" ng-model="queryParams.dataType" ng-options="x.id as x.name for x in queryParamsOptions.dataTypeInfoList"></select>
+<!-- 			<span style="position:relative;left:-180px;"> -->
+				<br>
+	            <button keycode="queryOperationLogs" class="buttonCommon complaintDetail" ng-click="queryOperationLogList()"><div class="glyphicon glyphicon-search"></div>查询</button>
+<!-- 			</span> -->
+	    </div>
+    </form>
+  <!-- 数据部分 -->
+	<div class="table_container">
+	<table class="crmAllTable" style="">
+        <thead style="">
+        	<th>序号</th>
+        	<th>数据类型</th>
+        	<th>数据内容</th>
+        	<th>用户</th>
+        	<th>操作IP</th>
+        	<th>日期</th>
+	        <th>操作</th>
+        </thead>
+        <tbody>
+	        <tr ng-repeat="operationLog in operationLogList">
+	          <td>{{queryParams.start + $index+1}}</td>
+	          <td>{{operationLog.dataTypeText}}</td>
+	          <td title='{{operationLog.content}}'>{{operationLog.content | cut:true:40:' ...'}}</td>
+	          <td>{{operationLog.createdBy}}</td>
+	          <td>
+	          	{{operationLog.operatorIp}}
+	          </td>
+	          <td>{{operationLog.createdOn | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+	          <td>
+	          	<span><button title="查看数据" class="goodButtonCommonEdit flex" ng-click="goView($index)">
+																	<div class="button_icon checkout_btn"></div>
+
+							</button></span>
+	          </td>
+	        </tr>
+        </tbody>
+      </table>
+	</div>
+  <!-- 分页及汇总 -->
+  <div class="pagination_con flex" ng-include="'app/components/page/page.html'"></div>
+</div>

@@ -1,0 +1,84 @@
+<div ng-controller="BusinessLogCrl" ng-init="init()" style="position:relative;left:16px; margin-top: 8px;">
+    <form class="form-inline">
+	    <div class="form-group">
+	      	<input type="text" id="content" class="form-control" ng-model="queryParams.content"
+	                   placeholder="数据内容">
+	        <input id="da1" class="form-control" style="width:160px;" type="text" ng-model="queryParams.beginDate" onChange=""
+	        	onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'da2\')||\'2099-10-01\'}',dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+	        	placeholder="开始时间"/>
+	        - <input id="da2" class="form-control" style="width:160px;" type="text" ng-model="queryParams.endDate" onChange=""
+	        	onFocus="WdatePicker({minDate:'#F{$dp.$D(\'da1\')}',maxDate:'2099-10-01',dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+	        	placeholder="结束时间"/>
+	        <select class="form-control" style="width:160px;" ng-model="queryParams.destSystemId" ng-options="x.id as x.sysName for x in queryParamsOptions.destSystemInfoList"></select>
+	        <select class="form-control" style="width:160px;" ng-model="queryParams.logType" ng-options="x.id as x.name for x in queryParamsOptions.logTypeInfoList"></select>
+	        <select class="form-control" style="width:160px;" ng-model="queryParams.dataType" ng-options="x.id as x.name for x in queryParamsOptions.dataTypeInfoList"></select>
+	        <select class="form-control" style="width:160px;" ng-model="queryParams.status" ng-options="x.id as x.name for x in queryParamsOptions.statusInfoList"></select>
+<!-- 			<span style="position:relative;left:-180px;"> -->
+				<br>
+	            <button keycode="queryBusinessLogs" class="buttonCommon complaintDetail" ng-click="queryBusinessLogList()"><div class="glyphicon glyphicon-search"></div>查询</button>
+<!-- 			</span> -->
+	    </div>
+    </form>
+  <!-- 数据部分 -->
+	<div class="table_container">
+	<table class="crmAllTable" style="">
+        <thead style="">
+        	<th>序号</th>
+	        <th>来源系统</th>
+        	<th>目标系统</th>
+        	<th>日志类型</th>
+        	<th>数据类型</th>
+        	<th>数据内容</th>
+        	<th>子系统数据版本</th>
+	        <th>错误信息</th>
+	        <th>下发模式</th>
+	        <th>状态</th>
+	        <th>日期</th>
+	        <th>操作</th>
+        </thead>
+        <tbody>
+	        <tr ng-repeat="businessLog in businessLogList">
+	          <td>{{queryParams.start + $index+1}}</td>
+	          <td>{{businessLog.sourceSystem.sysName}}</td>
+	          <td>{{businessLog.destSystem.sysName}}</td>
+	          <td>{{businessLog.logTypeText}}
+	          	  <!--  <span ng-switch on="businessLog.logType">
+	                <span ng-switch-when="1">新增</span>
+	                <span ng-switch-when="2">修改</span>
+	                <span ng-switch-when="9">删除</span>
+	              </span> -->
+	          </td>
+	          <td>{{businessLog.dataTypeText}}
+	          	<!--  <span ng-switch on="businessLog.dataType">
+	                <span ng-switch-when="1">用户数据</span>
+	                <span ng-switch-when="2">角色数据</span>
+	                <span ng-switch-when="3">行政区划数据</span>
+	                <span ng-switch-when="4">组织机构数据</span>
+	                <span ng-switch-when="5">商家数据</span>
+	              </span> -->
+	          </td>
+	          <td title='{{businessLog.content}}'>{{businessLog.content | cut:true:20:' ...'}}</td>
+	          <td>{{businessLog.clientDataVersion}}</td>
+	          <td title='{{businessLog.errorMsg}}'>{{businessLog.errorMsg | cut:true:20:' ...'}}</td>
+	          <td>队列下发</td>
+	          <td>{{businessLog.statusText}}
+	          	<!--  <span ng-switch on="businessLog.status">
+	                <span ng-switch-when="1">启用</span>
+	                <span ng-switch-when="0">停用</span>
+	              </span> -->
+	          </td>
+	          <td>{{businessLog.createdOn | date:'yyyy-MM-dd HH:mm:ss'}} </td>
+	          <td>
+	          	<span>
+					<button title="查看数据" class="goodButtonCommonEdit flex" ng-click="goView($index)">
+						<div class="button_icon checkout_btn"></div>
+					</button>
+				</span>
+	          </td>
+	        </tr>
+        </tbody>
+      </table>
+	</div>
+  <!-- 分页及汇总 -->
+  <div class="pagination_con flex" ng-include="'app/components/page/page.html'"></div>
+</div>

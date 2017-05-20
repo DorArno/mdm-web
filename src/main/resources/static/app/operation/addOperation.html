@@ -1,0 +1,63 @@
+<div class="modalAll" style="height: auto;">
+    <div class="modalTop">
+      <div class="modalTitle">新增操作</div>
+    </div>
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  <div class="modal_content_container">
+    <div  class="flex flex-wrap">
+
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+        	<span class="text-danger">*</span>
+          	名称
+        </div>
+        <input class="input flex-2 flex-w" type="text" ng-model="addParams.actionName">
+      </div>
+      
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	<span class="text-danger">*</span>
+          	菜单
+        </div>
+        <input class="input flex-2 flex-w" type="text" readonly="readonly" ng-model="addParams.module.moduleName">
+        <input class="input" type="button" ng-click="chooseModule()" value="选择">
+      </div>
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+        	<span class="text-danger">*</span>
+          	KeyCode
+        </div>
+        <input class="input flex-2 flex-w" type="text" ng-model="addParams.keyCode">
+      </div>
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+        	<span class="text-danger">*</span>
+          	路径
+        </div>
+        <input class="input flex-2 flex-w" type="text" ng-model="addParams.path">
+      </div>
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+        	<span class="text-danger">*</span>
+          	方法
+        </div>
+        <select class="select flex-2 flex-w" ng-model="addParams.httpMethod">
+        	<option value="">请选择</option>
+			<option ng-repeat="x in methods" value="{{x}}">{{x}}</option>
+		</select>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="flex flex-pack-end flex-align-center" style="width: 99.7%; padding:  0 16px; height: 80px;">
+    <button class="manageSure" ng-click="addConfirm()">确认</button>
+    <button class="manageCancel" ng-click="cancelAdd()">关闭</button>
+  </div>
+
+</div>

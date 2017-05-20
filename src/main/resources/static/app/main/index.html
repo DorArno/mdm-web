@@ -1,0 +1,111 @@
+<div ng-controller="MainCtrl" class="er-index-box flex">
+  <!--左侧更新说明区域-->
+  <!--.primary的文字是蓝色 .danger的文字是红色-->
+  <div class="er-index-update flex-2 flex-w">
+   		<h4 > &nbsp;
+          <span class="glyphicon glyphicon-home"></span>
+        <font color="#37474f">Hello,{{userName}}.欢迎登陆主数据平台系统</font></h4>
+    </p>
+
+     <div class="ibox float-e-margins">
+         <div class="ibox-title">
+            <h6>
+         	 <span class="glyphicon glyphicon-tags"></span>
+        	<font color="#37474f">&nbsp;系统说明:</font></h6>
+         </div>
+         <div class="ibox-content" style="font-size:10px">
+             <ol>
+           		<li>若出现页面或导航不显示，请刷新页面或清除浏览器缓存。</li>
+	 			<li>左侧导航栏点击可展开，再次点击可收起。</li>
+             </ol>
+
+         </div>
+     </div>
+   
+              
+     <div class="ibox float-e-margins">
+        <div class="ibox-title">
+             <h6><span class="glyphicon glyphicon-list"></span>&nbsp;<font color="#37474f">系统更新日志:</font></h6>
+        </div>
+		 <div class="ibox-content"  style="font-size:10px">
+		      <!-- Nav tabs -->
+		      <ul class="nav nav-tabs" role="tablist" id="update-list">
+		        <li role="presentation" class="active"><a href="#this" aria-controls="home" role="tab" data-toggle="tab">本次更新</a></li>
+		        <li role="presentation"><a href="#old" aria-controls="profile" role="tab" data-toggle="tab">历史更新</a></li>
+		      </ul>
+		
+		      <!-- Tab panes -->
+		      <div class="tab-content">
+			       
+			         <div role="tabpanel" class="tab-pane active" id="this">
+	       				<div class="panel panel-default">
+	                        <div class="panel-heading">
+	                            v1.0.1<code class="pull-right">2016.9.16</code>
+	                        </div>
+	                            <div class="panel-body">
+	                                <ol>
+	                                    <li>xxxxxxxxx</li>
+	                                   
+	                                </ol>
+	                            </div>
+	                    </div>
+			        </div>
+			        <div role="tabpanel" class="tab-pane" id="old">
+			          <!--过往更新内容写在这里-->
+			          <div class="panel panel-default">
+	                        <div class="panel-heading">
+	                             v1.0.0<code class="pull-right">2016.9.12</code>
+	                        </div>
+                             <div class="panel-body">
+                              <div class="alert alert-warning">系统主页内容设置</div>
+                              <ol>
+                                  <li>xxxxxxxxx</li>
+                                 
+                              </ol>
+                          </div>
+	                    </div>
+	                    
+	                    <div class="panel panel-default">
+	                        <div class="panel-heading">
+	                             v0.0.1:前端框架搭建<code class="pull-right">2016.9.12</code>
+	                        </div>
+	                    </div>
+	                   
+			          <!--过往更新内容结束-->
+			        </div>
+			        
+		 	</div>
+		 </div>
+    </div>
+
+	    <script>
+	      $('#update-list a').click(function (e) {
+	        e.preventDefault()
+	        $(this).tab('show')
+	      })
+	    </script>
+  </div>
+  <!--右侧活动区域-->
+  <div class="er-index-active flex-1 flex-w">
+   	<div class="er-index-update flex-2 flex-w"></div>   </p>
+    <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h6><span class="glyphicon glyphicon-bell"></span>&nbsp;通知</h6>
+                       
+                    </div>
+                    <div class="ibox-content"  style="font-size:10px">
+                   		
+                       
+                        <div class="alert alert-info alert-dismissable">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            	小伙伴们继续努力哦~ 
+                        </div>
+                         <div class="alert alert-success alert-dismissable">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            mdm是一个很棒的平台系统~ 
+                        </div>
+                     </div>
+                </div>
+    <a><img src="resources/image/index-ad.jpg" alt=""></a>
+  </div>
+</div>

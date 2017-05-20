@@ -1,0 +1,373 @@
+/* Component LESS */
+/* Add Component LESS Above */
+/* Required for Angular UI Bootstrap */
+.nav,
+.pagination,
+.carousel,
+.panel-title a {
+  cursor: pointer;
+}
+/* Personal preference for BS modal.  The LESS below makes the backdrop white and
+   causes the modal to fade in rather than slide in. */
+* {
+  margin: 0;
+  padding: 0;
+}
+#left-nav {
+  background-color: #263548;
+  position: fixed;
+  left: 0;
+  top: 30px;
+  padding-top: 50px;
+  width: 180px;
+  height: 100%;
+  z-index: 2;
+}
+.left-nav-li {
+  color: #ffffff;
+  background-color: #263548;
+  width: 178px;
+  height: 35px;
+}
+.left-nav-url {
+  background-color: #263548;
+  width: 180px;
+}
+#header {
+  position: fixed;
+  min-width: 1200px;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 53px;
+  line-height: 50px;
+  background-color: #383838;
+}
+.logo {
+  float: left;
+  width: 180px;
+  height: 49px;
+}
+.top-nav {
+  float: left;
+  overflow: hidden;
+}
+.top-nav li {
+  float: left;
+  width: 82px;
+}
+.top-nav a {
+  display: block;
+  height: 50px;
+  line-height: 50px;
+  font-size: 14px;
+  color: #FFF;
+  text-align: center;
+  font-weight: bold;
+}
+.top-nav a:hover {
+  color: white;
+  text-decoration: none;
+  background-color: #656565;
+  list-style: none;
+}
+.activeStyle {
+  color: white;
+  text-decoration: none;
+  background-color: #02c2c4;
+  list-style: none;
+}
+/*.activeStyle1{
+  color: white;
+  text-decoration: none;
+  background-color:rgb(49,49,49);
+  list-style: none;
+}*/
+/*.top-nav a:active {
+  color: white;
+  text-decoration: none;
+  background-color:#02c2c4;
+  list-style: none;
+}*/
+.top-nav .active {
+  background-color: #656565;
+}
+.top-nav .active a {
+  background-color: #86db00;
+}
+.must_red {
+  color: red;
+}
+div.info-boottom {
+  padding: 0 15px;
+  background-color: #f6f6f6;
+}
+.info-boottom .intro {
+  height: 39px;
+  line-height: 39px;
+  text-align: center;
+  border-top: 1px solid #ccc;
+  border-top-color: #ccc;
+}
+.input-group {
+  float: right;
+  width: 240px;
+}
+.menuTools {
+  top: 50px;
+  left: 151px;
+  height: 100px;
+  background-color: #e0e1e3;
+  box-shadow: 2px 2px 2px #eeeeee;
+}
+.goods_topmenu {
+  width: 100%;
+  height: 1px;
+  margin: 1px auto;
+  padding: 0px;
+  position: relative;
+  top: 5px;
+  background-color: #D5D5D5;
+  overflow: hidden;
+}
+.table_goods {
+  position: relative;
+  top: 100px;
+}
+.pageMic {
+  position: relative;
+  top: 64px;
+}
+.table_purchase {
+  position: relative;
+  top: 68px;
+}
+.pagePurchase {
+  position: relative;
+  top: 64px;
+}
+.tel {
+  display: inline;
+  float: left;
+  margin: 0px auto auto 5px;
+}
+.tell {
+  background-color: #f6ecea;
+  box-shadow: 2px 2px 2px #eeeeee;
+  margin: 0px auto auto 0px;
+  position: absolute;
+  top: 50px;
+}
+.btnSearch {
+  margin-left: 20px;
+}
+.memberTop {
+  margin-top: 90px;
+}
+.complaintTb {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  table-layout: fixed;
+  width: 100%;
+}
+.integralLine {
+  width: 100%;
+  height: 1px;
+  margin: 1px auto;
+  padding: 0px;
+  position: relative;
+  top: 5px;
+  background-color: #D5D5D5;
+  overflow: hidden;
+  top: 0px;
+}
+.btn-integral {
+  margin-left: 10px;
+  right: 20px;
+}
+.storeMenu {
+  margin-top: -20px;
+  margin-left: -15px;
+  width: 102%;
+}
+.userMenu {
+  height: 105px;
+  background-color: #f6ecea;
+}
+.container {
+  padding-right: 0px;
+  padding-top: 1px;
+}
+.refundOption {
+  float: left ;
+  padding-right: 0px;
+  padding-top: 1px;
+}
+#left-nav .nav > li > a:hover,
+#left-nav.nav > li > a:focus {
+  border-radius: none;
+  text-decoration: none;
+  border-left: 3px solid #00babd;
+  background-color: #1a2634;
+  height: 42px;
+  text-align: left;
+}
+.nav-pills > li > a {
+  border-radius: 0px;
+}
+/*#left-nav>li>a:hover{
+        background-color:#18212b;
+        border-radius: 0px;
+        border-left: 4px solid #02c2c4
+    }*/
+.nav-pills > li > a {
+  color: #ffffff;
+  text-align: center;
+  text-align: left;
+}
+.nav-pills > li.active > a {
+  color: #ffffff;
+  background-color: #17222d;
+  border-radius: 0px;
+  border-left: 3px solid #48c9a0;
+  height: 42px;
+  text-align: left;
+}
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:hover,
+.nav-pills > li.active > a:focus {
+  color: #fff;
+  background-color: #17222d;
+}
+.nav {
+  margin-bottom: 0;
+  list-style: none;
+}
+.rcenter {
+  position: relative;
+  width: 140px;
+  height: 40px;
+  right: 0%;
+}
+.lcenter {
+  float: left;
+  width: 140px;
+  height: 40px;
+  position: relative;
+  left: 23%;
+}
+.btn-ok {
+  position: relative;
+  width: 140px;
+  height: 40px;
+  right: 0%;
+}
+.btn-cancer {
+  float: left;
+  width: 140px;
+  height: 40px;
+  position: relative;
+  left: 31%;
+}
+.checkGroup {
+  padding-top: 0px;
+}
+.userKey {
+  width: 100px;
+  background-color: #ccc;
+}
+.userValue {
+  width: 150px;
+  background-color: #d3d3d3;
+}
+.pig1 {
+  width: 100px;
+  height: 40px;
+  background: url("../image/nav-icon1.png");
+  background-position: -28px 0px;
+}
+.pig2 {
+  width: 100px;
+  height: 40px;
+  background: url("../image/nav-icon1.png");
+  background-position: -141px 0px;
+}
+.pig3 {
+  width: 100px;
+  height: 40px;
+  background: url("../image/nav-icon1.png");
+  background-position: -406px 0px;
+}
+.pig4 {
+  width: 100px;
+  height: 40px;
+  background: url("../image/nav-icon1.png");
+  background-position: -267px 0px;
+}
+.pig5 {
+  width: 100px;
+  height: 40px;
+  background: url("../image/nav-icon1.png");
+  background-position: 251px 0px;
+}
+.pig6 {
+  width: 100px;
+  height: 40px;
+  background: url("../image/nav-icon1.png");
+  background-position: 389px 0px;
+}
+.pig7 {
+  width: 100px;
+  height: 40px;
+  background: url("../image/nav-icon1.png");
+  background-position: 133px 0px;
+}
+.tel-group {
+  margin-bottom: -30px;
+}
+.order-no {
+  position: relative;
+  float: left;
+  width: 100px;
+  margin-top: -1px;
+}
+.orderPath {
+  left: -3px;
+}
+.telPath {
+  left: 10px;
+}
+.accessPath {
+  left: 23px;
+}
+.contailer-m {
+  padding-right: 0px;
+  padding-top: 15px;
+}
+.refundChange {
+  float: left;
+  padding-right: 0px;
+  padding-top: 13px;
+}
+.btn-sign {
+  background-color: #31bfa5;
+  border: 1px solid #31bfa5;
+  border-radius: 2px;
+  margin-top: 10px;
+}
+.btn-sign:hover {
+  background-color: #31bfa5;
+  border: 1px solid #31bfa5;
+  border-radius: 2px;
+}
+.form-inline .form-control {
+  display: inline-block;
+  width: auto;
+  vertical-align: middle;
+  width: 120px;
+}
+.myGrid {
+  width: 500px;
+}

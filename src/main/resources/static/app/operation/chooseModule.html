@@ -1,0 +1,12 @@
+<link rel="stylesheet" href="app/components/tree/zTreeStyle.css" type="text/css">
+<script type="text/javascript" src="app/components/tree/jquery.ztree-2.6.min.js"></script>
+<div class="modalAll" style="height: auto;">
+	<div class="modalTop">
+      <div class="modalTitle">选择菜单</div>
+    </div>
+	<tree builder="chooseParentTreeBuilder" />
+	 <div class="flex flex-pack-end flex-align-center" style="width: 99.7%; padding:  0 16px; height: 80px; border-top: 1px solid #efefef;">
+	    <button class="manageSure" ng-click="addChooseConfirm()">确认</button>
+	    <button class="manageCancel" ng-click="cancelChooseAdd()">关闭</button>
+	  </div>
+ </div>

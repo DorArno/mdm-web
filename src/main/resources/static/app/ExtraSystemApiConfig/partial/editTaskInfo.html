@@ -1,0 +1,91 @@
+<style>
+#table {
+	float: left;
+	width: 800px;
+	border-left: #999999 0px solid;
+	border-top: #999999 0px solid;
+}
+
+#table li {
+	float: left;
+	width: 399px;
+	margin-top: 10px;
+	list-style: none outside;
+	border-bottom: #999999 0px solid;
+	border-right: #999999 0px solid;
+	text-align: center;
+}
+
+#table div {
+	float: left;
+}
+
+.left {
+	width: 100px;
+	border-right: #999999 0px solid;
+}
+
+.right {
+	width: 298px;
+}
+</style>
+
+
+<div class="modalAll" style="height: auto;">
+	<div class="modalTop">
+		<div class="modalTitle">编辑外部系统调用API</div>
+	</div>
+	<script>
+		$(function() {
+			$('[data-toggle="tooltip"]').tooltip()
+		})
+	</script>
+
+	<div
+		class="modal_content_container">
+		<div id="table">
+
+			<li>
+				<div class="left">*系统名称</div>
+				<div class="right">
+				<select ng-options="Object.id as Object.sysName for Object in businessLogList" ng-model="cronJobInfo.systemId">
+	              		<option value="">---------系统名称---------</option>
+	        	</select>
+				</div>
+			</li>
+			<li>
+				<div class="left">*系统类型</div>
+				<div class="right">
+					<input type="text" width="30" ng-model="cronJobInfo.taskType" oninput="if(value.length>20)value=value.slice(0,20)">
+				</div>
+			</li>
+
+			<li>
+				<div class="left">*请求方法</div>
+				<div class="right">
+			    <select ng-options="Object.value as Object.title for Object in methodList" ng-model="cronJobInfo.method">
+	              	<option value="">---------方法类型---------</option>
+	        	</select>
+				</div>
+			</li>
+			<li style="width: 798px;">
+				<div class="left">*请求URL</div>
+				<div class="right" style="width: 696px">
+					<input type="text" style="width: 572px" ng-model="cronJobInfo.url">
+				</div>
+			</li>
+		
+
+		</div>
+	</div>
+
+</div>
+
+<div class="flex flex-pack-end flex-align-center"
+	style="width: 99.7%; padding: 0 16px; height: 80px;">
+	
+	<button class="manageSure" ng-click="submitEditHandler()">确认</button>
+	<button class="manageCancel" ng-click="cancelEdit()">关闭</button>
+</div>
+
+</div>

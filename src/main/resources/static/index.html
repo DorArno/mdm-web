@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html ng-app="mdm" xmlns="http://www.w3.org/1999/html">
+<head>
+
+<!-- 禁用缓存 -->
+<meta http-equiv="pragma" content="no-cache">
+<META HTTP-EQUIV="expires" CONTENT="-1">
+<META HTTP-EQUIV="Cache-Control" CONTENT="-1">
+<!--  禁用缓存 end  -->
+<meta name="viewport"
+	content="width=device-width, initial-scale=0.2, maximum-scale=10.0, user-scalable=1">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+<link rel="icon" type="image/png" href="resources/image/arvato-logo.png">
+<title>MDM主数据平台管理系统</title>
+<meta charset="utf-8">
+<link href="resources/css/animate.min.css" rel="stylesheet">
+<link href="resources/css/font-awesome.min.css" rel="stylesheet">
+<link href="resources/css/style.min.css" rel="stylesheet">
+<link href="resources/css/angucomplete-alt.css" rel="stylesheet">
+<!--  -->
+
+<link href="resources/css/common.css" rel="stylesheet">
+<link rel="stylesheet" href="webjars/adapt-strap/adapt-strap.min.css" />
+<link rel="stylesheet"
+	href="resources/css/loading-bar.min.css">
+<link rel="styleSheet" href="webjars/angular-ui-select/select.min.css" />
+<link rel="stylesheet"
+	href="webjars/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="webjars/angular-bootstrap-datetimepicker/datetimepicker.css" />
+<link rel="stylesheet" href="webjars/messenger/messenger.css">
+<link rel="stylesheet" href="webjars/messenger/messenger-theme-flat.css">
+<link rel="stylesheet" href="webjars/angular-ui-grid/ui-grid.min.css">
+<!-- Include multiselect plugin's CSS -->
+<link rel="stylesheet" href="webjars/bootstrap-multiselect/bootstrap-multiselect.css" />
+ 
+<link href="resources/css/style.css" rel="stylesheet">
+	<link rel="stylesheet" href="resources/css/jsonview/jquery.jsonview.css">
+<!--  禁用缓存 end  -->
+<meta name="viewport"
+	content="width=device-width, initial-scale=0.2, maximum-scale=10.0, user-scalable=1">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+<link rel="icon" type="image/png" href="resources/image/arvato-logo.png">
+<title>MDM主数据平台管理系统</title>
+<meta charset="utf-8">
+
+
+
+	<!--<link href="resources/css/animate.min.css" rel="stylesheet">-->
+<!--<link href="resources/css/font-awesome.min.css" rel="stylesheet">-->
+<!--<link href="resources/css/style.min.css" rel="stylesheet">-->
+<!--<link href="resources/css/style.css" rel="stylesheet">-->
+<!--<link href="resources/css/common.css" rel="stylesheet">-->
+<!--<link rel="stylesheet" href="webjars/adapt-strap/adapt-strap.min.css" />-->
+<!--<link rel="stylesheet"-->
+	<!--href="webjars/angular-loading-bar/loading-bar.min.css">-->
+<!--<link rel="styleSheet" href="webjars/angular-ui-select/select.min.css" />-->
+<!--<link rel="stylesheet"-->
+	<!--href="webjars/bootstrap/dist/css/bootstrap.min.css">-->
+<!--<link rel="stylesheet"-->
+	<!--href="webjars/angular-bootstrap-datetimepicker/datetimepicker.css" />-->
+<!--<link rel="stylesheet" href="webjars/messenger/messenger.css">-->
+<!--<link rel="stylesheet" href="webjars/messenger/messenger-theme-flat.css">-->
+<!--<link rel="stylesheet" href="webjars/angular-ui-grid/ui-grid.min.css">-->
+<!--&lt;!&ndash; Include multiselect plugin's CSS &ndash;&gt;-->
+<!--<link rel="stylesheet"-->
+	<!--href="webjars/bootstrap-multiselect/bootstrap-multiselect.css" />-->
+
+</head>
+
+<body ng-controller="AppCtrl" class="flex flex-direction-column">
+	<div class="er-loading-index flex flex-align-center flex-pack-center">
+		<div class="box-anime">
+			<div class="anime-text">Loading...</div>
+		</div>
+	</div>
+
+	<div class="er-page flex flex-1" ui-view></div>
+	
+	<script type="text/javascript">
+		var js = document.createElement("script");
+		js.src = "app/quartzManager/tmp.js?random" + Math.random();
+		document.getElementsByTagName("head").item(0).appendChild(js);
+	</script>
+
+	<!-- Livereload script for development only (stripped during dist build) -->
+	<!--<script src="http://localhost:35729/livereload.js" data-concat="false"></script>-->
+	<!-- JS from Bower Components -->
+	<script src="webjars/jquery/jquery.min.js"></script>
+	<script src="webjars/bootstrap/bootstrap.min.js"></script>
+	<script src="webjars/messenger/messenger.min.js"></script>
+	<script src="webjars/messenger/messenger-theme-future.js"></script>
+	<script src="webjars/bootstrap/scrollspy.js"></script>
+	<script src="webjars/moment/moment.min.js"></script>
+	<script src="webjars/angular/angular.min.js"></script>
+
+	<script src="webjars/angular-sanitize/angular-sanitize.min.js"></script>
+	<script src="webjars/angular-ui-router/angular-ui-router.min.js"></script>
+	<script src="webjars/angular-animate/angular-animate.min.js"></script>
+	<script src="webjars/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+	<script src="webjars/angular-ui-utils/ui-utils.min.js"></script>
+	<script src="webjars/ng-file-upload/angular-file-upload-all.min.js"></script>
+	<!-- 	<script src="webjars/github-com-nervgh-angular-file-upload/angular-file-upload.min.js"></script> -->
+	<script src="webjars/adapt-strap/adapt-strap.min.js"></script>
+	<script src="webjars/adapt-strap/adapt-strap.tpl.min.js"></script>
+	<script src="webjars/angular-strap/modules/alert.min.js"></script>
+	<script
+		src="webjars/angular-bootstrap-datetimepicker/datetimepicker.js"></script>
+	<script src="webjars/angular-loading-bar/loading-bar.min.js"></script>
+	<script src="webjars/angular-ui-select/select.min.js"></script>
+	<script src="webjars/angular-ui-grid/ui-grid.min.js"></script>
+	<script src="webjars/Chart.js/Chart.min.js"></script>
+	<script src="webjars/angular-chart.js/angular-chart.min.js"></script>
+	<!-- Include multiselect plugin's JS: -->
+	<script
+		src="webjars/bootstrap-multiselect/0.9.13/dist/js/bootstrap-multiselect.js"></script>
+	<script src="app/components/jsonview/jquery.jsonview.js"></script>
+	<!-- Add New Bower Component JS Above -->
+	<!-- Main App JS -->
+	<script src="app/components/confirmAlert/layer.js"></script>
+	<script src="app/index.module.js"></script>
+	<script src="app/index.run.js"></script>
+	<script src="app/index.route.js"></script>
+	<script src="app/index.config.js"></script>
+	<script src="app/app.js"></script>
+	<script src="app/main/main.controller.js"></script>
+	<!-- directive -->
+	<script src="app/components/nav/nav.directive.js"></script>
+	<script src="app/components/My97DatePicker/WdatePicker.js"></script>
+
+	<!-- service -->
+	<script src="app/service/httpService.js"></script>
+	<script src="app/service/staticQuery.js"></script>
+	<script src="app/service/staticDataView.js"></script>
+	<script src="app/account/account.js"></script>
+	<script src="app/account/signIn/signIn.controller.js"></script>
+	
+	<!--待合并用户管理  -->
+	<script src="app/mergeuser/mergeUser.js"></script>
+	<script src="app/mergeuser/partial/systemManager.js"></script>
+	<!-- ExtraSystemApiConfig 外部系统API配置管理 -->
+	<script src="app/ExtraSystemApiConfig/ExtraSystemApiConfig.js"></script>
+	<script src="app/ExtraSystemApiConfig/partial/systemManager.js"></script>
+	<!-- mdm start -->
+	
+	<!-- 任务调度管理 -->
+	<script src="app/quartzManager/quartzManager.js"></script>
+	<script src="app/quartzManager/partial/systemManager.js"></script>
+	<script src="app/quartzManager/partial/validateCronExpression.js"></script>
+	
+	<!-- 接入系统管理 -->
+	<script src="app/invokeSystem/invokeSystem.js"></script>
+	<script src="app/district/district.js"></script>
+	<script src="app/invokeSystem/partial/systemInfo/systemInfo.js"></script>
+	<script
+		src="app/invokeSystem/partial/serviceInfo/serviceInfo.controller.js"></script>
+	<script src="app/district/partial/district/districtInfo.js"></script>
+	<script src="app/tree/tree.js"></script>
+	<script src="app/tree/tree.controller.js"></script>
+	
+	<!-- 组织机构管理 -->
+	<script src="app/organazation/organazation.js"></script>
+	<script src="app/organazation/organazationInfo/organazation.js"></script>
+	<script src="app/components/autocomplete/angular-touch.min.js"></script>
+	<script src="app/components/autocomplete/angucomplete-alt.js"></script>
+
+	<!-- 菜单管理 -->
+	<script src="app/module/module.js"></script>
+	<script src="app/module/module.controller.js"></script>
+	<script src="app/operation/operation.js"></script>
+	<script src="app/operation/operation.controller.js"></script>
+	<script src="app/role/role.js"></script>
+	<script src="app/role/role.controller.js"></script>
+
+	<script src="app/user/user.js"></script>
+	<script src="app/user/member.js"></script>
+	<script src="app/user/userInfo/userInfo.js"></script>
+	<script src="app/user/memberInfo/memberInfo.js"></script>
+	
+	<!-- 商家管理 -->
+	<script src="app/merchant/merchant.js"></script>
+	<script src="app/merchant/merchant.controller.js"></script>
+	
+	<!-- 数据字典 -->
+	<script src= "app/staticdata/staticdata.js" ></script>
+	<script src= "app/staticdata/staticdata.controller.js" ></script>
+
+	<!-- 日志管理 -->
+	<script src="app/businessLog/businessLog.js"></script>
+	<script src="app/businessLog/businessLog.controller.js"></script>
+	<script src="app/operationLog/operationLog.js"></script>
+	<script src="app/operationLog/operationLog.controller.js"></script>
+	<script
+		src="app/components/DropdownMultiSelect/angularjs-dropdown-multiselect.js"></script>
+	<script src="app/components/sendmq/sendmq.diective.js"></script>
+	<script src="app/components/jsonview/jsonview.directive.js"></script>
+	<script src="app/components/DropdownMultiSelect/lodash.min.js"></script>
+
+	<!-- 导入导出 -->
+	<script src="app/components/importExport/im-export.directive.js"></script>
+		<script src="app/components/corpcode/corpcode.diective.js"></script>
+	<!-- 用户登录记录 -->
+	<script type="text/javascript" src="app/userLoginRecord/userLoginRecord.js"></script>
+	<script type="text/javascript" src="app/userLoginRecord/userLoginRecord.controller.js"></script>
+
+	<!--退换货-->
+	<script type="text/javascript" src="app/refund/refund.js"></script>
+	<script type="text/javascript" src="app/refund/refund.controller.js"></script>
+	<!-- 用户修改密码 -->
+	<script type="text/javascript" src="app/user/changePassword.js"></script>
+	<script type="text/javascript" src="app/user/changePassword/changePassword.controller.js"></script>
+	<script>
+		//      if (!isChrome || !isNewChrome){
+		//
+		//      };
+		//加载中效果
+		$(".er-loading-index").hide();
+
+	</script>
+
+</body>
+
+</html>

@@ -1,0 +1,107 @@
+<link rel="stylesheet" href="app/components/tree/zTreeStyle.css"
+	type="text/css">
+<script type="text/javascript"
+	src="app/components/tree/jquery.ztree-2.6.min.js"></script>
+<div ng-controller="MemberCrl" ng-init="init()">
+	<div style="position: relative; left: 16px; margin-top: 8px;">
+		<div id="userList"
+			style="position: absolute; top: 0px; width: 100%; height: 100%;">
+			<form class="form-inline">
+				<div class="form-group" op-ctrl>
+					<!-- <input type="text" id="orgCode" class="form-control"
+						ng-model="queryParams.account" placeholder="账号"> --> <input
+						type="text" id="orgName" class="form-control"
+						ng-model="queryParams.name" placeholder="名称"> <input
+						type="text" id="orgName" class="form-control"
+						ng-model="queryParams.cellPhone" placeholder="手机"> <select
+						class="form-control" ng-model="queryParams.sex">
+						<option value="">性别</option>
+						<option ng-repeat="x in sexList" value="{{x.value}}">{{x.title}}</option>
+					</select> <select class="form-control" ng-model="queryParams.status">
+						<option value="">状态</option>
+						<option ng-repeat="x in isStatusList" value="{{x.value}}">{{x.title}}</option>
+					</select>
+					<select class="form-control" ng-model="queryParams.systemId">
+						<option value="">来源系统</option>
+						<option ng-repeat="x in systemSourceList" value="{{x.value}}">{{x.title}}</option>
+					</select>
+					<input id="da1"   style="width: 120px;"   class="form-control"  type="text" ng-model="queryParams.beginDate" onChange=""
+	        	               onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'da2\')||\'2099-10-01\'}',dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+	        	              placeholder="开始时间"/> - 
+					<input id="da2"  style="width: 120px;"  class="form-control"   type="text" ng-model="queryParams.endDate" onChange=""
+	        	             onFocus="WdatePicker({minDate:'#F{$dp.$D(\'da1\')}',maxDate:'2099-10-01',dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+	        	             placeholder="结束时间"/>
+					<br>
+					<button class="buttonCommon complaintDetail"
+						ng-click="queryUserList()" keycode="queryMemberUserList">
+						<div class="glyphicon glyphicon-search"></div>
+						查询
+					</button>
+					<!-- 	<button class="buttonCommon complaintDetail"
+						ng-click="addOrganazationInfo()">
+						<div class="glyphicon glyphicon-plus"></div>
+						新增
+					</button> -->
+
+				</div>
+			</form>
+			<!-- 数据部分 -->
+			<div class="table_container">
+
+			<table class="crmAllTable" style="">
+				<thead
+					style="">
+					<th>序号</th>
+					<!-- <th>账号</th> -->
+					<th>名称</th>
+					<th>手机</th>
+					<th>是否绑定</th>
+					<th>性别</th>
+					<th>状态</th>
+					<th>来源系统</th>
+					<th>操作</th>
+				</thead>
+				<tbody>
+					<tr ng-repeat="user in userInfoList">
+						<td>{{queryParams.start + $index+1}}</td>
+						<!-- <td>{{user.account}}</td> -->
+						<td>{{user.username}}</td>
+						<td>{{user.cellPhone}}</td>
+						<td>{{confirmedHash[user.phoneNumberConfirmed]}}</td>
+						<td>{{sexHash[user.sex]}}</td>
+						<td>{{statusHash[user.status]}}</td>
+						<td>{{systemSourceHash[user.systemId]}}</td>
+						<td>
+							<div class="btn_tr flex" op-ctrl>
+								<span><button title="详情" class="goodButtonCommonEdit flex"
+										ng-click="goEdit(user.id)" keycode="editMemberInfo">
+										<div class="glyphicon glyphicon-search"></div>
+	
+									</button>
+								</span>
+								<span><view-history keycode="viewMemberInfoHistory" dataType="1" 
+											id="user.id" callback="queryUserList" /></span>
+											
+								<span ng-if="user.backEnd">
+									<button title="设为后端用户" class="goodButtonCommonEdit flex"
+										ng-click="setBackEndUser(user.id)" keycode="setBackEndUser">
+										<span class="button_icon edit_icon"></span>
+									</button>
+								</span>
+							</div>
+							
+						</td>
+					</tr>
+					<tr ng-if="userInfoList == null || userInfoList.length == 0">
+						<td colspan="8">没有可以显示的数据</td>
+					</tr>
+				</tbody>
+			</table>
+
+			</div>
+			<!-- 分页及汇总 -->
+			<div class="pagination_con flex" ng-include="'app/components/page/page.html'"></div>
+		</div>
+	</div>
+</div>
+</div>

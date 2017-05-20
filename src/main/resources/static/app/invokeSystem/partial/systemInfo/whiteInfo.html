@@ -1,0 +1,54 @@
+<div class="modalAll">
+    <div class="modalTop">
+      <div class="modalTitle">管理白名单信息({{whiteSysName}})</div>
+    </div>
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+   <div class="modal_content_container">
+	
+	 <form class="form-inline">
+	    <div class="form-group">
+	   			  <select class="form-control"
+               		   ng-options="type.value as type.title for type in whiteTypeList"
+            		  ng-model="whiteParams.whiteType">
+             		 <option value="">白名单类型</option>
+       			 </select>
+	      		<input type="text" id="ipAddress" class="form-control" ng-model="whiteParams.ipAddress" style="position:relative;left:5px;"
+	                   placeholder="输入白名单">
+	
+			<span style="position:relative;left:3px;">
+	               <button class="buttonCommon complaintDetail" style="position:relative;left:2px;width: 60px;" ng-click="addWhiteInfo()"><div class="glyphicon glyphicon-plus"></div>新增</button>
+			</span>
+	    </div>
+    </form>
+	<div class="table_container" style="height: 400px;overflow-y:auto;">
+    <!-- 数据部分 -->
+		<table class="crmAllTable">
+        <thead>
+	        <th>系统名称</th>
+	        <th>白名单（IP/域名）</th>
+	        <th>创建时间</th>
+	        <th>操作</th>
+        </thead>
+        <tbody ng-repeat="white in whiteInfoList" >
+	        <tr>
+	          <td>{{white.sysName}}</td>
+	          <td>{{white.ipAddress}}</td>
+	          <td>{{white.createdOn | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+	          <td>
+	            <span><button class="goodButtonCommonEdit flex" style="background-color: #f75252" ng-click="deleteWhiteInfo($index)"><span class="button_icon delete_btn"></span></button></span>
+			  </td>
+	        </tr>
+        </tbody>
+      </table>
+   </div>
+  </div> 
+    <div class="flex flex-pack-end flex-align-center" style="width: 99.7%; padding:  0 16px; height: 60px;">
+    	<button class="manageCancel" ng-click="cancelWhite()">关闭</button>
+   </div>
+
+</div>

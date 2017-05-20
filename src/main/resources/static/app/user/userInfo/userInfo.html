@@ -1,0 +1,870 @@
+<link rel="stylesheet" href="app/components/tree/zTreeStyle.css"
+      type="text/css">
+<script type="text/javascript"
+        src="app/components/tree/jquery.ztree-2.6.min.js"></script>
+<link rel="stylesheet" href="resources/reveal/reveal.css"
+      type="text/css">
+
+<div ng-controller="UserCrl" ng-init="init()">
+    <ul id="myTab" class="flex"></ul>
+    <!--<div style="position: relative; left: 10px; margin-top: 20px;">-->
+    <div id="main">
+        <div id="fullbg"></div>
+        <div id="dialog" style="z-index: 9999">
+            <p class="close">
+                <a href="#" onclick="closeBg();">X</a>
+            </p>
+            <div id="innerMsg">正在执行中，请稍后....</div>
+        </div>
+    </div>
+    <script>
+
+        // 设置过滤条件框显示或隐藏
+        function showFilterInput(op) {
+            if (op) {
+                $("#filterInput").show();
+            } else {
+                $("#filterInput").hide();
+            }
+            lastValue = "", nodeList = [], fontCss = {}, clickCount = 0;
+        }
+        showFilterInput(false);
+        //显示灰色 jQuery 遮罩层
+        function showBg(msg) {
+            var bh = $("body").height();
+            var bw = $("body").width();
+            $('#innerMsg').html(msg);
+            $("#fullbg").css({
+                "height": bh,
+                "width": bw,
+                "display": "block",
+                "z-index": 9998
+            });
+            $("#dialog").show();
+        }
+        //关闭灰色 jQuery 遮罩
+        function closeBg() {
+            $("#fullbg,#dialog").hide();
+        }
+
+        //搜索节点
+        var lastValue = "", nodeList = [], fontCss = {}, clickCount = 0;
+        function searchNode(opration) {
+            var value = $.trim(searchKey.get(0).value);
+
+            if (lastValue === value)
+                return;
+            lastValue = value;
+            if (value === "") {
+                updateNodes(false, opration);
+                return;
+            }
+            // 调用ztree的模糊查询功能，得到符合条件的节点
+            if (opration == 'add') {
+                nodeList = orgTree.getNodesByParamFuzzy("name", value);
+            } else {
+                nodeList = eorgTree.getNodesByParamFuzzy("name", value);
+            }
+            updateNodes(true, opration);
+        }
+
+        //键盘释放：当输入框的键盘按键被松开时，把查询到的数据结果显示在标签中
+        function callNumber(opration) {
+            var fzTree;
+            if (opration == 'add') {
+                fzTree = orgTree;
+            } else {
+                fzTree = eorgTree;
+            }
+
+            searchNode(opration);
+
+            // 如果结果有值，则显示比例；如果结果为0，则显示"[0/0]"；如果结果为空，则清空标签框；
+            if (nodeList.length) {
+                fzTree.selectNode(nodeList[0], false);
+                // 让结果集里边的第一个获取焦点（主要为了设置背景色），再把焦点返回给搜索框
+                document.getElementById("searchKey").focus();
+                // 清空上一次点击记录
+                clickCount = 0;
+                // 显示当前所在的是第一条
+                document.getElementById("number").innerHTML = "["
+                    + (clickCount + 1) + "/" + nodeList.length + "]";
+            } else if (nodeList.length == 0) {
+                document.getElementById("number").innerHTML = "[0/0]";
+                fzTree.cancelSelectedNode();
+            }
+
+            //如果输入框中没有搜索内容，则清空标签框
+            if (document.getElementById("searchKey").value == "") {
+                document.getElementById("number").innerHTML = "";
+                fzTree.cancelSelectedNode();
+            }
+        }
+
+        //高亮显示被搜索到的节点
+        function updateNodes(highlight, opration) {
+            var fzTree;
+            if (opration == 'add') {
+                fzTree = orgTree;
+            } else {
+                fzTree = eorgTree;
+            }
+            for (var i = 0, l = nodeList.length; i < l; i++) {
+                nodeList[i].highlight = highlight; //高亮显示搜索到的节点
+                fzTree.expandNode(nodeList[i].parentNode, true, false, false); //将搜索到的节点的父节点展开
+                fzTree.updateNode(nodeList[i]); //更新节点数据，主要用于该节点显示属性的更新
+            }
+        }
+
+        //设置颜色
+        function getFontCss(treeId, treeNode) {
+            return (!!treeNode.highlight) ? {
+                color: "#A60000",
+                "font-weight": "bold"
+            } : {
+                color: "#333",
+                "font-weight": "normal"
+            };
+        }
+
+        //点击向上按钮时，将焦点移向上一条数据
+        function clickUp(opration) {
+            var fzTree;
+            if (opration == 'add') {
+                fzTree = orgTree;
+            } else {
+                fzTree = eorgTree;
+            }
+
+            //如果焦点已经移动到了最后一条数据上，就返回第一条重新开始，否则继续移动到下一条
+            if (nodeList.length == 0) {
+                showBg("没有搜索结果！");
+                return;
+            } else if (clickCount == 0) {
+                showBg("您已位于第一条记录上！");
+                return;
+            } else {
+                //让结果集里边的上一个获取焦点
+                --clickCount;
+                fzTree.selectNode(nodeList[clickCount], false);
+            }
+            document.getElementById("searchKey").focus();
+            document.getElementById("number").innerHTML = "["
+                + (clickCount + 1) + "/" + nodeList.length + "]";
+        }
+
+        //点击向上按钮时，将焦点移向下一条数据
+        function clickDown(opration) {
+            var fzTree;
+            if (opration == 'add') {
+                fzTree = orgTree;
+            } else {
+                fzTree = eorgTree;
+            }
+            //如果焦点已经移动到了最后一条数据上，则提示用户（或者返回第一条重新开始），否则继续移动到下一条
+            if (nodeList.length == 0) {
+                showBg("没有搜索结果！");
+                return;
+            } else if (nodeList.length == (clickCount + 1)) {
+                showBg("您已位于最后一条记录上！")
+                return;
+            } else {
+                //让结果集里边的下一个获取焦点
+                ++clickCount;
+                fzTree.selectNode(nodeList[clickCount], false)
+            }
+            document.getElementById("searchKey").focus();
+            document.getElementById("number").innerHTML = "["
+                + (clickCount + 1) + "/" + nodeList.length + "]";
+        }
+
+        var roTree;
+        var eroTree;
+        function onSelect(event, treeId, treeNode) {
+            var node = treeNode;
+            var appElement = document.querySelector('[ng-controller=UserCrl]');
+            var $scope = angular.element(appElement).scope();
+            $scope.queryParams.organizationId = node.id;
+            $scope.addParams.parentId = node.id;
+            $scope.addParams.parentName = node.name;
+            $scope.queryUserList();
+        }
+
+        function changeOrgType(orgtype) {
+            var appElement = document.querySelector('[ng-controller=UserCrl]');
+            var $scope = angular.element(appElement).scope();
+            $scope.systype = orgtype;
+            $scope.queryParams.systemId = "";
+            $scope.setOrgType(orgtype);
+        }
+
+        var ssyNodes = new Array();
+        function zTreeOnCheck(event, treeId, treeNode) {
+
+            if (!roTree || roTree == null || roTree.getNodes().length == 0) {
+                var setting = {
+                    showLine: true,
+                    checkable: true,
+                    isSimpleData: true,
+                    treeNodeKey: "id",
+                    treeNodeParentKey: "pId",
+                    checkType: {
+                        "Y": "s",
+                        "N": "ps"
+                    },
+                };
+
+                var zTreeNodes = [];
+                roTree = $("#rTree").zTree(setting, zTreeNodes);
+            }
+            var appElement = document.querySelector('[ng-controller=UserCrl]');
+            var $scope = angular.element(appElement).scope();
+
+            var curOrgType = $('#curOrgType').val();
+            if (curOrgType == 0) {
+                //	删除社商云【组织或商家（已选角色）】
+                for (var m = 0; m < ssyNodes.length; m++) {
+                    var rNode = ssyNodes[m];
+                    var nodes = roTree.getNodesByParam("id", rNode.id);
+                    for (var q = 0; q < nodes.length; q++) {
+                        roTree.removeNode(nodes[q]);
+                    }
+                    ssyNodes.splice(m, 1);
+                }
+            }
+
+            //	右侧角色树--不存在则新增节点；存在则删除已选择的节点
+            var changedNodes = orgTree.getChangeCheckedNodes();
+            for (var i = 0; i < changedNodes.length; i++) {
+                if (changedNodes[i].checked
+                    && roTree.getNodeByParam("id", changedNodes[i].id) == null) {
+                    roTree.addNodes(null, {
+                        "id": changedNodes[i].id,
+                        "pId": 0,
+                        "name": changedNodes[i].name,
+                        "level": 0,
+                        "open": false,
+                        "nocheck": true,
+                    });
+
+                    if (curOrgType == 0) {
+                        //	添加新选择角色节点
+                        var roleData = {};
+                        roleData.id = changedNodes[i].id;
+                        ssyNodes.push(roleData);
+                    }
+                }
+                if (changedNodes[i].checkedOld && !changedNodes[i].checked) {
+                    var nodes = roTree
+                        .getNodesByParam("id", changedNodes[i].id);
+                    for (var q = 0; q < nodes.length; q++) {
+                        roTree.removeNode(nodes[q]);
+                    }
+                }
+                changedNodes[i].checkedOld = changedNodes[i].checked;
+            }
+
+            $scope
+                .myHttpService(
+                    "GET",
+                    "/web/mdm/invokeSystem/systemInfo",
+                    {
+                        type: $scope.addParams.setOrgSystem,
+                        isDeleted: 0,
+                        pageNum: 1,
+                        pageSize: 1000
+                    },
+                    function (result) {
+                        if (result.result) {
+                            for (var j = 0; j < result.data.totalCount; j++) {
+                                for (var m = 0; m < changedNodes.length; m++) {
+                                    if (changedNodes[m].checked) {
+                                        var pNode = roTree
+                                            .getNodeByParam(
+                                                "id",
+                                                changedNodes[m].id);
+                                        roTree
+                                            .addNodes(
+                                                pNode,
+                                                {
+                                                    "id": result.data.list[j].id,
+                                                    "pId": changedNodes[m].id,
+                                                    "name": result.data.list[j].sysName,
+                                                    "level": 1,
+                                                    "open": false,
+                                                    "nocheck": true,
+                                                }, true);
+                                    }
+                                }
+                                $scope
+                                    .myHttpService(
+                                        "GET",
+                                        "/web/mdm/role/roleInfos",
+                                        {
+                                            systemId: result.data.list[j].id,
+                                            pageNum: 1,
+                                            pageSize: 1000,
+                                            corpCode: ($scope.corpCode != null && curOrgType == 3) ? $scope.corpCode
+                                                : '',
+                                            userPage: 'Y'
+                                        },
+                                        function (roleResult) {
+                                            if (roleResult.result) {
+                                                var type = 1;
+                                                if ($(
+                                                        "#orgRadio")
+                                                        .val() === "true")
+                                                    type = 0;
+                                                var data = roleResult.data.list;
+                                                for (var n = 0; n < data.length; n++) {
+
+                                                    for (var p = 0; p < changedNodes.length; p++) {
+                                                        if (changedNodes[p].checked) {
+                                                            var pNode = roTree
+                                                                .getNodeByParam(
+                                                                    "id",
+                                                                    changedNodes[p].id);
+                                                            var spNode = roTree
+                                                                .getNodesByParamFuzzy(
+                                                                    "id",
+                                                                    data[n].systemId,
+                                                                    pNode);
+                                                            if (spNode.length > 0) {
+                                                                roTree
+                                                                    .addNodes(
+                                                                        spNode[0],
+                                                                        {
+                                                                            "id": data[n].id,
+                                                                            "pId": data[n].systemId,
+                                                                            "name": data[n].name,
+                                                                            "level": 2,
+                                                                            "open": false,
+                                                                            "isMer": type
+                                                                        },
+                                                                        true);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }, true);
+                            }
+                        }
+                    }, true);
+        }
+
+        var essyNodes = new Array();
+        function ezTreeOnCheck(event, treeId, treeNode) {
+            if (!eroTree || eroTree == null || eroTree.getNodes().length == 0) {
+                var setting = {
+                    showLine: true,
+                    checkable: true,
+                    isSimpleData: true,
+                    treeNodeKey: "id",
+                    treeNodeParentKey: "pId",
+                    checkType: {
+                        "Y": "s",
+                        "N": "ps"
+                    },
+                };
+                var ezTreeNodes = [];
+                eroTree = $("#erTree").zTree(setting, ezTreeNodes);
+            }
+
+            var appElement = document.querySelector('[ng-controller=UserCrl]');
+            var $scope = angular.element(appElement).scope();
+
+            var curOrgType = $('#curOrgType').val();
+            if (null != curOrgType && curOrgType == 0 && curOrgType != '') {
+                //	删除社商云【组织或商家（已选角色）】
+                for (var m = 0; m < essyNodes.length; m++) {
+                    var rNode = essyNodes[m];
+                    var nodes = eroTree.getNodesByParam("id", rNode.id);
+                    for (var q = 0; q < nodes.length; q++) {
+                        eroTree.removeNode(nodes[q]);
+                    }
+                    essyNodes.splice(m, 1);
+                }
+            }
+            if (typeof (eorgTree) == "undefined" || null == eorgTree)
+                return false;
+            var changedNodes = eorgTree.getChangeCheckedNodes();
+            for (var i = 0; i < changedNodes.length; i++) {
+                if (changedNodes[i].checked
+                    && eroTree.getNodeByParam("id", changedNodes[i].id) == null) {
+                    eroTree.addNodes(null, {
+                        "id": changedNodes[i].id,
+                        "pId": 0,
+                        "name": changedNodes[i].name,
+                        "level": 0,
+                        "open": false,
+                        "nocheck": true,
+                    });
+
+                    if (curOrgType == 0) {
+                        //	添加新选择角色节点
+                        var roleData = {};
+                        roleData.id = changedNodes[i].id;
+                        essyNodes.push(roleData);
+                    }
+                }
+                if (changedNodes[i].checkedOld && !changedNodes[i].checked) {
+                    var nodes = eroTree.getNodesByParam("id",
+                        changedNodes[i].id);
+                    for (var q = 0; q < nodes.length; q++) {
+                        eroTree.removeNode(nodes[q]);
+                    }
+                }
+                changedNodes[i].checkedOld = changedNodes[i].checked;
+            }
+            $scope
+                .myHttpService(
+                    "GET",
+                    "/web/mdm/invokeSystem/systemInfo",
+                    {
+                        type: $scope.editParams.setOrgSystem,
+                        isDeleted: 0,
+                        pageNum: 1,
+                        pageSize: 1000
+                    },
+                    function (result) {
+                        if (result.result) {
+                            for (var j = 0; j < result.data.totalCount; j++) {
+                                for (var m = 0; m < changedNodes.length; m++) {
+                                    if (changedNodes[m].checked) {
+                                        var pNode = eroTree
+                                            .getNodeByParam(
+                                                "id",
+                                                changedNodes[m].id);
+                                        eroTree
+                                            .addNodes(
+                                                pNode,
+                                                {
+                                                    "id": result.data.list[j].id,
+                                                    "pId": changedNodes[m].id,
+                                                    "name": result.data.list[j].sysName,
+                                                    "level": 1,
+                                                    "open": false,
+                                                    "nocheck": true,
+                                                }, true);
+                                    }
+                                }
+                                $scope
+                                    .myHttpService(
+                                        "GET",
+                                        "/web/mdm/role/roleInfos",
+                                        {
+                                            systemId: result.data.list[j].id,
+                                            pageNum: 1,
+                                            pageSize: 1000,
+                                            corpCode: ($scope.corpCode != null && curOrgType == 3) ? $scope.corpCode
+                                                : '',
+                                            userPage: 'Y'
+                                        },
+                                        function (roleResult) {
+                                            if (roleResult.result) {
+                                                var type = 1;
+                                                if ($(
+                                                        "#eorgRadio")
+                                                        .val() === "true")
+                                                    type = 0;
+                                                var data = roleResult.data.list;
+                                                for (var n = 0; n < data.length; n++) {
+                                                    for (var p = 0; p < changedNodes.length; p++) {
+                                                        if (changedNodes[p].checked) {
+                                                            var pNode = eroTree
+                                                                .getNodeByParam(
+                                                                    "id",
+                                                                    changedNodes[p].id);
+                                                            var spNode = eroTree
+                                                                .getNodesByParamFuzzy(
+                                                                    "id",
+                                                                    data[n].systemId,
+                                                                    pNode);
+                                                            if (spNode.length > 0)
+                                                                eroTree
+                                                                    .addNodes(
+                                                                        spNode[0],
+                                                                        {
+                                                                            "id": data[n].id,
+                                                                            "pId": data[n].systemId,
+                                                                            "name": data[n].name,
+                                                                            "level": 2,
+                                                                            "open": false,
+                                                                            "isMer": type
+                                                                        },
+                                                                        true);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }, true);
+                            }
+                        }
+                    }, true);
+        }
+
+        function erzTreeOnCheck(event, treeId, treeNode) {
+            if (!eroTree || eroTree == null || eroTree.getNodes().length == 0) {
+                var setting = {
+                    showLine: true,
+                    checkable: true,
+                    isSimpleData: true,
+                    treeNodeKey: "id",
+                    treeNodeParentKey: "pId",
+                    checkType: {
+                        "Y": "s",
+                        "N": "ps"
+                    },
+                };
+                var ezTreeNodes = [];
+                eroTree = $("#erTree").zTree(setting, ezTreeNodes);
+            }
+
+            var appElement = document.querySelector('[ng-controller=UserCrl]');
+            var $scope = angular.element(appElement).scope();
+
+            var curOrgType = $('#curOrgType').val();
+
+            if (typeof (eorgTree) == "undefined" || null == eorgTree)
+                return false;
+            var changedNodes = eorgTree.getChangeCheckedNodes();
+            for (var i = 0; i < changedNodes.length; i++) {
+                if (changedNodes[i].checked
+                    && eroTree.getNodeByParam("id", changedNodes[i].id) == null) {
+                    eroTree.addNodes(null, {
+                        "id": changedNodes[i].id,
+                        "pId": 0,
+                        "name": changedNodes[i].name,
+                        "level": 0,
+                        "open": false,
+                        "nocheck": true,
+                    });
+
+                    if (curOrgType == 0) {
+                        //	添加新选择角色节点
+                        var roleData = {};
+                        roleData.id = changedNodes[i].id;
+                        essyNodes.push(roleData);
+                    }
+                }
+                if (changedNodes[i].checkedOld && !changedNodes[i].checked) {
+                    var nodes = eroTree.getNodesByParam("id",
+                        changedNodes[i].id);
+                    for (var q = 0; q < nodes.length; q++) {
+                        eroTree.removeNode(nodes[q]);
+                    }
+                }
+                changedNodes[i].checkedOld = changedNodes[i].checked;
+            }
+            $scope
+                .myHttpService(
+                    "GET",
+                    "/web/mdm/invokeSystem/systemInfo",
+                    {
+                        type: $scope.editParams.setOrgSystem,
+                        isDeleted: 0,
+                        pageNum: 1,
+                        pageSize: 1000
+                    },
+                    function (result) {
+                        if (result.result) {
+                            for (var j = 0; j < result.data.totalCount; j++) {
+                                for (var m = 0; m < changedNodes.length; m++) {
+                                    if (changedNodes[m].checked) {
+                                        var pNode = eroTree
+                                            .getNodeByParam(
+                                                "id",
+                                                changedNodes[m].id);
+                                        eroTree
+                                            .addNodes(
+                                                pNode,
+                                                {
+                                                    "id": result.data.list[j].id,
+                                                    "pId": changedNodes[m].id,
+                                                    "name": result.data.list[j].sysName,
+                                                    "level": 1,
+                                                    "open": false,
+                                                    "nocheck": true,
+                                                }, true);
+                                    }
+                                }
+                                $scope
+                                    .myHttpService(
+                                        "GET",
+                                        "/web/mdm/role/roleInfos",
+                                        {
+                                            systemId: result.data.list[j].id,
+                                            pageNum: 1,
+                                            pageSize: 1000,
+                                            corpCode: ($scope.corpCode != null && curOrgType == 3) ? $scope.corpCode
+                                                : '',
+                                            userPage: 'Y'
+                                        },
+                                        function (roleResult) {
+                                            if (roleResult.result) {
+                                                var type = 1;
+                                                if ($(
+                                                        "#eorgRadio")
+                                                        .val() === "true")
+                                                    type = 0;
+                                                var data = roleResult.data.list;
+                                                for (var n = 0; n < data.length; n++) {
+                                                    for (var p = 0; p < changedNodes.length; p++) {
+                                                        if (changedNodes[p].checked) {
+                                                            var pNode = eroTree
+                                                                .getNodeByParam(
+                                                                    "id",
+                                                                    changedNodes[p].id);
+                                                            var spNode = eroTree
+                                                                .getNodesByParamFuzzy(
+                                                                    "id",
+                                                                    data[n].systemId,
+                                                                    pNode);
+                                                            if (spNode.length > 0)
+                                                                eroTree
+                                                                    .addNodes(
+                                                                        spNode[0],
+                                                                        {
+                                                                            "id": data[n].id,
+                                                                            "pId": data[n].systemId,
+                                                                            "name": data[n].name,
+                                                                            "level": 2,
+                                                                            "open": false,
+                                                                            "isMer": type
+                                                                        },
+                                                                        true);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }, true);
+                            }
+                        }
+                    }, true);
+        }
+        function searchTree(searchString) {
+            var rootNode = tree.getNodes();
+            if (null != rootNode && rootNode.length > 0) {
+                if (null != searchString && searchString != "") {
+                    $(rootNode).each(function () {
+                        if (this.name.indexOf(searchString) >= 0) {
+                            $("#" + this.tId).show();
+                            $(this.nodes).each(function () {
+                                //if(this.name.indexOf(searchString)>=0){
+                                $("#" + this.tId).show();
+                                /*}else{
+                                 $("#"+this.tId).hide();
+                                 }*/
+                            });
+                        } else {
+                            var i = 0;
+                            $(this.nodes).each(function () {
+                                if (this.name.indexOf(searchString) >= 0) {
+                                    $("#" + this.tId).show();
+                                    i++;
+                                } else {
+                                    $("#" + this.tId).hide();
+                                }
+                            });
+                            if (i == 0) {
+                                $("#" + this.tId).hide();
+                            } else {
+                                $("#" + this.tId).show();
+                            }
+                        }
+                    });
+                } else {
+                    //显示所有的内容
+                    $(rootNode).each(function () {
+                        $("#" + this.tId).show();
+                        $(this.nodes).each(function () {
+                            $("#" + this.tId).show();
+                        })
+                    });
+                }
+            }
+        }
+    </script>
+
+    <div class="my_tab_container flex">
+        <input type="hidden" id="curOrgType"/>
+
+        <div id="organization"
+             style="width: 20%; height: 550px; overflow: auto; background: #fff; display: none">
+            <input type="text" name="searchTree" onkeyup="searchTree(this.value)" class="form-control">
+            <apan id="orRradio" style="display:none"><input
+                    id="orOrgRadio" type="radio" ng-value=true ng-model="orState"
+                    name="orSelectState" ng-change="orRadioChange(true)"/> 组织 <input
+                    id="orMerRadio" type="radio" ng-value=false ng-model="orState"
+                    name="orSelectState" ng-change="orRadioChange(false)"/> 商家
+            </apan>
+            <div ng-init="loadOrgTree()" ng-bind-html="html|htmlContent"/>
+        </div>
+
+        <div id="userList">
+            <form class="form-inline">
+                <div class="form-group" op-ctrl>
+                    <!-- <input type="text" id="orgCode" class="form-control"
+                        ng-model="queryParams.account" placeholder="账号"> -->
+                    <input type="text" id="orgName" class="form-control"
+                           ng-model="queryParams.name" placeholder="名称">
+                    <input
+                            type="text" id="orgName" class="form-control"
+                            ng-model="queryParams.cellPhone" placeholder="手机">
+                    <select
+                            class="form-control" ng-model="queryParams.sex">
+                        <option value="">性别</option>
+                        <option ng-repeat="x in sexList" value="{{x.value}}">{{x.title}}</option>
+                    </select>
+                    <select class="form-control" ng-model="queryParams.isDeleteds" ng-change="queryUserList(true)">
+                        <option value="">是否删除</option>
+                        <option ng-repeat="x in yesOrNoList" value="{{x.value}}">{{x.title}}</option>
+                    </select>
+                    <select class="form-control" ng-model="queryParams.status">
+                        <option value="">状态</option>
+                        <option ng-repeat="x in isStatusList" value="{{x.value}}">{{x.title}}</option>
+                    </select>
+                    <select class="form-control" ng-model="queryParams.systemId">
+                        <option value="">来源系统</option>
+                        <option ng-repeat="x in systemSourceList" value="{{x.value}}">{{x.title}}</option>
+                    </select>
+                    <input id="da1" style="width: 120px;" class="form-control"
+                           type="text" ng-model="queryParams.beginDate" onChange=""
+                           onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'da2\')||\'2099-10-01\'}',dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+                           placeholder="开始时间"/> - <input id="da2" style="width: 120px;"
+                                                         class="form-control" type="text" ng-model="queryParams.endDate"
+                                                         onChange=""
+                                                         onFocus="WdatePicker({minDate:'#F{$dp.$D(\'da1\')}',maxDate:'2099-10-01',dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+                                                         placeholder="结束时间"/> <br>
+                    <button class="buttonCommon complaintDetail"
+                            ng-click="queryUserList(true)" keycode="queryUserList">
+                        <div class="btn_com_icon magnifier_btn_com"></div>
+                        查询
+                    </button>
+                    <button class="buttonCommon complaintDetail"
+                            ng-click="addOrganazationInfo()" keycode="addUserInfo">
+                        <div class="btn_com_icon plus_btn_com"></div>
+                        新增
+                    </button>
+                    <button class="buttonCommon complaintDetail"
+                            ng-click="batchEnable()" keycode="batchEnable">
+                        <div class="btn_com_icon active_btn_com"></div>
+                        启用
+                    </button>
+                    <button class="buttonCommon complaintDetail"
+                            ng-click="batchDisable()" keycode="batchDisable">
+                        <div class="btn_com_icon pause_btn_com"></div>
+                        停用
+                    </button>
+                    <button class="buttonCommon complaintDetail"
+                            ng-click="batchDelete()" keycode="batchDelete">
+                        <div class="btn_com_icon delete_btn_com"></div>
+                        删除
+                    </button>
+                    <bach-send-mq ng-model="selection" datatype="1" ng-show="queryParams.isDeleteds != 1"
+                                  keycode="mqUserInfo"></bach-send-mq>
+                    <!--<button class="buttonCommon complaintDetail" ng-show="selection.length > 1"
+                            ng-click="batchDelete()" keycode="batchDelete">
+                        <div class="btn_com_icon download_btn"></div>
+                        批量下發
+                    </button>-->
+                </div>
+            </form>
+            <!-- 数据部分 -->
+            <div class="table_container">
+                <table class="crmAllTable" style="">
+                    <thead style="background-color: #e8e8e8; text-align: center;">
+                    <th><label ng-show="userInfoList.length > 0"> <input
+                            type="checkbox" class="css-checkbox" name="statusFlag"
+                            ng-checked="selection.length == userInfoList.length"
+                            ng-click="toggleSelectionAll()"> <span
+                            class="css-checkbox-label"></span>
+                    </label></th>
+                    <th>序号</th>
+                    <!-- <th>账号</th> -->
+                    <th>名称</th>
+                    <th>手机</th>
+                    <th>是否绑定</th>
+                    <th>性别</th>
+                    <th>状态</th>
+                    <th>来源系统</th>
+                    <th>操作</th>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="system in userInfoList">
+                        <td><label> <input type="checkbox"
+                                           class="css-checkbox" name="statusFlag"
+                                           ng-checked="selection.indexOf(system.id) > -1"
+                                           ng-click="toggleSelection(system.id)"/> <span
+                                class="css-checkbox-label"></span>
+                        </label>
+                            <!--<input type="checkbox" name="statusFlag" ng-model="statusFlag" value="{{$index}}" style="margin: 5px;" />-->
+                        </td>
+                        <td>{{queryParams.start + $index+1}}</td>
+                        <!-- <td>{{system.account}}</td> -->
+                        <td>{{system.username}}</td>
+                        <td>{{system.cellPhone}}</td>
+                        <td>{{confirmedHash[system.phoneNumberConfirmed]}}</td>
+                        <td>{{sexHash[system.sex]}}</td>
+                        <td>{{statusHash[system.status]}}</td>
+                        <td>{{systemSourceHash[system.systemId]}}</td>
+                        <!--<td>{{system.sourceSystem}}</td>-->
+                        <td width="260px">
+                            <div class="btn_tr flex" op-ctrl>
+                                <button title="用户信息" class="goodButtonCommonEdit flex"
+                                        ng-show='queryParams.isDeleteds == 1'
+                                        ng-click="goEdit(system.id,system.corpCode)" keycode="editUserInfo">
+                                    <div class="glyphicon glyphicon-search"></div>
+                                </button>
+                                <button class="goodButtonCommonEdit flex" title="恢复数据（删除）"
+                                        ng-show="queryParams.isDeleteds == 1"
+                                        ng-click="repeatUser(system.cellPhone,system.id)" keycode="resetUser">
+                                    <div class="glyphicon glyphicon-repeat"></div>
+                                </button>
+                                <button class="goodButtonCommonEdit flex" title="重置密码"
+                                        ng-show="queryParams.isDeleteds != 1"
+                                        ng-click="resetPassword(system.id)" keycode="resetPassword">
+                                    <div class="glyphicon glyphicon-repeat"></div>
+                                </button>
+                                <button title="编辑" class="goodButtonCommonEdit flex"
+                                        ng-show='queryParams.isDeleteds != 1'
+                                        ng-click="goEdit(system.id,system.corpCode)" keycode="editUserInfo">
+                                    <span class="button_icon edit_icon"></span>
+                                </button>
+                                <view-history keycode="viewRoleHistory" id="system.id"
+                                              ng-show="queryParams.isDeleteds != 1"
+                                              dataType="1" callback="queryUserList"
+                                              keycode="viewUserInfoHistory"></view-history>
+                                <view-history keycode="viewRoleHistory" id="system.id"
+                                              ng-show="queryParams.isDeleteds != 1"
+                                              dataType="6" callback="queryUserList"
+                                              keycode="viewUserInfoHistory"></view-history>
+                                <send-mq dataid="system.id" datatype="1" keycode="mqUserInfo"
+                                         ng-show="queryParams.isDeleteds != 1"></send-mq>
+                                <button title="删除" class="goodButtonCommonEdit flex"
+                                        ng-show="queryParams.isDeleteds != 1"
+                                        style="background-color: #f75252"
+                                        ng-click="goDelete(system.id)" keycode="deleteUserInfo">
+                                    <span class="button_icon delete_btn"></span>
+                                </button>
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr ng-if="userInfoList == null || userInfoList.length == 0">
+                        <td colspan="9">没有可以显示的数据</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- 分页及汇总 -->
+            <div class="pagination_con flex"
+                 ng-include="'app/components/page/page.html'"></div>
+        </div>
+    </div>
+</div>
+
+</div>
+</div>

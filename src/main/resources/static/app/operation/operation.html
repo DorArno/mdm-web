@@ -1,0 +1,66 @@
+<div ng-controller="OperationCrl" ng-init="init()" style="position:relative;left:16px; margin-top: 8px;">
+    <form class="form-inline">
+	    <div class="form-group" op-ctrl>
+	      		<input type="text" id="sysName" class="form-control" ng-model="queryParams.actionName"
+	                   placeholder="名称" />	
+	            <input type="text" class="form-control" ng-model="queryParams.keyCode"
+	                   placeholder="KeyCode" />
+	            <input type="text" class="form-control" ng-model="queryParams.path"
+	                   placeholder="路径" />
+	            <select class="form-control" ng-model="queryParams.httpMethod">
+		        	<option value="">方法</option>
+					<option ng-repeat="x in methods" value="{{x}}">{{x}}</option>
+				</select>
+				<select class="form-control" ng-model="queryParams.moduleInfo">
+		        	<option value="">所属菜单</option>
+					<option ng-repeat="x in moduleInfo" value="{{x.moduleName}}">{{x.moduleName}}</option>
+				</select>
+				<br>
+	            <button keycode="queryOperation" class="buttonCommon complaintDetail" ng-click="queryOperationList()"><div class="glyphicon glyphicon-search"></div>查询</button>
+	            <button keycode="addOperation" class="buttonCommon complaintDetail" ng-click="addOperation()"><div class="glyphicon glyphicon-plus"></div>新增</button>
+	    </div>
+    </form>
+  <!-- 数据部分 -->
+	<div class="table_container">
+	<table class="crmAllTable" style="">
+        <thead style="">
+        	<th>序号</th>
+	        <th>名称</th>
+	        <th>keyCode</th>
+	        <th>路径</th>
+	        <th>方法</th>
+	        <th>所属菜单</th>
+	        <th>操作</th>
+        </thead>
+        <tbody>
+	        <tr ng-repeat="system in systemInfoList" repeat-finish>
+	          <td>{{queryParams.start + $index+1}}</td>
+	          <td>{{system.actionName}}</td>
+	          <td>{{system.keyCode}}</td>
+	          <td>{{system.path}}</td>
+	          <td>{{system.httpMethod}}</td>
+	          <td>{{system.module.moduleName}}</td>
+	          <td>
+							<div class="btn_tr flex" op-ctrl>
+	          	<span>
+								<button title="编辑" keycode="editOperation" class="goodButtonCommonEdit flex" ng-click="goEdit($index)">
+									<div class="button_icon edit_icon"></div>
+								</button>
+							</span>
+ 	            <span>
+								<button title="删除" keycode="deleteOperation" class="goodButtonCommonEdit flex" style="background-color: #f75252" ng-click="doDel($index)">
+									<div class="button_icon delete_btn"></div>
+								</button>
+							</span>
+								</div>
+	          </td>
+	        </tr>
+	        <tr ng-if="systemInfoList == null || systemInfoList.length == 0">
+	        	<td colspan="7">没有可以显示的数据</td>
+	        </tr>
+        </tbody>
+      </table>
+	</div>
+  <!-- 分页及汇总 -->
+	<div class="pagination_con flex" ng-include="'app/components/page/page.html'"></div>
+</div>

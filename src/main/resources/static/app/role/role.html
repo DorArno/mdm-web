@@ -1,0 +1,130 @@
+<div ng-controller="RoleCrl" ng-init="init()" style="position:relative;left:16px; margin-top: 8px;">
+    <form class="form-inline">
+	    <div class="form-group" op-ctrl>
+	      		<input type="text" style="width:110px" id="sysName" class="form-control" ng-model="queryParams.name"
+	                   placeholder="名称">
+	            <input type="text" style="width:110px" id="code" class="form-control" ng-model="queryParams.code"
+	                   placeholder="编号">
+	       
+	                   
+	             <corp-code ng-model="queryParams.corpCode"></corp-code>
+	                   <!--  
+	            <select class="form-control" ng-model="queryParams.status">
+	            	<option value="">状态</option>
+	            	<option ng-repeat="x in moduleStates" value="{{x.value}}">{{x.title}}</option>
+				</select>-->
+				<select class="form-control" ng-model="queryParams.systemId">
+	            	<option value="">来源系统</option>
+	            	<option ng-repeat="x in systemInfoList" value="{{x.id}}">{{x.sysName}}</option>
+				</select>	
+				 <input id="da1" class="form-control" style="width:160px;" type="text" ng-model="queryParams.startDate" onChange=""
+	        	onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'da2\')||\'2099-10-01\'}',dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+	        	placeholder="开始时间"/>
+	        - <input id="da2" class="form-control" style="width:160px;" type="text" ng-model="queryParams.endDate" onChange=""
+	        	 onFocus="WdatePicker({minDate:'#F{$dp.$D(\'da1\')}',maxDate:'2099-10-01',dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+	        	placeholder="结束时间"/>
+				<br>
+	            <button keycode="queryRole" class="buttonCommon complaintDetail" ng-click="queryRoleInfoList()">
+								<div class="btn_com_icon magnifier_btn_com"></div>查询</button>
+	            <button keycode="addRole" class="buttonCommon complaintDetail" ng-click="addSystemInfo()">
+								<div class="btn_com_icon plus_btn_com"></div>新增</button>
+	            <button keycode="batchDeleteRole" class="buttonCommon complaintDetail" ng-show="levelZeroCount==0" ng-click="batchDeleteRole()">
+								<div class="btn_com_icon delete_btn_com"></div>删除</button>
+				<bach-send-mq ng-model="selection" datatype="2" keycode="viewRoleDownload"></bach-send-mq>
+	    </div>
+    </form>
+  <!-- 数据部分 -->
+	<div class="table_container">
+	<table class="crmAllTable" style="">
+        <thead style="">
+        	<th>
+        		<label ng-show="roleList.length > 0"> <input type="checkbox"
+										   class="css-checkbox" name="statusFlag"
+										   ng-checked="selection.length == roleList.length"
+										   ng-click="toggleSelectionAll()">
+							<span class="css-checkbox-label"></span>
+						</label>
+        	</th>
+        	<th>序号</th>
+	        <th>名称</th>
+        	<th>编号</th>
+        	<th>级别</th>
+        	<th>企业代码</th>
+        	<th>来源系统</th>
+        	<!--  
+	        <th>状态</th>-->
+	        <th>创建时间</th>
+	        <th>操作</th>
+        </thead>
+        <tbody>
+	        <tr ng-repeat="role in roleList" repeat-finish>
+	          <td>
+							<!-- <label>
+								<input type="checkbox" class="css-checkbox" name="statusFlag" ng-model="statusFlag" value="{{$index}}" />
+								<span class="css-checkbox-label"></span>
+							</label> -->
+							
+							<label> <input type="checkbox"
+									class="css-checkbox" name="statusFlag"
+											   ng-checked="selection.indexOf(role.id) > -1"
+											   ng-click="toggleSelection(role)" />
+								<span class="css-checkbox-label"></span>
+							</label>
+							
+							<!--<input type="checkbox" name="statusFlag" ng-model="statusFlag" value="{{$index}}" />-->
+						</td>
+	          <td>{{queryParams.start + $index+1}}</td>
+	          <td>{{role.name}}</td>
+	          <td>{{role.code}}</td>
+	          <td>{{role.level}}</td>
+	          <td>{{role.corpCode}}</td>
+	          <td>{{role.systemInfo.sysName}}</td>
+	        <!--   <td>
+	          	  <span ng-switch on="role.status">
+	                <span ng-switch-when="1">停用</span>
+	                <span ng-switch-when="0">启用</span>
+	              </span>
+	          </td> -->
+	          <td>{{role.createdOn | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+	          <td>
+				<div class="btn_tr flex">
+	            <span ng-if="role.level != 0">
+								<button keycode="editRole" class="goodButtonCommonEdit flex" ng-click="goEdit($index)">
+									<div title="编辑" class="button_icon edit_icon"></div></button>
+							</span>
+
+							
+				<span ng-if="role.level!=0 && role.systemInfo.sysCode!='MDM'">
+					<send-mq keycode="viewRoleDownload"  dataid="role.id"  datatype="2"  />
+				</span>
+ 	            <span ng-if="role.level != 0 && role.systemInfo.sysCode==='MDM'">
+ 	            	<button title="权限" keycode="setRoleOperation" class="goodButtonCommonEdit flex" ng-click="setOperation($index)">
+									<div class="glyphicon glyphicon-cog"></div>
+								</button>
+ 	            </span>
+ 	            <span>
+								<button keycode="viewUserRole" class="goodButtonCommonEdit flex" ng-click="viewUserRole($index)">
+									<div title="用户" class="glyphicon glyphicon-user"></div>
+								</button>
+							</span>
+ 	           <!--  <span ng-if="role.level != 0 && role.status == 1"><button keycode="updateRoleStatus" class="goodButtonCommonEdit" ng-click="updateStatus($index,0)"><div class="glyphicon glyphicon-ok-circle"></div>启用</button></span>
+ 	            <span ng-if="role.level != 0 && role.status == 0"><button keycode="updateRoleStatus" class="goodButtonCommonEdit" ng-click="updateStatus($index,1)"><div class="glyphicon glyphicon-remove-circle"></div>停用</button></span>--> 
+ 	            <span ng-if="role.level != 0"><view-history keycode="viewRoleHistory" id="role.id" callback="queryRoleInfoList" /></span>
+
+					<span ng-if="role.level != 0">
+								<button title="删除" keycode="deleteRole" style="background-color: #f75252" class="goodButtonCommonEdit flex" ng-click="doDel($index)">
+									<div class="button_icon delete_btn"></div>
+								</button>
+							</span>
+					    </div>
+	          </td>
+	        </tr>
+	        <tr ng-if="roleList == null || roleList.length == 0">
+	        	<td colspan="10">没有可以显示的数据</td>
+	        </tr>
+        </tbody>
+      </table>
+	</div>
+  <!-- 分页及汇总 -->
+  <div class="pagination_con flex" ng-include="'app/components/page/page.html'"></div>
+</div>

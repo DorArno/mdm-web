@@ -1,0 +1,37 @@
+.indexMenu {
+  background-color: #504242;
+  height: 70px;
+}
+.menuFont {
+  font-size: 20px!important;
+  color: white!important;
+  margin-top: 20px;
+}
+.left-nav-url {
+  background-color: #b9a49e;
+  width: 150px;
+}
+.left-nav-li {
+  background-color: #c8b7b0;
+  border-radius: 8px;
+  box-shadow: 3px 3px 4px #666;
+  width: 130px;
+  height: 30px;
+  margin: 0px 0 20px 0px;
+}
+.grid-wrapper {
+  height: 100%;
+}
+.grid-toolbox {
+  background: skyblue;
+  top: 50px;
+  left: 180px;
+  height: 100px;
+}
+.alert-custom {
+  position: absolute;
+  width: 800px;
+  top: 0px;
+  left: 30%;
+  z-index: 100000;
+}

@@ -1,0 +1,165 @@
+<div class="modalAll" style="height: auto;">
+    <div class="modalTop">
+      <div class="modalTitle">编辑组织机构信息</div>
+    </div>
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  <div class="modal_content_container">
+    <div  class="flex flex-wrap">
+
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	父级
+        </div>
+        <input class="input flex-2 flex-w"  type="text"  disabled="disabled" readonly="readonly" ng-model="editParams.parentName">
+      </div>
+      
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	编码
+        </div>
+       <input class="input flex-2 flex-w"  type="text"  disabled="disabled" readonly="readonly" ng-model="editParams.code">
+      </div>
+       
+       <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	类型
+        </div>
+          <input class="input flex-2 flex-w"  type="text"  disabled="disabled" readonly="readonly" ng-model="editParams.typeName">
+      </div>
+     
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	企业代码
+        </div>
+        <input class="input flex-2 flex-w"  type="text"  disabled="disabled" readonly="readonly" ng-model="editParams.corpCode">
+      </div>
+      
+         <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	<span class="text-danger">*</span>名称
+        </div>
+        <input class="input flex-2 flex-w" type="text" ng-model="editParams.name">
+      </div>
+      
+      
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	<span class="text-danger">*</span>状态
+        </div>
+        <select class="select flex-2 flex-w"
+                  ng-options="type.value as type.title for type in isStatusList"
+              ng-model="editParams.status">
+        </select>
+      </div>
+ 
+      
+       <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	 联系电话
+        </div>
+        <input class="input flex-2 flex-w" type="text" ng-model="editParams.contactTel">
+      </div>
+      
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	 <span class="text-danger">*</span>省份
+        </div>
+           <select class="select flex-2 flex-w" ng-change="queryCityList(editParams.provinceId)"
+                  ng-options="province.id as province.name for province in provinceList"
+              ng-model="editParams.provinceId">
+        </select>
+      </div>
+      
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	 <span class="text-danger">*</span>城市
+        </div>
+         <select class="select flex-2 flex-w" ng-change="queryDistrictList(editParams.cityId)"
+                  ng-options="city.id as city.name for city in cityList"
+              ng-model="editParams.cityId">
+        </select>
+      </div>
+      
+         <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	 <span class="text-danger">*</span>区域
+        </div>
+           <select class="select flex-2 flex-w" ng-change="queryCommunityList(editParams.districtID)"
+                  ng-options="city.id as city.name for city in districtList"
+              ng-model="editParams.districtID">
+        </select>
+      </div>
+     
+         <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	 社区
+        </div>
+         <select class="select flex-2 flex-w"  
+                  ng-options="city.id as city.name for city in communityList"
+              ng-model="editParams.communityId">
+        </select>
+      </div>
+      
+        <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	 详细地址
+        </div>
+        <input class="input flex-2 flex-w" type="text" ng-model="editParams.addrDetails">
+      </div>
+      
+      	<div class="er-temp-goods-input flex">
+				<div class="text flex-1 flex-w">经度</div>
+				<input class="input flex-2 flex-w" type="text"
+					ng-model="editParams.longitude">
+			</div>
+
+			<div class="er-temp-goods-input flex">
+				<div class="text flex-1 flex-w">纬度</div>
+				<input class="input flex-2 flex-w" type="text"
+					ng-model="editParams.latitude">
+			</div>
+      
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	 描述
+        </div>
+        <input class="input flex-2 flex-w" type="text" ng-model="editParams.description">
+      </div>
+
+      <div class="er-temp-goods-input flex" ng-show="editParams.systemCode=='SFYOFF'   ||  editParams.systemCode== 'CSS' " >
+        <div class="text flex-1 flex-w">
+            <span class="text-danger">*</span>机构类型
+        </div>
+         <select class="select flex-2 flex-w"
+                  ng-options="source.colName  as source.colValue for source in orgTypeList"
+              ng-model="editParams.idOrganizationType" disabled="disabled">
+        </select>
+      </div>
+      
+      <!--
+         <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	 <span class="text-danger">*</span> 来源系统
+        </div>
+         <select class="select flex-2 flex-w"
+                  ng-options="source.id  as source.sysName for source in sourceList"
+              ng-model="editParams.systemId">
+        </select>
+      </div>
+   -->
+     
+    </div>
+
+  </div>
+
+  <div class="flex flex-pack-end flex-align-center" style="width: 99.7%; padding:  0 16px; height: 80px;">
+    <button class="manageSure" ng-click="editConfirm()">确认</button>
+    <button class="manageCancel" ng-click="cancelEdit()">关闭</button>
+  </div>
+
+</div>

@@ -1,0 +1,72 @@
+<div class="modalAll" style="height: auto;">
+    <div class="modalTop">
+      <div class="modalTitle">添加接入系统信息</div>
+    </div>
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  <div class="modal_content_container">
+      <div  class="flex flex-wrap">
+	      <div class="er-temp-goods-input flex">
+	        <div class="text flex-1 flex-w">
+	          	<span class="text-danger">*</span>系统名称
+	        </div>
+	        <input class="input flex-2 flex-w" type="text" ng-model="addParams.sysName"  >
+	      </div>
+	      
+	      <div class="er-temp-goods-input flex">
+	        <div class="text flex-1 flex-w">
+	          	<span class="text-danger">*</span>系统编码
+	        </div>
+	        <input class="input flex-2 flex-w" type="text" ng-model="addParams.sysCode">
+	      </div>
+	      
+	      <div class="er-temp-goods-input flex" data-toggle="tooltip" data-placement="top" title="组织类型">
+	        <div class="text flex-1 flex-w">
+	         	 <span class="text-danger">*</span>组织类型
+	        </div>
+	        <select class="select flex-2 flex-w"
+	                  ng-options="type.colValue as type.colName for type in orgTypeList"
+	              ng-model="addParams.type">
+	              <option value="">组织类型</option>
+	        </select>
+	      </div>
+	      
+	      <div class="er-temp-goods-input flex" data-toggle="tooltip" data-placement="top" title="状态">
+	        <div class="text flex-1 flex-w">
+	         	 <span class="text-danger">*</span>状态
+	        </div>
+	       		<select class="select flex-2 flex-w"
+               		   ng-options="type.value as type.title for type in statusList"
+            		  ng-model="addParams.status">
+             		 <option value="">状态</option>
+       			 </select>
+	     </div>
+	     <!--  <div class="er-temp-goods-input flex">
+	        <div class="text flex-1 flex-w">
+	          	授权key
+	        </div>
+	        <input class="input flex-2 flex-w" type="text" ng-model="addParams.authCode">
+	      </div> -->
+      </div>
+      <div  class="flex flex-wrap">  
+          &nbsp;&nbsp;
+	      <div class="big">
+	       	<span class="text-danger">*</span>授权key生失效时间:	
+	        <input id="da1" onChange="" style="height:37px;border:0.5;"  type="text" ng-model="addParams.beginDate" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'da2\')||\'2099-10-01\'}',dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+	       - <input id="da2" onChange="" style="height:37px;border:0.5;" type="text" ng-model="addParams.endDate" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'da1\')}',maxDate:'2099-10-01',dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+	      </div>
+  	  </div>
+      
+
+  </div>
+
+  <div class="flex flex-pack-end flex-align-center" style="width: 99.7%; padding:  0 16px; height: 80px;">
+    <button class="manageSure"  ng-click="addConfirm()">确认</button>
+    <button class="manageCancel" ng-click="cancelAdd()">关闭</button>
+  </div>
+
+</div>

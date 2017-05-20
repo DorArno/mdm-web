@@ -1,0 +1,59 @@
+<div ng-controller="RoleCrl" ng-init="queryUserRoleList()" style="position:relative;left:10px; margin-top: 20px;">
+    <form class="form-inline">
+	    <div class="form-group">
+	      		<input type="text" id="username" class="form-control" ng-model="userRoleParams.username"
+	                   placeholder="用户名称">
+	            <input type="text" id="cellPhone" class="form-control" ng-model="userRoleParams.cellPhone"
+	                   placeholder="手机">
+	            <select class="form-control" ng-model="userRoleParams.sex">
+	            	<option value="">全部</option>
+	            	<option ng-repeat="x in userRoleSexs" value="{{x.value}}">{{x.name}}</option>
+				</select>	
+	            <button keycode="queryRole" class="buttonCommon complaintDetail" ng-click="queryUserRoleList()"><div class="glyphicon glyphicon-search"></div>查询</button>
+	    </div>
+    </form>
+  <!-- 数据部分 -->
+	<table class="crmAllTable" style=" margin-top: 20px; width: 97%;">
+        <thead style="border: 1px solid darkgray;background-color:#F5F5FE;text-align:center;">
+        	<th>用户名称</th>
+	        <th>性别</th>
+        	<th>手机</th>
+        	<th>电子邮件</th>
+        	<th>所属部门</th>
+	        <th>角色</th>
+        </thead>
+        <tbody>
+	        <tr ng-repeat="userRole in userRoleList" repeat-finish>
+	          <td>{{userRole.user.username}}</td>
+	          	{{userRole.user.sex}}
+	          <td>
+	          	  <span ng-switch on="userRole.user.sex">
+	                <span ng-switch-when="1">男</span>
+	                <span ng-switch-when="2">女</span>
+	                <span ng-switch-when="0">保密</span>
+	              </span>
+	          </td>
+	          <td>{{userRole.user.cellPhone}}</td>
+	          <td>{{userRole.user.email}}</td>
+	          <td>{{userRole.departmentName}}</td>
+	          <td>{{role.name}}</td>
+	        </tr>
+	        <tr ng-if="userRoleList == null || userRoleList.length == 0">
+	        	<td colspan="6">没有可以显示的数据</td>
+	        </tr>
+        </tbody>
+      </table>
+  <!-- 分页及汇总 -->
+  <div>
+    <pagination style="height:0px;background-color:#F5F5FE" ng-change="userRolePageChanged(currentPage)"
+		 total-items="userRoletotalItems"
+		ng-model="currentPage" max-size="maxSize" num-pages="numPages"
+		class="pagination-sm" boundary-links="true" rotate="false"
+		previous-text="前一页" next-text="后一页" first-text="首页" last-text="尾页"></pagination>
+
+	<span style="color: #777;">共{{userRoletotalItems}}条</span>
+  </div>
+    <div class="flex flex-pack-end flex-align-center" style="width: 99.7%; padding:  0 16px; height: 80px;">
+    <button class="manageCancel" ng-click="userRoleClose()">关闭</button>
+  </div>
+</div>

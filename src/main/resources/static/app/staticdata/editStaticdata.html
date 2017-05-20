@@ -1,0 +1,47 @@
+<div class="modalAll" style="height: auto;">
+    <div class="modalTop">
+      <div class="modalTitle">数据字典修改</div>
+    </div>
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  <div class="modal_content_container">
+    <div  class="flex flex-wrap">
+
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	类型
+        </div>
+        <input class="input flex-2 flex-w" type="text" readonly="readonly" ng-model="editParams.tableName">
+      </div>
+      
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	KEY
+        </div>
+        <input class="input flex-2 flex-w" type="text" readonly="readonly" ng-model="editParams.colName">
+      </div>
+     
+      <div class="er-temp-goods-input flex" data-toggle="tooltip" data-placement="top" title="商家分类">
+        <div class="text flex-1 flex-w">
+         	 数据内容
+        </div>
+        <input class="input flex-2 flex-w" type="text"  ng-model="editParams.colValue">
+      </div>
+
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	描述
+        </div>
+        <input class="input flex-2 flex-w" type="text" ng-model="editParams.description">
+      </div>
+	</div>
+ 	 <div class="flex flex-pack-end flex-align-center" style="width: 99.7%; padding:  0 16px; height: 80px;">
+    	<button class="manageSure" ng-click="editConfirm()">确认</button>
+   		 <button class="manageCancel" ng-click="cancelEdit()">关闭</button>
+ 	 </div>
+ </div>
+</div>

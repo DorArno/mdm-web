@@ -1,0 +1,117 @@
+<div ng-controller="mergeuserController" ng-init="init()" style="position:relative;left:16px; margin-top: 8px;">
+	
+    <form class="form-inline">
+	    <div class="form-group" op-ctrl>
+	      		<input type="text" id="account" class="form-control" style="width:100px" ng-model="queryParams.account"   oninput="if(value.length>20)value=value.slice(0,20)" 
+	                   placeholder="用户账号">
+	            <input type="text" id="phone" class="form-control" style="width:100px" ng-model="queryParams.phone"   oninput="if(value.length>20)value=value.slice(0,20)" 
+                placeholder="手机号">
+                <input type="text" id="syscode" class="form-control" style="width:100px" ng-model="queryParams.syscode"   oninput="if(value.length>20)value=value.slice(0,20)" 
+                placeholder="客户编号">
+                <input type="text" id="sysname" class="form-control" style="width:100px" ng-model="queryParams.sysname"   oninput="if(value.length>20)value=value.slice(0,20)" 
+                placeholder="用户姓名">
+                <select class="form-control" ng-model="queryParams.sex">
+        			<option value="">性别</option>
+					<option ng-repeat="x in sex" value="{{x.value}}">{{x.title}}</option>
+				</select>
+				<select class="form-control" ng-model="queryParams.status">
+        			<option value="">状态</option>
+					<option ng-repeat="x in status" value="{{x.value}}">{{x.title}}</option>
+				</select>
+                <static-data class="form-control" empty='类型' style="width:100px" table="UserChannel" model="queryParams.type" same="false" /> 
+	         </div>
+                <div>
+                <button keycode="queryMergeUser"  class="buttonCommon complaintDetail" style="" ng-click="queryInfoList()"><div class="glyphicon glyphicon-search"></div>查询</button>
+				<!--  <button keycode="mergeUser" class="buttonCommon complaintDetail" style="" ng-click="mergeUser()"><div class="glyphicon glyphicon-plus"></div>合并用户</button>
+				-->
+	    </div>
+	  
+    </form>
+  <!-- 数据部分 -->
+	<div class="table_container">
+
+	<table class="crmAllTable" style="">
+        <thead style="">
+	        <th width="40">
+						<label>
+							<input type="checkbox" class="css-checkbox" ng-model="master" ng-click="all(master,systemInfoList)" />
+							<span class="css-checkbox-label"></span>
+						</label>
+						<!--<input type="checkbox" ng-model="master" ng-click="all(master,systemInfoList)">-->
+					</th>
+			<th>序号</th>
+	        <th>账号</th>
+	        <th>性别</th>
+	        <th>微信ID</th>
+	        <th>电话号码</th>
+	        <th>客户编号</th>
+	       <!--  <th>参数</th>--> 
+	        <th>用户姓名</th>
+	        <th>状态</th>
+	        <th>类型</th>
+	        <th>手机号</th>
+	        <th>邮箱</th>
+	        <th>企业代码</th>
+	     
+	      
+	        
+        </thead>
+       <tbody>
+	        <tr  ng-repeat="system in systemInfoList">
+	        	<td>
+							<label>
+								<input type="checkbox" class="css-checkbox" d={{$index}} ng-model="x" ng-checked="master" ng-click="chk(system,x)" />
+								<span class="css-checkbox-label"></span>
+							</label>
+							<!--<input id={{$index}} type="checkbox"  ng-model="x" ng-checked="master" ng-click="chk(system,x)"/>-->
+						</td>
+           		<td>{{queryParams.start + $index+1}}</td>
+	          <td>{{system.account}}</td>
+	          <td>
+	          	  <span ng-switch on="system.sex">
+	                <span ng-switch-when="1">男</span>
+	                <span ng-switch-when="0">女</span>
+	              </span>
+	          </td> 
+	          <!-- <td>{{system.createdOn}}</td> -->
+	          <td>{{system.weChatID}}</td>
+	          <td>{{system.phoneNumber}}
+	          <td>{{system.customerCode}}</td>
+	          <td>{{system.username}}</td>
+	          <td>
+	          	  <span ng-switch on="system.status">
+	                <span ng-switch-when="1">启用</span>
+	                <span ng-switch-when="0">停用</span>
+	              </span>
+	          </td> 
+	          <td>
+	          	  <span ng-switch on="system.type">
+	                <span ng-switch-when="10">其它</span>
+	                <span ng-switch-when="4">会员</span>
+	                 <span ng-switch-when="3">业主</span>
+	                <span ng-switch-when="2">帮工</span>
+	                 <span ng-switch-when="1">后台用户</span>
+
+	              </span>
+	          </td> 
+	          <td>{{system.cellPhone}}    </td>
+	          <td>{{system.email}}    </td>
+	          <td>{{system.corpCode}}    </td>
+
+	        </tr>
+        </tbody>
+      </table>
+      </div>
+  <!-- 分页及汇总 -->
+  <div class="pagination_con flex">
+    <pagination style="height:30px;" ng-change="pageChanged()" ng-click="setPage(currentPage)" total-items="totalItems"
+                ng-model="currentPage" max-size="maxSize" num-pages="numPages" class="pagination" boundary-links="true"
+                rotate="false" previous-text="前一页" next-text="后一页" first-text="首页" last-text="尾页"></pagination>
+	<span style="color: #777;margin-top: 0;">共{{totalItems}}条</span>
+</div>
+
+
+	
+  <!--  
+ <div ng-include="'app/components/page/page.html'"></div>-->
+</div>

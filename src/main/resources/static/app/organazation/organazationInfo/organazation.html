@@ -1,0 +1,224 @@
+<link rel="stylesheet" href="app/components/tree/zTreeStyle.css"
+	type="text/css">
+<script type="text/javascript"
+	src="app/components/tree/jquery.ztree-2.6.min.js"></script>
+<div ng-controller="OrganazationCrl" ng-init="init()">
+	<ul id="myTab" class="flex">
+        <li id="tab{{type.colValue}}"   ng-repeat="type in organizationTypes"   ng-class="{true: 'active', false: ''}[current_type == type.colValue] "  >
+		      <a   href="javascript:void(0)" onclick="return false;"  data-toggle="tab" ng-click="setOrgType(type.colValue, type.colType)"> {{type.colName}} </a>
+		 </li>
+	</ul>
+	<div style="position: relative; left: 22px; margin-top: 20px;">
+		<script>
+			function onSelect(event, treeId, treeNode) {
+				var node = tree.getSelectedNode();
+				//alert(treeNode.id+'-'+treeNode.name);
+				var appElement = document
+						.querySelector('[ng-controller=OrganazationCrl]');
+				var $scope = angular.element(appElement).scope();
+				$scope.queryParams.orgName = '';
+				$scope.queryParams.orgCode = '';
+				$scope.queryParams.corpCode = '';
+				$scope.queryParams.sourceid = '';
+				$scope.queryParams.beginDate = '';
+				$scope.queryParams.endDate = '';
+				$scope.queryParams.parentId = node.id;
+				$scope.addParams.parentId = node.id;
+				
+				$scope.addParams.parentName = node.name;
+				$scope.queryOrganazationList2();
+			}
+			
+			function onExpand(event, treeId, treeNode)
+			{
+				var appElement = document.querySelector('[ng-controller=OrganazationCrl]');
+				var $scope = angular.element(appElement).scope();
+				$scope.queryTreeNodes(treeNode.id);
+			}
+			
+			function zTreeOnCheck(event, treeId, treeNode){}
+			
+		//	setTimeout('initTab()', 5000);
+			
+				$("#myTab").bind('DOMNodeInserted', function(e) {  
+					initTab();  
+				});  
+			
+		 		function initTab(){
+		 			$('#myTab  a').on('show.bs.tab', function(e) {
+		 				  e.preventDefault();
+		 			});
+				}
+		 		function searchTree(searchString){
+		 		    var rootNode=tree.getNodes();
+		 		    if(null!=rootNode&&rootNode.length>0){
+		 		        if(null!=searchString&&searchString!=""){
+		 		            $(rootNode).each(function () {
+		 		                if(this.name.indexOf(searchString)>=0){
+		 		                    $("#"+this.tId).show();
+		 		                    $(this.nodes).each(function(){
+		 		                        //if(this.name.indexOf(searchString)>=0){
+		 		                            $("#"+this.tId).show();
+		 		                        /*}else{
+		 		                            $("#"+this.tId).hide();
+		 		                        }*/
+		 		                    });
+		 		                }else{
+		 		                    var i =0;
+		 		                    $(this.nodes).each(function(){
+		 		                        if(this.name.indexOf(searchString)>=0){
+		 		                            $("#"+this.tId).show();
+		 		                            i++;
+		 		                        }else{
+		 		                            $("#"+this.tId).hide();
+		 		                        }
+		 		                    });
+		 		                    if(i==0){
+		 		                        $("#"+this.tId).hide();
+		 		                    }else{
+		 		                        $("#"+this.tId).show();
+		 		                    }
+		 		                }
+		 		            });
+		 		        }else{
+		 		            //显示所有的内容
+		 		            $(rootNode).each(function () {
+		 		                $("#"+this.tId).show();
+		 		                $(this.nodes).each(function(){
+		 		                    $("#"+this.tId).show();
+		 		                })
+		 		            });
+		 		        }
+		 		    }
+		 		}
+		</script>
+		<div
+			style="width: 20%; height: 550px; overflow: auto; background: #fff;">
+			<input type="text" name="searchTree" onkeyup="searchTree(this.value)" class="form-control">
+			<div  ng-bind-html="html|htmlContent" />
+		</div>
+
+		<div
+			style="position: absolute; top: -7px; left: 21.5%; width: 76%; height: 100%;">
+			<form class="form-inline" >
+				<div class="form-group" style="width: 100%" op-ctrl>
+				
+						<input  style="width: 100px;" type="text" id="orgName" class="form-control"
+						ng-model="queryParams.orgName" placeholder="名称" > 
+						
+					<input type="text" id="orgCode" class="form-control" style="width: 100px;"
+						ng-model="queryParams.orgCode" placeholder="编码"> 
+			 
+					  <corp-code ng-model="queryParams.corpCode"></corp-code>
+			 
+					<input id="da1"   style="width: 120px;"   class="form-control"  type="text" ng-model="queryParams.beginDate" onChange=""
+	        	               onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'da2\')||\'2099-10-01\'}',dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+	        	              placeholder="开始时间"/>
+	        -         <input id="da2"  style="width: 120px;"  class="form-control"   type="text" ng-model="queryParams.endDate" onChange=""
+	        	             onFocus="WdatePicker({minDate:'#F{$dp.$D(\'da1\')}',maxDate:'2099-10-01',dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+	        	             placeholder="结束时间"/>
+					<br>
+				<!-- 
+			     <angucomplete id="ex2" placeholder="Search people" pause="300" 
+			     selectedobject="selectedPerson" localdata="people" searchfields="firstName,surname"
+			      titlefield="firstName,surname" descriptionfield="surname"    minlength="1" 
+			      inputclass="form-control form-control-small" matchclass="highlight" />
+               -->	 
+       
+					 
+						<button keycode="queryOrg"  class="buttonCommon complaintDetail"
+							ng-click="queryOrganazationList2()">
+							<div class="btn_com_icon magnifier_btn_com"></div>
+							查询
+						</button>
+							<button keycode="addOrg"   class="buttonCommon complaintDetail"
+							ng-click="addOrganazationInfo()">
+							<div class="btn_com_icon plus_btn_com"></div>
+							新增
+						</button>
+					<import-Excel keycode="importOrganization" ng-model="queryParams"
+						importUrl="/web/mdm/organazation/importOrganization"
+						templateUrl="/web/mdm/organazation/exportTemplete"></import-Excel>
+					<export-Excel keycode="exportOrganization" ng-model="queryParams"
+						exportUrl="/web/mdm/organazation/export"></export-Excel>
+					<button keycode="batchUpdateOrgStatus" class="buttonCommon complaintDetail"  ng-show="levelZeroCount==0" ng-click="batchUpdateOrgStatus(0)"><div class="btn_com_icon active_btn_com"></div>启用</button>
+					<button keycode="batchUpdateOrgStatus" class="buttonCommon complaintDetail"  ng-show="levelZeroCount==0" ng-click="batchUpdateOrgStatus(1)"><div class="btn_com_icon pause_btn_com"></div>停用</button>
+					<button keycode="batchUpdateOrgStatus" class="buttonCommon complaintDetail"  ng-show="levelZeroCount==0" ng-click="batchUpdateOrgStatus(2)"><div class="btn_com_icon delete_btn_com"></div>删除</button>
+					<bach-send-mq ng-model="selection" datatype="4" keycode="mqOrg"></bach-send-mq>
+			</form>
+			<!-- 数据部分 -->
+			<div class="table_container">
+			<table class="crmAllTable" style="">
+				<thead
+					style="">
+					<th><label ng-show="systemInfoList.length > 0"> <input type="checkbox"
+										   class="css-checkbox" name="statusFlag"
+										   ng-checked="selection.length == systemInfoList.length"
+										   ng-click="toggleSelectionAll()">
+							<span class="css-checkbox-label"></span>
+						</label></th>
+					<th>序号</th>
+					<th>名称</th>
+					<th>编码</th>
+					<th>企业代码</th>
+					<th>状态</th>
+					<th>更新时间</th>
+					<th>操作</th>
+				</thead>
+				<tbody>
+					<tr ng-repeat="system in systemInfoList"  repeat-finish>
+					    <td>
+								<!-- <label>
+									<input type="checkbox" class="css-checkbox" name="statusFlag" ng-model="statusFlag" value="{{$index}}" />
+									<span class="css-checkbox-label"></span>
+								</label> -->
+								
+								<label> <input type="checkbox"
+									class="css-checkbox" name="statusFlag"
+											   ng-checked="selection.indexOf(system.id) > -1"
+											   ng-click="toggleSelection(system)" />
+								<span class="css-checkbox-label"></span>
+							</label>
+								<!--<input type="checkbox" name="statusFlag" ng-model="statusFlag" value="{{$index}}"  style="margin:5px;"/>-->
+							</td>
+						<td>{{queryParams.start + $index+1}}</td>
+						<td>{{system.name}}</td>
+						<td>{{system.code}}</td>
+						<td>{{system.corpCode}}</td>
+						
+						<td><span ng-switch on="system.status"> <span
+								ng-switch-when="0">已停用</span> <span ng-switch-when="1">已启用</span>
+						</span></td>
+						<td>{{system.modifiedOn}}</td>
+						<td>
+							<div class="btn_tr flex">
+
+							<span ng-if="system.parentId!=null">
+								<button title="编辑" keycode="editOrg" class="goodButtonCommonEdit"
+									ng-click="goEdit($index)">
+									<div class="glyphicon glyphicon-pencil"></div>
+
+								</button>
+						</span> 
+						<span ng-if="system.parentId!=null">
+						          <button title="删除" keycode="deleteOrg" class="goodButtonCommonEdit" ng-click="goDelete(system.id)">
+									<div class="glyphicon glyphicon-remove"></div>
+
+								</button>
+						</span>
+						   <span><view-history keycode="viewOrgHistory"  id="system.id"  callback="queryOrganazationList" /></span>
+						  <span><send-mq keycode="mqOrg"  dataid="system.id"  datatype="4"  />
+							</span>
+								</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+
+			<!-- 分页及汇总 -->
+			<div class="pagination_con flex" ng-include="'app/components/page/page.html'"></div>
+		</div>
+	</div>
+</div>
+</div>

@@ -1,0 +1,198 @@
+<div class="modalAll" style="height: auto;">
+    <div class="modalTop">
+      <div class="modalTitle">商家信息修改</div>
+    </div>
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  <div class="modal_content_container" style="">
+  		<ul id="userInfoTab" class="nav nav-tabs">
+			<li class="active"><a href="#" onclick="return false;" data-toggle="tab" ng-click="setUserInfoType(1)">基础信息</a></li>
+			<li><a href="#" onclick="return false;" data-toggle="tab" ng-click="setUserInfoType(2)">明细信息</a></li>
+		</ul>
+    <div id="merchantBasicsInfo" style="padding-top: 10px;justify-content: space-between;" class="flex flex-wrap">
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	<span class="text-danger">*</span>商家名称
+        </div>
+        <input class="input flex-2 flex-w" type="text"  ng-model="editParams.mName">
+      </div>
+      
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+			商家编号
+        </div>
+        <input class="input flex-2 flex-w" type="text" readonly="readonly" ng-model="editParams.code">
+      </div>
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	<span class="text-danger">*</span>商家状态
+        </div>
+        <select class="select flex-2 flex-w"
+                  ng-options="type.value as type.title for type in merchantStatus"
+              ng-model="editParams.status">
+        </select>
+      </div>
+      <div class="er-temp-goods-input flex" data-toggle="tooltip" data-placement="top" title="来源系统">
+        <div class="text flex-1 flex-w">
+          	<span class="text-danger">*</span>来源系统
+        </div>
+        <select class="select flex-2 flex-w" ng-model="editParams.systemId" ng-options="type.value as type.title for type in systemSourceList">
+			<option value="">来源系统</option>
+		</select>
+      </div>
+      <div class="er-temp-goods-input flex" data-toggle="tooltip" data-placement="top" title="商家分类">
+	        <div class="text flex-1 flex-w">
+	         	<span class="text-danger">*</span> 一级分类
+	        </div>
+	        <select class="select flex-2 flex-w"
+	                  ng-options="type.id as type.name for type in fristMerchantType"
+	                  ng-change="querySecondMerchantType(editParams.firstCategoryId)"
+	              ng-model="editParams.firstCategoryId">
+	        </select>
+	  </div>
+      <div class="er-temp-goods-input flex" data-toggle="tooltip" data-placement="top" title="商家分类">
+	        <div class="text flex-1 flex-w">
+	         	<span class="text-danger">*</span> 二级分类
+	        </div>
+	        <select class="select flex-2 flex-w"
+	                  ng-options="type.id as type.name for type in secondMerchantType"
+	              ng-model="editParams.secondCategoryId">
+	        </select>
+	  </div>
+       <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	 省份
+        </div>
+        <select class="select flex-2 flex-w" ng-change="queryCityList(editParams.province)"
+                  ng-options="province.id as province.name for province in provinceList"
+              ng-model="editParams.province">
+        </select>
+      </div>
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	  城市
+        </div>
+        <select class="select flex-2 flex-w" ng-change="queryDistrictList(editParams.city)"
+                  ng-options="city.id as city.name for city in cityList"
+              ng-model="editParams.city">
+        </select>
+      </div>
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">
+          	  区域
+        </div>
+        <select class="select flex-2 flex-w" 
+                  ng-options="district.id as district.name for district in districtList"
+              ng-model="editParams.distict">
+        </select>
+      </div>
+      
+      <div class="er-temp-goods-input flex" style="display:none;">
+        <div class="text flex-1 flex-w">
+          	<span class="text-danger">*</span>组织ID
+        </div>
+        <input class="input flex-2 flex-w" type="text" ng-model="editParams.organizationId">
+      </div>
+      <div class="er-temp-goods-input flex">
+        <div class="text flex-1 flex-w">所属组织</div>
+        <input class="input flex-2 flex-w" type="text" ng-model="editParams.organizationName" disabled="disabled">
+      </div>
+     </div>
+     <div  id="merchantDetailInfo" style="display: none" class="flex flex-wrap">
+     	<div class="er-temp-goods-input flex">
+	        <div class="text flex-1 flex-w">
+	          	<span class="text-danger">*</span>负责人
+	        </div>
+	        <input class="input flex-2 flex-w" type="text" ng-model="editParams.mManager">
+	      </div>
+     	<div class="er-temp-goods-input flex">
+	        <div class="text flex-1 flex-w">
+				商家电话
+	        </div>
+	        <input class="input flex-2 flex-w form-control" type="text" ng-model="editParams.contactTel" placeholder="手机或固定电话号码">
+	      </div>
+	    <div class="er-temp-goods-input flex">
+	        <div class="text flex-1 flex-w">
+	          	客服电话
+	        </div>
+	        <input class="input flex-2 flex-w form-control" type="text" ng-model="editParams.serviceTel" placeholder="手机或固定电话号码">
+	      </div>
+	    <div class="er-temp-goods-input flex" style="display: none;">
+	        <div class="text flex-1 flex-w">
+	          	是否夜场
+	        </div>
+	        <select class="select flex-2 flex-w"
+	                  ng-options="type.value as type.title for type in merchantHasnight"
+	              ng-model="editParams.hasNight">
+	        </select>
+	      </div>
+	    <div class="er-temp-goods-input flex" style="display: none;">
+	        <div class="text flex-1 flex-w">
+	          	<span class="text-danger">精选商家</span>
+	        </div>
+	        <select class="select flex-2 flex-w"
+	                  ng-options="type.value as type.title for type in merchantHasnight"
+	              ng-model="editParams.isHighQualityMerchants">
+	        </select>
+	      </div>
+       	<div class="er-temp-goods-input flex">
+	        <div class="text flex-1 flex-w">
+	          	停车位
+	        </div>
+	        <input class="input flex-2 flex-w" type="text" ng-model="editParams.parkingNumber">
+	      </div>
+	 <div class="er-temp-goods-input flex">
+		 <div class="text flex-1 flex-w">
+			 外部商家
+		 </div>
+		 <select  class="select flex-2 flex-w"
+				  ng-options="type.value as type.title for type in isExternalList"
+				  ng-model="editParams.isExternal" >
+		 </select>
+	 </div>
+      <div  class="flex flex-wrap" style="height: 40px;margin: 8px 16px 8px 8px;">
+          &nbsp;&nbsp;
+	      <div class="big">
+	       	正常营业时间:	
+	        <input  id="da3" onChange="" style="height:37px;border:0.5;"  type="text" ng-model="editParams.startOperation" onFocus="WdatePicker({maxDate:'2099-10-01',dateFmt:'HH:mm'})"/>
+	       - <input id="da4" onChange="" style="height:37px;border:0.5;" type="text" ng-model="editParams.endOperation" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'da3\')}',maxDate:'2099-10-01',dateFmt:'HH:mm'})"/>
+	      </div>
+  	  </div>
+      <div  class="flex flex-wrap" style="height: 40px;margin: 8px 16px 8px 8px; display:none;">
+          &nbsp;&nbsp;
+	      <div class="big">
+	       	晚间营业时间:	
+	        <input  id="da1" onChange="" style="height:37px;border:0.5;"  type="text" ng-model="editParams.nightStart" onFocus="WdatePicker({maxDate:'2099-10-01',dateFmt:'HH:mm'})"/>
+	       - <input id="da2" onChange="" style="height:37px;border:0.5;" type="text" ng-model="editParams.nightEnd" onFocus="WdatePicker({maxDate:'2099-10-01',dateFmt:'HH:mm'})"/>
+	      </div>
+  	  </div>
+
+      <div class="er-temp-goods-input flex" style="width:94%;">
+        <div class="text flex-1 flex-w" style="height:100%;">
+          	商家地址
+        </div>
+        <textarea ng-model="editParams.address" style="width:90%; border:0; padding-left:2px; padding-top:9px; resize: none;"> </textarea>
+      </div>
+      <div class="er-temp-goods-input flex" style="width:94%;">
+        <div class="text flex-1 flex-w" style="height:100%;">
+          	商家展示名
+        </div>
+        <textarea ng-model="editParams.title" style="width:90%; border:0; padding-left:2px; padding-top:9px; resize: none;"> </textarea>
+      </div>
+      <div class="er-temp-goods-input flex" style="width:94%; height:70px;">
+        <div class="text flex-1 flex-w" style="height:100%;">
+          	商家描述
+        </div>
+        <textarea ng-model="editParams.description" style="width:90%; border:0; padding-left:2px; padding-top:9px; resize: none;"> </textarea>
+      </div>
+	</div>
+ 	 <div class="flex flex-pack-end flex-align-center" style="width: 99.7%; padding:  0 16px; height: 80px;">
+    	<button class="manageSure" ng-click="editConfirm()">确认</button>
+   		 <button class="manageCancel" ng-click="cancelEdit()">关闭</button>
+ 	 </div>
+ </div>
+</div>

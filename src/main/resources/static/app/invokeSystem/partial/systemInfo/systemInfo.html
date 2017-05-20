@@ -1,0 +1,111 @@
+<div ng-controller="SystemInfoCrl" ng-init="init()" style="position:relative;left:16px; margin-top: 8px;">
+    <form class="form-inline">
+	    <div class="form-group">
+	      		<input type="text" id="sysName" class="form-control" ng-model="queryParams.sysName"
+	                   placeholder="系统名称">
+	
+	      		<input type="text" id="sysCode" class="form-control" ng-model="queryParams.sysCode"
+	                   placeholder="系统编码">
+	                   
+                 <select class="form-control"
+               		   ng-options="type.value as type.title for type in statusList"
+            		  ng-model="queryParams.status">
+             		 <option value="">状态</option>
+       			 </select>
+       			 <select class="form-control"
+               		   ng-options="type.colValue as type.colName for type in orgTypeList"
+            		  ng-model="queryParams.type">
+             		 <option value="">组织类型</option>
+       			 </select>
+				<br>
+	
+	            <button keycode="querySystemInfoList" class="buttonCommon complaintDetail"  style="" ng-click="querySystemInfoList()">
+								<div class="glyphicon glyphicon-search"></div> 查询</button>
+	            <button keycode="addSystemInfo" class="buttonCommon complaintDetail" style=""ng-click="addSystemInfo()"><div class="glyphicon glyphicon-plus"></div> 新增</button>
+	    </div>
+    </form>
+  <!-- 数据部分 -->
+	<div class="table_container">
+	<table class="crmAllTable" style="">
+		<thead style="">
+		<th>序号</th>
+		<th>系统名称</th>
+		<th>系统编码</th>
+		<th>组织类型</th>
+		<th>白名单数</th>
+		<th>授权key</th>
+		<th>key生效时间</th>
+		<th>key失效时间</th>
+		<!--  <th>接入时间</th>
+    <th>创建人</th>
+    <th>更新时间</th>
+    <th>更新人</th> -->
+		<th>状态</th>
+		<th>操作</th>
+		</thead>
+		<tbody>
+		<tr ng-repeat="system in systemInfoList" repeat-finish>
+			<td>{{queryParams.start + $index+1}}</td>
+			<td>{{system.sysName}}</td>
+			<td>{{system.sysCode}}</td>
+			<td>{{system.orgType}}</td>
+			<td>{{system.whiteCount}}</td>
+			<td>{{system.authCode}}</td>
+			<td>{{system.beginDate}}</td>
+			<td>{{system.endDate}}</td>
+			<!--  <td>{{system.createdOn | date:'yyyy-MM-dd HH:mm:ss'}} </td> -->
+			<!-- <td>{{system.createdBy}}</td>
+      <td>{{system.modifiedOn}}</td>
+      <td>{{system.modifiedBy}}</td> -->
+			<td>
+	              <span ng-switch on="system.status">
+	                <span ng-switch-when="1">启用</span>
+	                <span ng-switch-when="0" style="color:#D54D49;">停用</span>
+	              </span>
+			</td>
+			<td>
+
+				<div class="btn_tr flex">
+				<span ng-if="system.status == 0">
+					<button keycode="startSystemInfo" title="启用" class="goodButtonCommonEdit flex" ng-click="updateStatus($index,1)">
+						<div class="button_icon continue_icon"></div>
+					</button>
+				</span>
+				<span ng-if="system.status == 1">
+					<button keycode="stopSystemInfo" title="停用" class="goodButtonCommonEdit flex" ng-click="updateStatus($index,0)">
+						<span	class="button_icon stop_btn"></span>
+					</button>
+				</span>
+				<span>
+					<button title="编辑" keycode="editSystemInfo" class="goodButtonCommonEdit flex"  ng-click="goEdit($index)">
+						<span class="button_icon edit_icon"></span>
+					</button>
+				</span>
+
+				<span>
+					<button title="白名单管理" keycode="getWhiteInfo" class="goodButtonCommonEdit flex" ng-click="goWhite($index)">
+						<div class="button_icon white_list_btn"></div>
+					</button>
+				</span>
+					<span>
+					<button title="删除" keycode="deleteSystemInfo" class="goodButtonCommonEdit flex" style="background-color: #f75252" ng-click="doDel($index)">
+						<span class="button_icon delete_btn"></span>
+					</button>
+				</span>
+
+				</div>
+			</td>
+		</tr>
+		<tr ng-if="systemInfoList == null || systemInfoList.length == 0">
+			<td colspan="8">没有可以显示的数据</td>
+		</tr>
+
+		</tbody>
+        
+      </table>
+	</div>
+  <!-- 分页及汇总 -->
+  <div class="pagination_con flex" ng-include="'app/components/page/page.html'"></div>
+
+
+</div>
