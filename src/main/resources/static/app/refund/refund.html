@@ -35,6 +35,7 @@
 	<div class="table_container">
 	<table class="crmAllTable" style="">
         <thead style="">
+
         	<th>
         		<label ng-show="refundList.length > 0"> <input type="checkbox"
 										   class="css-checkbox" name="statusFlag"
@@ -63,14 +64,14 @@
 								<input type="checkbox" class="css-checkbox" name="statusFlag" ng-model="statusFlag" value="{{$index}}" />
 								<span class="css-checkbox-label"></span>
 							</label> -->
-							
+
 							<label> <input type="checkbox"
 									class="css-checkbox" name="statusFlag"
 											   ng-checked="selection.indexOf(role.id) > -1"
 											   ng-click="toggleSelection(role)" />
 								<span class="css-checkbox-label"></span>
 							</label>
-							
+
 							<!--<input type="checkbox" name="statusFlag" ng-model="statusFlag" value="{{$index}}" />-->
 						</td>
 	         <!-- <td>{{queryParams.start + $index+1}}</td>-->
@@ -82,7 +83,7 @@
 	            <td>{{refund.refundnum}}</td>
 				<td>{{refund.refundnum}}</td>
 				<td>{{refund.refundfee}}</td>
-				<td>{{refund.refundtype}}</td>
+				<td>{{refundTypeView[refund.refundtype]}}</td>
 				<td>{{refund.statuscode}}</td>
 				<td>{{refund.modifiedon| date:'yyyy-MM-dd HH:mm:ss'}}</td>
 	        </tr>

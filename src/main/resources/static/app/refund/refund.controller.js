@@ -10,12 +10,11 @@ angular.module('refund').controller(
 			//退换货类型
 			$scope.refundType = [];
 
-			//退换货订单类型
-			$scope.refundOrderType = [];
+			$scope.refundTypeView = [];
 
 			var orderQueryList = ["orderType",$scope.orderType,"refundtype",$scope.refundType];
 
-			var orderGridView = [$scope.orderType,$scope.orderTypeView];
+			var orderGridView = [$scope.orderType,$scope.orderTypeView,$scope.refundType,$scope.refundTypeView];
 
 			//初始化参数
 			$scope.initQueryParams = function (){
@@ -51,12 +50,12 @@ angular.module('refund').controller(
 			// 分页
 			$scope.maxSize = 10;
 			$scope.pageChanged = function(pageNo) {
-				$scope.queryParams.pageNum = pageNo;
+				$scope.queryParams.page = pageNo;
 				$scope.queryRefundInfoList();// 这里需要改为当前查询的请求方法
 			};
 
 			$scope.userRefundPageChanged = function(pageNo) {
-				$scope.userRefundParams.pageNum = pageNo;
+				$scope.userRefundParams.page = pageNo;
 				$scope.queryUserRefundList();
 			};
 
